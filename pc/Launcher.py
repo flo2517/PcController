@@ -22,7 +22,7 @@ class Launcher:
         self.commandID = 0
 
     def receiveCommand(self):
-        self.commandID = 5
+        self.commandID = 1
 
     def execute(self):
         # Launch command using executor

@@ -12,7 +12,7 @@ class WinExe:
         if commandID == 0:
             return
         elif commandID == 1:
-            os.system("shutdown")
+            os.system("shutdown -s -t 1")
         elif commandID == 2:
             pyautogui.press("volumeup")
         elif commandID == 3:
