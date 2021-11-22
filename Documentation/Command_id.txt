@@ -5,5 +5,4 @@ Command id -> Corresponding command
 3 -> turn volume down
 4 -> mute volume
 5 -> pause/play the music
-6 -> pause the music
-7 -> lock the pc
+6 -> lock the pc

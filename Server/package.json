@@ -1,7 +1,7 @@
 {
   "name": "Server",
   "version": "1.0.0",
-  "main": "app.js",
+  "main": "index.js",
   "license": "MIT",
   "dependencies": {
     "bcryptjs": "^2.4.3",

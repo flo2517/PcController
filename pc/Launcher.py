@@ -1,9 +1,7 @@
-import asyncio
 import platform
 
-from APICommunication import Receiver
-from TookenGenerator import TookenGenerator
-from Executors import WinExe, MacExe, LinuxExe
+from pc.TookenGenerator import TookenGenerator
+from pc.Executors import WinExe, MacExe, LinuxExe
 
 
 class Launcher:
@@ -22,10 +20,10 @@ class Launcher:
         # Init commandID to 0
         # commandID 0 -> no command
         self.commandID = 0
-        self.com = Receiver(self.tooken.getTooken(), self.osExecutor)
-        asyncio.run(self.com.task())
 
+    def receiveCommand(self):
+        self.commandID = 5
 
-
-    def executeManual(self, commandID):
-        self.osExecutor.exe(commandID)
+    def execute(self):
+        # Launch command using executor
+        self.osExecutor.exe(self.commandID)
