@@ -1,7 +1,7 @@
 import asyncio
-import json
 
 import socketio
+import os
 
 sio = socketio.AsyncClient()
 
@@ -12,9 +12,9 @@ async def connect():
     print('connection established')
 
 
-@sio.on('test')
-async def test(data):
-    print(data['message'])
+@sio.on('shutdown')
+async def test():
+    print('shutdown')
 
 
 async def main():
