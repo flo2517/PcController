@@ -1,7 +1,6 @@
 import asyncio
-import json
-
 import socketio
+
 
 sio = socketio.AsyncClient()
 
