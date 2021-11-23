@@ -27,3 +27,6 @@ class Launcher:
     def execute(self):
         # Launch command using executor
         self.osExecutor.exe(self.commandID)
+
+    def executeManual(self, commandID):
+        self.osExecutor.exe(commandID)

@@ -23,6 +23,8 @@ class WinExe:
             pyautogui.press("playpause")
         elif commandID == 6:
             print("Command to lock PC is comming soon")
+        else:
+            print("Command not found")
         return
 
 
