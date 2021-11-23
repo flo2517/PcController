@@ -1,5 +1,5 @@
-# Logs
-logs
+# Miscellaneous
+*.class
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -41,37 +41,48 @@ build/Release
 node_modules/
 jspm_packages/
 
-# TypeScript v1 declaration files
-typings/
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
 
-# TypeScript cache
-*.tsbuildinfo
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
 
-# Optional npm cache directory
-.npm
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.packages
+.pub-cache/
+.pub/
+/build/
 
+# Web related
+lib/generated_plugin_registrant.dart
 # Optional eslint cache
 .eslintcache
 
-# Microbundle cache
-.rpt2_cache/
-.rts2_cache_cjs/
-.rts2_cache_es/
-.rts2_cache_umd/
+# Symbolication related
+app.*.symbols
 
-# Optional REPL history
-.node_repl_history
+# Obfuscation related
+app.*.map.json
 
-# Output of 'npm pack'
-*.tgz
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
 
-# Yarn Integrity file
-.yarn-integrity
 
-# dotenv environment variables file
-.env
-.env.test
+desktop.ini
 
+.idea
 # parcel-bundler cache (https://parceljs.org/)
 .cache
 
