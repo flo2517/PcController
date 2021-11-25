@@ -20,7 +20,7 @@ const shutdown = (req, res) => {
 const volume = (req, res) => {
     let socket = req.app.get('client');
     let id = req.params.id;
-    let volume = req.body.action;
+    let volume = req.params.action;
     if(socket[id]) {
         switch (volume) {
             case 'up':
