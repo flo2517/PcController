@@ -1,20 +1,44 @@
 "use strict";
 
-let express = require('express');
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors');
+const helmet = require('helmet');
+const morgan = require('morgan');
+const path = require("path");
 let app = express();
 
-const server = require('http').createServer(app);
-const io = require('socket.io')(server);
+app.use(helmet());
 
+app.use(bodyParser.json({ limit: '100mb' }));
+app.use(bodyParser.urlencoded({ extended: true, limit: '100mb', parameterLimit: 1000000 }));
+app.use(cors());
+app.use(morgan('combined'));
+const server = require('http').createServer(app);
+
+const io = require('socket.io')(server);
 const CLIENT = {};
 
 app.set('client', CLIENT);
 
-server.listen(8080, function() {
-    console.log("C'est parti ! En attente de connexion sur le port 8080...");
+require('dotenv').config({path : path.resolve(process.cwd(), './Server/.env')});
+
+
+console.log(process.cwd());
+
+const {API_PORT} = process.env;
+const port = process.env.PORT || API_PORT ;
+
+
+
+server.listen(port, function() {
+    console.log("C'est parti ! En attente de connexion sur le port "+port+"...");
 });
 
-require('./src/api/routes/socket.route')(app);
+app.use('/', require("./src/api/routes/socket.route"));
+app.use('/', require("./src/api/routes/auth.route"));
+
+
 
 
 io.on('connection', (socket) => {

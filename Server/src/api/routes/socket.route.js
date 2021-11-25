@@ -1,9 +1,10 @@
-module.exports = app => {
-    const controller = require("../controllers/socket.controller");
 
-    let router = require("express").Router();
+const controller = require("../controllers/socket.controller");
 
-    router.get("/shutdown/:id", (req, res) => controller.shutdown(req, res));
+let router = require("express").Router();
 
-    app.use("/", router);
-}
+router.get("/shutdown/:id", (req, res) => controller.shutdown(req, res));
+
+router.get("/volume/:action/:id", (req, res) => controller.volume(req, res));
+
+module.exports = router;
