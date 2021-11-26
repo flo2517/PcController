@@ -9,9 +9,9 @@ class TookenGenerator:
         if os.path.isfile("tooken.txt"):
             print("There is already a tooken")
             # Take the tooken
-            self.file = open("tooken.txt", "r")
-            self.tooken = self.file.read()
-            self.file.close()
+            file = open("tooken.txt", "r")
+            self.tooken = file.read()
+            file.close()
             print(self.tooken)
         else:
             # Create and save the tooken
@@ -19,9 +19,11 @@ class TookenGenerator:
             # Generate the tooken
             self.tooken = uuid4().hex
             # Create file and save the tooken
-            self.file = open("tooken.txt", "w")
-            self.file.write(self.tooken)
-            self.file.close()
+            file = open("tooken.txt", "w")
+            file.write(self.tooken)
+            file.close()
             print(self.tooken)
 
+    def getTooken(self):
+        return self.tooken
 

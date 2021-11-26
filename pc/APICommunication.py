@@ -1,29 +1,39 @@
 import asyncio
-import json
-
 import socketio
+
 
 sio = socketio.AsyncClient()
 
 
-@sio.event
-async def connect():
-    await sio.emit('source', data='Hello World')
-    print('connection established')
+class Receiver:
+
+    def __init__(self, tooken, executor):
+        self.tooken = tooken
+        self.executor = executor
+
+    async def task(self):
+        await asyncio.gather(self.launchCom())
+
+    async def launchCom(self):
+
+        self.call_back()
+
+        await sio.connect('http://thrallweb.fr:8080')
 
 
-@sio.on('shutdown')
-async def test():
-    print('shutdown')
 
-@sio.on('volumeUp')
-async def volumeUp():
-    print('volumeUp')
+        await sio.wait()
 
 
-async def main():
-    await sio.connect('http://localhost:8080')
-    await sio.wait()
+    def call_back(self):
+        @sio.event
+        async def connect():
+            await sio.emit('source', )
+            print('connection established')
+
+        @sio.on('pause')
+        async def pause():
+            self.executor.exe(6)
 
 
 if __name__ == '__main__':

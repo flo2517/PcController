@@ -20,10 +20,15 @@ class Launcher:
         # Init commandID to 0
         # commandID 0 -> no command
         self.commandID = 0
+        self.com = Receiver(self.tooken, self.osExecutor)
+        asyncio.run(self.com.task())
 
     def receiveCommand(self):
-        self.commandID = 5
+        self.commandID = 1
 
     def execute(self):
         # Launch command using executor
         self.osExecutor.exe(self.commandID)
+
+    def executeManual(self, commandID):
+        self.osExecutor.exe(commandID)
