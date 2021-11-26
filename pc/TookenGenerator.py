@@ -25,8 +25,4 @@ class TookenGenerator:
             print(self.tooken)
 
     def getTooken(self):
-        file = open("tooken.txt", "r")
-        tooken = file.read()
-        file.close()
-        return tooken
-
+        return self.tooken

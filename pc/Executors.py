@@ -22,6 +22,8 @@ class WinExe:
         elif commandID == 5:
             pyautogui.press("playpause")
         elif commandID == 6:
+            pyautogui.press("pause")
+        elif commandID == 7:
             print("Command to lock PC is comming soon")
         else:
             print("Command not found")

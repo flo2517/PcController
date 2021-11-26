@@ -1,5 +1,3 @@
-import sys
-
 from pc.Launcher import Launcher
 
 
