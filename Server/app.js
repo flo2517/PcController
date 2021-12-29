@@ -37,12 +37,19 @@ server.listen(port, function() {
 
 app.use('/', require("./src/api/routes/socket.route"));
 app.use('/', require("./src/api/routes/auth.route"));
+app.use(function (req, res, next) {
+    res.header("Access-Control-Allow-Origin", "x-access-token, Origin, Content-Type, Accept");
+    next();
+});
+
+app.use('/device', require("./src/api/routes/device.route"));
 
 
 
 
 io.on('connection', (socket) => {
     socket.on('source', (data) => {
+        console.log(data);
         CLIENT[socket.id] = socket;
         console.log(socket.handshake);
         console.log(`Client ${socket.id} connecté`);

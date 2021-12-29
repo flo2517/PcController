@@ -5,34 +5,40 @@ class User extends Model {}
 
 User.init({
     id: {
-        type: DataTypes.INTEGER,
+        type: Sequelize.INTEGER,
         primaryKey: true,
         autoIncrement: true
     },
     username: {
-        type: DataTypes.STRING,
-        allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false,
     },
     email: {
-        type: DataTypes.STRING,
+        type: Sequelize.STRING,
         allowNull: false,
-        unique: true
+        unique: true,
     },
     password: {
-        type: DataTypes.STRING,
-        allowNull: false
-    },
-    createdAt: {
-        type: DataTypes.DATE,
-        allowNull: false
+        type: Sequelize.STRING,
+        allowNull: false,
     },
 }, {
     sequelize,
     modelName: "user",
-    timestamps: false
+    timestamps: false,
+    createdAt: true
 });
 
-User.sync();
 
-module.exports = sequelize.define("user", User.attributes, User.options);
+
+console.log("User model loaded", new User());
+
+
+
+sequelize.define("user", User.attributes, User.options);
+
+
+
+module.exports = User;
+
 

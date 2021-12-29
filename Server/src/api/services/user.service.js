@@ -1,12 +1,13 @@
 
 const Sequelize = require('sequelize');
-const User = require("../models/user.model");
+const {User} = require("../models/index");
+
 
 
 class UserService {
-  constructor() {
+constructor() {
 
-  }
+}
 
   async getUser(id) {
     return User.findAll({
@@ -16,17 +17,20 @@ class UserService {
     });
   }
 
+  async getUserByEmail(email) {
+    return User.findAll({
+      where: {
+        email: email,
+      },
+    });
+  }
+
   async getUsers() {
     return User.findAll();
   }
 
   async createUser(user) {
-    const newUser = await User.build(user, {
-      isNewRecord: true,
-      fields: ['username', 'email', 'password'],
-    });
-    console.log(newUser);
-    return User.create(newUser);
+    return User.create(user);
   }
 
   async updateUser(id, user) {

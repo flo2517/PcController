@@ -16,6 +16,10 @@ async def connect():
 async def test():
     print('shutdown')
 
+@sio.on('volumeUp')
+async def volumeUp():
+    print('volumeUp')
+
 
 async def main():
     await sio.connect('http://localhost:8080')
