@@ -1,18 +1,29 @@
-import sequelize from "../../config/db.config";
+const {sequelize} = require("../../config/db.config");
+const {Sequelize, Model} = require("sequelize");
 
-const Device = sequelize.define("device", {
-  id: {
-    type: sequelize.INTEGER,
-    primaryKey: true,
-    autoIncrement: true,
-  },
-    uuid: {
-        type: sequelize.STRING(255),
-        allowNull: false,
-        unique: true
+
+class Device extends Model {}
+
+Device.init({
+    id: {
+        type: Sequelize.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
     },
-  name: {
-    type: sequelize.STRING(255),
-    allowNull: false
-  }
+    uuid: {
+        type: Sequelize.STRING(255),
+            allowNull: false,
+            unique: true
+    },
+    name: {
+        type: Sequelize.STRING(255),
+            allowNull: false
+    }
+}, {
+    sequelize,
+    modelName: "device"
 });
+
+sequelize.define("device", Device.attributes, Device.options);
+
+module.exports = Device;

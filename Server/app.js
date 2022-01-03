@@ -48,15 +48,20 @@ app.use('/device', require("./src/api/routes/device.route"));
 
 
 io.on('connection', (socket) => {
+
+    let token = null;
     socket.on('source', (data) => {
-        console.log(data);
-        CLIENT[socket.id] = socket;
+        console.log(socket.request.connection.remoteAddress);
+        CLIENT[data.token] = socket;
         console.log(socket.handshake);
-        console.log(`Client ${socket.id} connecté`);
+        console.log(`Client ${data.token} connecté`);
+        token = data.token;
     });
 
     socket.on('disconnect', (data) => {
-        delete CLIENT[data.id];
+        delete CLIENT[token];
+        console.log(CLIENT);
+        console.log(`Client ${token} déconnecté`);
     });
 
 

@@ -6,8 +6,8 @@ sio = socketio.AsyncClient()
 
 class Receiver:
 
-    def __init__(self, tooken, executor):
-        self.tooken = tooken
+    def __init__(self, token, executor):
+        self.token = token
         self.executor = executor
 
     async def task(self):
@@ -27,10 +27,11 @@ class Receiver:
     def call_back(self):
         @sio.event
         async def connect():
-            await sio.emit('source', )
+            await sio.emit('source', {'token': self.token})
             print('connection established')
 
         @sio.on('pause')
         async def pause():
             self.executor.exe(6)
+
 
