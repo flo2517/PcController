@@ -1,5 +1,3 @@
-from pc.Launcher import Launcher
+from ConsoleMode import ConsoleMode
 
-test = Launcher()
-test.receiveCommand()
-test.execute()
+test = ConsoleMode()
