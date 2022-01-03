@@ -1,3 +1,5 @@
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
@@ -20,36 +22,104 @@ class Remote extends StatelessWidget {
       ),
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Transform.scale(
-                  scale: 2,
-                  child: Container(
-                    color: Colors.purpleAccent,
+            SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Transform.scale(
+                    scale: 3,
                     child: IconButton(
                       icon: const Icon(Icons.volume_off_rounded),
                       onPressed: () {},
                     ),
                   ),
-                ),
-                Transform.scale(
-                  scale: 3,
-                  child: IconButton(
-                    icon: const Icon(Icons.volume_down_rounded),
-                    onPressed: () {},
+                  Transform.scale(
+                    scale: 3,
+                    child: IconButton(
+                      icon: const Icon(Icons.volume_down_rounded),
+                      onPressed: () {},
+                    ),
                   ),
-                ),
-                Transform.scale(
-                  scale: 3,
-                  child: IconButton(
-                    icon: const Icon(Icons.volume_up_rounded),
-                    onPressed: () {},
+                  Transform.scale(
+                    scale: 3,
+                    child: IconButton(
+                      icon: const Icon(Icons.volume_up_rounded),
+                      onPressed: () {},
+                    ),
                   ),
-                ),
-              ],
-            )
+                ],
+              ),
+            ), //Controle du volume
+            SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Transform.scale(
+                    scale: 3,
+                    child: IconButton(
+                      icon: const Icon(Icons.play_circle_outline_rounded),
+                      onPressed: () {},
+                    ),
+                  ),
+                  Transform.scale(
+                    scale: 3,
+                    child: IconButton(
+                      icon: const Icon(Icons.pause_circle_outline_rounded),
+                      onPressed: () {},
+                    ),
+                  ),
+                ],
+              ),
+            ), //play pause
+            SizedBox(
+              height: 100,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Transform.scale(
+                    scale: 3,
+                    child: IconButton(
+                      icon: const Icon(Icons.lock_outline_rounded),
+                      onPressed: () {},
+                    ),
+                  ),
+                  Transform.scale(
+                    scale: 3,
+                    child: IconButton(
+                      icon: const Icon(Icons.power_settings_new_rounded),
+                      onPressed: () {
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+
+                            builder: (_) =>
+                                CupertinoAlertDialog(
+                                  title: Text("clique"),
+                                  //content: Text("fezgzge"),
+                                  actions:
+                                    <Widget>[
+                                      CupertinoDialogAction(
+                                        child: Text('ok'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                      ),
+
+                                    ],
+
+                                )
+                        );
+
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            )//
           ],
         ),
       ),
