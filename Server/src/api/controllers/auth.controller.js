@@ -38,7 +38,7 @@ const register = async (req, res) => {
             email: user.email,
             username: user.username
         }, process.env.TOkEN_KEY, {
-            expiresIn: process.env.JWT_EXPIRATION_TIME
+            expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
         });
 
         return res.status(200).json({
@@ -83,12 +83,14 @@ const login = (req, res) => {
                             message: 'Incorrect password'
                         });
                     }
+
+
                     user[0].token = jwt.sign({
                         id: user[0].id,
                         email: user[0].email,
                         username: user[0].username
                     }, process.env.TOkEN_KEY, {
-                        expiresIn: process.env.JWT_EXPIRATION_TIME
+                        expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
                     });
 
                     let refreshToken = await RefreshToken.createToken(user[0].id);
