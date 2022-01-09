@@ -1,7 +1,7 @@
 import asyncio
 
-from pc.APICommunication import Server_communication
-from pc.LocalUserData import LocalUserData
+from APICommunication import Server_communication
+import LocalUserData
 
 
 class Launcher:
@@ -14,3 +14,8 @@ class Launcher:
 
         self.com = Server_communication()
         asyncio.run(self.com.task())
+
+
+
+    def executeManual(self, commandID):
+        self.osExecutor.exe(commandID)

@@ -1,8 +1,8 @@
 import asyncio
 import socketio
 
-from pc.LocalUserData import LocalUserData
-from pc.Executors import Executor
+import LocalUserData
+from Executors import Executor
 
 sio = socketio.AsyncClient()
 
