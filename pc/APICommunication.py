@@ -1,21 +1,24 @@
 import asyncio
 import socketio
 
+from pc.LocalUserData import LocalUserData
+from pc.Executors import Executor
+
 sio = socketio.AsyncClient()
 
 
-class Receiver:
+class Server_communication:
 
-    def __init__(self, tooken, executor):
-        self.tooken = tooken
-        self.executor = executor
+    def __init__(self):
+        self.tooken = LocalUserData()
+        self.executor = Executor()
 
     async def task(self):
         await asyncio.gather(self.launchCom())
 
     async def launchCom(self):
 
-        self.call_back()
+        self.callBack()
 
         await sio.connect('http://thrallweb.fr:8080')
 
@@ -24,7 +27,7 @@ class Receiver:
         await sio.wait()
 
 
-    def call_back(self):
+    def callBack(self):
         @sio.event
         async def connect():
             await sio.emit('source', )
