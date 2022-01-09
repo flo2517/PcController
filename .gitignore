@@ -105,4 +105,7 @@ dist
 .tern-port
 =======
 /Server/node_modules/
+.idea
+/pc/userData.json
+/pc/commandHistory.log
 >>>>>>> b6bc3d8 (init + test)

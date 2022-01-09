@@ -1,4 +1,4 @@
-from Launcher import Launcher
+from pc.Launcher import Launcher
 
 
 class ConsoleMode:

@@ -1,3 +1,3 @@
-from ConsoleMode import ConsoleMode
+from pc.ConsoleMode import ConsoleMode
 
 test = ConsoleMode()
