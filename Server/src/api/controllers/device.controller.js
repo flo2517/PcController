@@ -20,7 +20,7 @@ const add = (req, res) => {
         name: name,
         userId: req.decoded.id
     }).then(device => {
-        return res.status(201).json({
+        return res.status(200).json({
             success: true,
             message: 'Device added successfully',
             device
