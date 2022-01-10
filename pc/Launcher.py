@@ -1,19 +1,20 @@
 import asyncio
 
 from APICommunication import Server_communication
-import LocalUserData
+from LocalUserData import LocalUserData
+from UserInterface import LoginWindow
 
 
 class Launcher:
     def __init__(self):
         userData = LocalUserData()
-        #Check if there is user data
-        """"if userData.getUserID() == "[]" or userData.getUserPassword() == "[]":
-            #Ask to user to give his ID and his password
-        """
+        # Check if there is user data
+        if userData.getUserID() == "[]" or userData.getUserPassword() == "[]":
+            # Ask to user to give his ID and his password
+            test = LoginWindow()
 
-        self.com = Server_communication()
-        asyncio.run(self.com.task())
+        #self.com = Server_communication()
+        #asyncio.run(self.com.task())
 
 
 

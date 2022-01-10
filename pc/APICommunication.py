@@ -1,7 +1,7 @@
 import asyncio
 import socketio
 
-import LocalUserData
+from LocalUserData import LocalUserData
 from Executors import Executor
 
 sio = socketio.AsyncClient()
@@ -10,7 +10,7 @@ sio = socketio.AsyncClient()
 class Server_communication:
 
     def __init__(self):
-        self.tooken = LocalUserData()
+        self.localUserData = LocalUserData()
         self.executor = Executor()
 
     async def task(self):

@@ -6,14 +6,14 @@ import platform
 class Executor:
     def __init__(self):
         self.osName = platform.system
+        self.commandID = 0
+
         if "Windows" == platform.system():
             self.osExecutor = WinExe()
         elif "Linux" == platform.system():
             self.osExecutor = LinuxExe()
         else:
             self.osExecutor = MacExe()
-
-        self.commadID == 0
         return
 
     def execute(self, commandID):
