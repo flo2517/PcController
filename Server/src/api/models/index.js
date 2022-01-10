@@ -1,6 +1,7 @@
 const User = require('./user.model');
 const RefreshToken = require('./refreshToken.model');
 const {sequelize} = require("../../config/db.config");
+const Device = require("./device.model");
 
 User.hasOne(sequelize.models.refreshToken, {foreignKey: "userId", sourceKey: "id"});
 
@@ -16,9 +17,9 @@ Device.belongsTo(sequelize.models.user, {
     targetKey: "id"
 });
 
-User.sync({force: true});
-RefreshToken.sync({force: true});
-Device.sync({force: true});
+User.sync({force: false});
+RefreshToken.sync({force: false});
+Device.sync({force: false});
 
 
 

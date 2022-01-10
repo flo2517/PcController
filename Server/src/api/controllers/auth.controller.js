@@ -121,16 +121,17 @@ const login = (req, res) => {
 
 const refreshToken = (req, res) => {
     const { refreshToken: requestToken } = req.body;
-    if(refreshToken === null){
+    if(requestToken === null){
         return res.status(400).json({
             success: false,
             message: 'refresh token is required'
         });                            
     }
 
+    console.log(requestToken);
     RefreshToken.findOne({
         where: {
-            token: refreshToken
+            token: requestToken
         }
     })
         .then(async token => {
@@ -143,7 +144,7 @@ const refreshToken = (req, res) => {
             if(RefreshToken.verifyExpiration(token)){
                 RefreshToken.destroy({
                     where: {
-                        token: refreshToken
+                        token: requestToken
                     }
                 });
                 return res.status(403).json({
@@ -163,7 +164,7 @@ const refreshToken = (req, res) => {
                 success: true,
                 message: 'refresh token is valid',
                 accessToken: newAccessToken,
-                refreshToken: refreshToken
+                refreshToken: requestToken
             });
         })
         .catch(err => {
