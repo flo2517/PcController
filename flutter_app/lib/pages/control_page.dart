@@ -5,20 +5,21 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import 'login_page.dart';
 
-void main() => runApp(MyApp());
-
-class MyApp extends StatefulWidget {
-  @override
-  State<MyApp> createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  Widget build(BuildContext context) {
-    return const MaterialApp(title: 'Controleur de pc', home: Remote());
-  }
-}
+// void main() => runApp(MyApp());
+//
+// class MyApp extends StatefulWidget {
+//   @override
+//   State<MyApp> createState() => _MyAppState();
+// }
+//
+// class _MyAppState extends State<MyApp> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return const MaterialApp(title: 'Controleur de pc', home: Remote());
+//   }
+// }
 
 
 //void main() => runApp(const MaterialApp(title: 'Controleur de pc', home: Remote()));
@@ -41,10 +42,10 @@ class Remote extends StatefulWidget {
 }
 
 class _RemoteState extends State<Remote> {
-  String label = "label ici";
+  String label = "Réponse du serveur ici";
   final id = 1234;
 
-  final url ="http://192.168.156.232:8080";
+  final url ="http://192.168.123.232:8080";
 
   Future<String> fetchPosts(String request) async{
 
