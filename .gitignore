@@ -1,1 +1,4 @@
 desktop.ini
+/Server/node_modules/
+/.idea/
+/node_modules/

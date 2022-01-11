@@ -1,3 +1,3 @@
-from ConsoleMode import ConsoleMode
+import Launcher
 
-test = ConsoleMode()
+test = Launcher()

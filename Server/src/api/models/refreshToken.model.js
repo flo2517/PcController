@@ -1,6 +1,7 @@
 const {sequelize} = require("../../config/db.config");
 const { DataTypes , Model, Sequelize} = require("sequelize");
 const { v4: uuidv4 } = require("uuid");
+const UserService = require("../services/user.service");
 
 class RefreshToken extends Model {}
 
@@ -42,6 +43,11 @@ RefreshToken.createToken = async function(user){
 
 RefreshToken.verifyExpiration = (token) => {
     return token.expiryDate.getTime() < new Date().getTime();
+}
+
+RefreshToken.getUser = () => {
+    const userService = new UserService();
+    return userService.getUser(this.userId);
 }
 
 sequelize.define("refreshToken", RefreshToken.attributes, RefreshToken.options);
