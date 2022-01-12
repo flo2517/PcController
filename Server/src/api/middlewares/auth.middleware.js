@@ -10,7 +10,7 @@ const verifyToken = (req, res, next) => {
             message: 'No token provided.'
         });
     }
-    console.log(token);
+    // console.log(token);
     jwt.verify(token, config.TOKEN_KEY, (err, decoded) => {
         if(err) {
             console.log(err);
@@ -22,7 +22,7 @@ const verifyToken = (req, res, next) => {
                 message: 'Failed to authenticate token.'
             });
         }
-        console.log(decoded);
+        // console.log(decoded);
         req.decoded = decoded;
         next();
     });

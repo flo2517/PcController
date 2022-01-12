@@ -26,4 +26,4 @@ Device.sync({force: false});
 
 
 
-module.exports =  {User, RefreshToken};
+module.exports =  {User, RefreshToken, Device};

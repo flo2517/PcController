@@ -20,26 +20,34 @@ router.get("/shutdown/:id", oapi.path({
     responses: {
         200: {
             description: "Success",
-            schema: {
-                type: "object",
-                properties: {
-                    message: {
-                        type: "string",
-                        description: "Success message",
-                        example: "Device shutdown"
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Success message",
+                                example: "Device shutdown"
+                            }
+                        }
                     }
                 }
             }
         },
         404: {
             description: "Device not found",
-            schema: {
-                type: "object",
-                properties: {
-                    message: {
-                        type: "string",
-                        description: "Error message",
-                        example: "Device not found"
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Error message",
+                                example: "Device not found"
+                            }
+                        }
                     }
                 }
             }
@@ -70,39 +78,51 @@ router.get("/volume/:action/:id", oapi.path({
     responses: {
         200: {
             description: "Success",
-            schema: {
-                type: "object",
-                properties: {
-                    message: {
-                        type: "string",
-                        description: "Success message",
-                        example: "Volume changed"
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Success message",
+                                example: "Volume changed"
+                            }
+                        }
                     }
                 }
             }
         },
         400: {
             description: "Bad request",
-            schema: {
-                type: "object",
-                properties: {
-                    message: {
-                        type: "string",
-                        description: "Error message",
-                        example: "Bad request"
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Error message",
+                                example: "Bad request"
+                            }
+                        }
                     }
                 }
             }
         },
         404: {
             description: "Device not found",
-            schema: {
-                type: "object",
-                properties: {
-                    message: {
-                        type: "string",
-                        description: "Error message",
-                        example: "Device not found"
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Error message",
+                                example: "Device not found"
+                            }
+                        }
                     }
                 }
             }

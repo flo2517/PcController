@@ -93,7 +93,7 @@ const login = (req, res) => {
                         expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
                     });
 
-                    let refreshToken = await RefreshToken.createToken(user[0].id);
+                    let refreshToken = await RefreshToken.createToken(user[0]);
 
                     return res.status(200).json({
                         success: true,
