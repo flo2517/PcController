@@ -26,6 +26,8 @@ require('dotenv').config({path : path.resolve(process.cwd(), './Server/.env')});
 
 console.log(process.cwd());
 
+console.log(process.env);
+
 
 const oapi = require('./src/config/openapi.config');
 
