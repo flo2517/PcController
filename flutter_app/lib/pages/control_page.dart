@@ -1,3 +1,4 @@
+// ignore_for_file: prefer_const_constructors
 
 import 'dart:convert';
 import 'dart:developer';
@@ -21,7 +22,6 @@ import 'login_page.dart';
 //   }
 // }
 
-
 //void main() => runApp(const MaterialApp(title: 'Controleur de pc', home: Remote()));
 
 // class MyApp extends StatelessWidget {
@@ -30,9 +30,6 @@ import 'login_page.dart';
 //     return const
 //   }
 // }
-
-
-
 
 class Remote extends StatefulWidget {
   const Remote({Key? key}) : super(key: key);
@@ -45,69 +42,66 @@ class _RemoteState extends State<Remote> {
   String label = "Réponse du serveur ici";
   final id = 1234;
 
-  final url ="http://192.168.123.232:8080";
+  final url = "http://192.168.1.33:8080";
 
-  Future<String> fetchPosts(String request) async{
-
-    try{
-      final response= await get(Uri.parse(url+request));
+  Future<String> fetchPosts(String request) async {
+    try {
+      final response = await get(Uri.parse(url + request));
       final jsonData = jsonDecode(response.body);
       log("success");
       log(response.statusCode.toString());
       log(response.body);
       log(jsonData["message"]);
-      return jsonData["message"] +" - code : "+response.statusCode.toString();
-
-    }catch(err){
+      return jsonData["message"] +
+          " - code : " +
+          response.statusCode.toString();
+    } catch (err) {
       log(err.toString());
       return err.toString();
-
     }
-
   }
 
   /// state : 1- up , 2-down, 3-mute, 4-unmute, 5-play, 6-pause , 7-shutdown
   void requete(int state) async {
-    String message="";
-    String request= "";
+    String message = "";
+    String request = "";
     switch (state) {
-      case 1 :
+      case 1:
         message = "up - ";
-        request = "/volume/up/"+id.toString();
+        request = "/volume/up/" + id.toString();
         break;
       case 2:
-        request = "/volume/down/"+id.toString();
+        request = "/volume/down/" + id.toString();
         message = "down - ";
 
         break;
-      case 3 :
-        request = "/volume/mute/"+id.toString();
+      case 3:
+        request = "/volume/mute/" + id.toString();
         message = "mute - ";
 
         break;
-      case 4 :
-        request = "/volume/unmute/"+id.toString();
+      case 4:
+        request = "/volume/unmute/" + id.toString();
         message = "unmute - ";
 
         break;
-      case 5 :
-        request = "/volume/play/"+id.toString();
+      case 5:
+        request = "/volume/play/" + id.toString();
         message = "play - ";
 
         break;
       case 6:
-        request = "/volume/pause/"+id.toString();
+        request = "/volume/pause/" + id.toString();
         message = "pause - ";
 
         break;
-      case 7 :
-        request = "/shutdown/"+id.toString();
+      case 7:
+        request = "/shutdown/" + id.toString();
         message = "shutdown - ";
 
         break;
-      default :
+      default:
         break;
-
     }
     message += await fetchPosts(request);
 
@@ -122,12 +116,19 @@ class _RemoteState extends State<Remote> {
       appBar: AppBar(
         title: Text('Pc controller'),
       ),
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () {},
+        icon: const Icon(Icons.edit),
+        label: const Text('Changer d\'appareil'),
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             SizedBox(
               height: 100,
+
               ///volume
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -147,7 +148,6 @@ class _RemoteState extends State<Remote> {
                       icon: const Icon(Icons.volume_down_rounded),
                       onPressed: () {
                         requete(2);
-
                       },
                     ),
                   ),
@@ -157,7 +157,6 @@ class _RemoteState extends State<Remote> {
                       icon: const Icon(Icons.volume_up_rounded),
                       onPressed: () {
                         requete(1);
-
                       },
                     ),
                   ),
@@ -175,7 +174,6 @@ class _RemoteState extends State<Remote> {
                       icon: const Icon(Icons.play_circle_outline_rounded),
                       onPressed: () {
                         requete(5);
-
                       },
                     ),
                   ),
@@ -185,7 +183,6 @@ class _RemoteState extends State<Remote> {
                       icon: const Icon(Icons.pause_circle_outline_rounded),
                       onPressed: () {
                         requete(6);
-
                       },
                     ),
                   ),
@@ -232,24 +229,32 @@ class _RemoteState extends State<Remote> {
                         //
                         //         )
                         // );
-
                       },
                     ),
                   ),
                 ],
               ),
-            ),//
+            ), //
             SizedBox(height: 10.0),
-            Text(
-                '$label',
-                style: TextStyle(
-                    fontSize: 20
-                )
+            Text('$label', style: TextStyle(fontSize: 20)),
 
-            )
+            // Align(
+            //   alignment: Alignment.bottomLeft,
+            //   child: TextButton(
+            //     onPressed: () {},
+            //     child: Text(
+            //       "Changer d'appareil",
+            //       style: TextStyle(
+            //           color: Colors.black,
+            //           fontSize: 18,
+            //           fontWeight: FontWeight.w500),
+            //     ),
+            //   ),
+            // ),
+
+
 
           ],
-
         ),
       ),
     );

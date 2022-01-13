@@ -1,8 +1,13 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
+
+import 'dart:developer';
+
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/pages/control_page.dart';
+import 'package:flutter_app/pages/sign_in.dart';
+import 'package:http/http.dart';
 
 class login extends StatefulWidget {
   const login({Key? key}) : super(key: key);
@@ -12,7 +17,22 @@ class login extends StatefulWidget {
 }
 
 class _loginState extends State<login> {
+  final url ="http://192.168.149.35:8080/login";
+  bool hidePassword = true;
   bool isRememberMe = false;
+  TextEditingController _emailCo = TextEditingController();
+  TextEditingController _pswdCo = TextEditingController();
+
+  void loginRequest() async{
+    var response = await post(Uri.parse(url),body: {
+      "email" : _emailCo.text,
+      "password" : _pswdCo.text
+    });
+    log(response.body);
+
+    print(response.body);
+  }
+
   Widget buildEmail (){
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -41,6 +61,7 @@ class _loginState extends State<login> {
           ),
           height: 60,
           child: TextField(
+            controller: _emailCo,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
                 color: Colors.black87
@@ -91,7 +112,8 @@ class _loginState extends State<login> {
           ),
           height: 60,
           child: TextField(
-            obscureText: true,
+            controller: _pswdCo,
+            obscureText: hidePassword,
             style: TextStyle(
                 color: Colors.black87
             ),
@@ -102,6 +124,18 @@ class _loginState extends State<login> {
                     Icons.lock,
                     color: Colors.blue
                 ),
+                suffixIcon: IconButton(
+                  onPressed: () {
+                    setState(() {
+                      hidePassword = !hidePassword;
+                    });
+                  },
+                  color:  Colors.blue,
+                  icon: Icon(hidePassword
+                      ? Icons.visibility_off
+                      : Icons.visibility),
+                ),
+
 
                 hintText: 'Mot de passe',
                 hintStyle: TextStyle(
@@ -162,7 +196,6 @@ class _loginState extends State<login> {
       ),
     );
   }
-
   Widget buildLoginBtn(){
     return Container(
       padding: EdgeInsets.symmetric(vertical: 25),
@@ -173,6 +206,8 @@ class _loginState extends State<login> {
           // Navigator.of(context).(MaterialPageRoute(
           //     builder: (context)=>Remote()
           // ))
+          print(_emailCo.text+" "+_pswdCo.text),
+          loginRequest(),
           Navigator.push(context, MaterialPageRoute(builder: (context)=> Remote()))
         } ,
         padding: EdgeInsets.all(15),
@@ -191,10 +226,11 @@ class _loginState extends State<login> {
       ),
     );
   }
-
 Widget buildSignupBtn(){
       return GestureDetector(
-        onTap: ()=> {},
+        onTap: ()=> {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> signIn()))
+        },
         child: RichText(
           text : TextSpan (
             children: [
