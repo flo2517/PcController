@@ -91,7 +91,7 @@ const login = (req, res) => {
                         id: user[0].id,
                         email: user[0].email,
                         username: user[0].username
-                    }, process.env.TOkEN_KEY, {
+                    }, process.env.TOKEN_KEY, {
                         expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
                     });
 
