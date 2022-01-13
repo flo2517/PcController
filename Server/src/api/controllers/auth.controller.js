@@ -33,11 +33,13 @@ const register = async (req, res) => {
             password: encryptedPassword
         });
 
+        console.log(process.env.TOKEN_KEY);
+
         user.token = jwt.sign({
             id: user.id,
             email: user.email,
             username: user.username
-        }, process.env.TOkEN_KEY, {
+        }, process.env.TOKEN_KEY, {
             expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
         });
 
