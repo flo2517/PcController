@@ -53,6 +53,7 @@ class Login:
             self.username.insert(END, "Username")
         self.username.pack(pady=20)
         self.password = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid")
+        self.password.config(show="*")
         self.password.pack(pady=20)
 
         # Add login button
