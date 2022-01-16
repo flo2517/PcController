@@ -3,6 +3,8 @@ import asyncio
 from APICommunication import Server_communication
 from LocalUserData import LocalUserData
 from LoginWindow import Login
+from SetupWindow import Setup
+from RegisterWindow import Register
 
 
 class Launcher:
@@ -16,6 +18,8 @@ class Launcher:
         Login(userData, "")
         #self.com = Server_communication(userData)
         #asyncio.run(self.com.task())
+
+        #Setup(userData)
 
 
 

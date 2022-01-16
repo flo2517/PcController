@@ -1,4 +1,6 @@
 from tkinter import *
+from RegisterWindow import Register
+
 import re
 
 
@@ -6,30 +8,41 @@ class Login:
 
     # Check mail address by using regex
     def checkMail(self, mail):
-        if len(mail) > 255 : return False
+        if len(mail) > 255:
+            return False
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if re.fullmatch(regex, mail):
             return True
         else:
+            self.errorMessage.set("Error: Invalid e-mail")
             return False
 
     # Check and save data entered in username and password entry
     def getUserData(self):
         # Check username
         if not self.checkMail(self.username.get()):
-            self.errorMessage.set("Error : Invalid email")
             return
         # Save it
         self.localUserData.setUserID(self.username.get())
 
-        if len(self.password.get()) < 6:
+        if len(self.password.get()) < 6 or len(self.password.get()) > 255:
             self.errorMessage.set("Error : Invalid password")
             return
 
         self.localUserData.setUserPassword(self.password.get())
         self.loginWin.destroy()
 
+    def register(self):
+        # Close window
+        self.loginWin.destroy()
+
+        # Launch register window
+        self.registerWin = Register(self.localUserData, "")
+
+
+
     def __init__(self, localUserData, errorMessage):
+        self.registerWin = None
         self.localUserData = localUserData
         self.loginWin = Tk()
         self.loginWin.title("Login")
@@ -37,27 +50,32 @@ class Login:
         self.errorMessage = StringVar()
         self.errorMessage.set(errorMessage)
 
-        self.loginWin.geometry("500x400")
+        self.loginWin.geometry("500x440")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
 
         # Add text to window
         Label(self.loginWin, text="Login", font=("Arial", 40), bg="#21a6ff", pady=20).pack()
-        self.error = Label(self.loginWin, textvariable=self.errorMessage, font=("Arial", 15, "bold"), bg="#21a6ff", pady=5).pack()
+        Label(self.loginWin, textvariable=self.errorMessage, font=("Arial", 15, "bold"), bg="#21a6ff", pady=5).pack()
 
-        # Add login inputs
+        # Add mail input
+        Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 330))
         self.username = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid")
         if self.localUserData.getUserID() != "[]" and self.localUserData.getUserID() != "":
             self.username.insert(END, self.localUserData.getUserID())
-        else:
-            self.username.insert(END, "Username")
-        self.username.pack(pady=20)
+        self.username.pack(pady=(0, 15))
+
+        # Add password input
+        Label(self.registerWin, text="Password:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(45, 305))
         self.password = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid")
-        self.password.config(show="*")
-        self.password.pack(pady=20)
+        self.password.config(show="●")
+        self.password.pack(pady=(0, 15))
 
         # Add login button
-        Button(self.loginWin, text="login", font=("Arial", 25), borderwidth=1, relief="solid",
-               command=self.getUserData).pack(pady=20)
+        Button(self.loginWin, text="login", font=("Arial", 25), borderwidth=1, relief="solid", command=self.getUserData).pack(side=LEFT, pady=20, padx=(140, 20))
+        # Add register button
+
+        Button(self.loginWin, text="register", font=("Arial", 20), bg="#21a6ff", relief="flat", command=self.register).pack(side=RIGHT, pady=20, padx=(20, 135))
+
 
         self.loginWin.mainloop()
