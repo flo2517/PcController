@@ -32,14 +32,13 @@ class Login:
         self.localUserData.setUserPassword(self.password.get())
         self.loginWin.destroy()
 
+    # Change window for registering
     def register(self):
         # Close window
-        self.loginWin.destroy()
+        self.loginWin.withdraw()
 
         # Launch register window
-        self.registerWin = Register(self.localUserData, "")
-
-
+        self.registerWin = Register(self.loginWin, self.localUserData, "")
 
     def __init__(self, localUserData, errorMessage):
         self.registerWin = None
@@ -50,7 +49,7 @@ class Login:
         self.errorMessage = StringVar()
         self.errorMessage.set(errorMessage)
 
-        self.loginWin.geometry("500x440")
+        self.loginWin.geometry("500x420")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
 
@@ -72,10 +71,10 @@ class Login:
         self.password.pack(pady=(0, 15))
 
         # Add login button
-        Button(self.loginWin, text="login", font=("Arial", 25), borderwidth=1, relief="solid", command=self.getUserData).pack(side=LEFT, pady=20, padx=(140, 20))
+        Button(self.loginWin, text="login", font=("Arial", 25), borderwidth=1, relief="solid",
+               command=self.getUserData).pack(side=LEFT, pady=20, padx=(140, 20))
         # Add register button
-
-        Button(self.loginWin, text="register", font=("Arial", 20), bg="#21a6ff", relief="flat", command=self.register).pack(side=RIGHT, pady=20, padx=(20, 135))
-
+        Button(self.loginWin, text="register", font=("Arial", 20), bg="#21a6ff", relief="flat",
+               command=self.register).pack(side=RIGHT, pady=20, padx=(15, 130))
 
         self.loginWin.mainloop()

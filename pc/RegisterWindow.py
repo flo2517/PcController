@@ -4,6 +4,11 @@ import re
 
 class Register:
 
+    # Add close login window when user close register window
+    def onClosing(self):
+        self.loginWin.destroy()
+        self.registerWin.destroy()
+
     # Check mail address by using regex
     def checkMail(self, mail):
         print("Checking mail")
@@ -32,6 +37,13 @@ class Register:
 
         return True
 
+    def login(self):
+        # Close window
+        self.registerWin.destroy()
+
+        # Show login window
+        self.loginWin.deiconify()
+
     # Check and save data entered in username and password entry
     def getUserData(self):
         print("Checking data")
@@ -53,7 +65,8 @@ class Register:
         print("Close register window")
         self.registerWin.destroy()
 
-    def __init__(self, localUserData, errorMessage):
+    def __init__(self, loginWin, localUserData, errorMessage):
+        self.loginWin = loginWin
         self.localUserData = localUserData
         self.registerWin = Tk()
         self.registerWin.title("Register")
@@ -64,6 +77,8 @@ class Register:
         self.registerWin.geometry("500x500")
         self.registerWin.configure(bg="#21a6ff")
         self.registerWin.resizable(False, False)
+        # Add action on window close event
+        self.registerWin.protocol("WM_DELETE_WINDOW", self.onClosing)
 
         # Add text to window
         Label(self.registerWin, text="Register", font=("Arial", 40), bg="#21a6ff", pady=15).pack()
@@ -88,8 +103,11 @@ class Register:
         self.passwordConf.config(show="●")
         self.passwordConf.pack(pady=(0, 15))
 
+        # Add login button
+        Button(self.registerWin, text="login", font=("Arial", 25), bg="#21a6ff", relief="flat",
+               command=self.login).pack(side=LEFT, pady=20, padx=(140, 20))
         # Add register button
         Button(self.registerWin, text="register", font=("Arial", 20), borderwidth=1, relief="solid",
-               command=self.getUserData).pack(padx=20)
+               command=self.getUserData).pack(side=RIGHT, pady=20, padx=(15, 130))
 
         self.registerWin.mainloop()
