@@ -1,36 +1,73 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors
 
+import 'dart:convert';
 import 'dart:developer';
 
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_app/information.dart';
+import 'package:flutter_app/pages/computer_chose.dart';
 import 'package:flutter_app/pages/control_page.dart';
 import 'package:flutter_app/pages/sign_in.dart';
 import 'package:http/http.dart';
 
 class login extends StatefulWidget {
-  const login({Key? key}) : super(key: key);
+  final String url;
+  information infos;
+  // login({Key? key}) :
+
+   login({
+    Key? key,
+    required this.url,
+    required this.infos
+  }) : super(key: key);
 
   @override
   _loginState createState() => _loginState();
 }
 
 class _loginState extends State<login> {
-  final url ="http://192.168.149.35:8080/login";
+  // final url ="http://192.168.51.35:8080/login";
+  // String url = widget.url;
   bool hidePassword = true;
   bool isRememberMe = false;
   TextEditingController _emailCo = TextEditingController();
   TextEditingController _pswdCo = TextEditingController();
 
+
+
+  void snackBarMessage(String msg){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content:  Text(msg),
+      duration: const Duration(seconds: 5),
+      // action: SnackBarAction(
+      //   label: 'ACTION',
+      //   onPressed: () { },
+      // ),
+    ));
+  }
+
   void loginRequest() async{
-    var response = await post(Uri.parse(url),body: {
+    var response = await post(Uri.parse(widget.url+"/login"),body: {
       "email" : _emailCo.text,
       "password" : _pswdCo.text
     });
     log(response.body);
 
     print(response.body);
+
+    if(response.statusCode==200){
+      widget.infos.connexion(jsonDecode(response.body), _emailCo.text,  _pswdCo.text);
+      widget.infos.print();
+      Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
+
+
+      return;
+    }else{
+     snackBarMessage(jsonDecode(response.body)["message"]);
+     return;
+    }
   }
 
   Widget buildEmail (){
@@ -58,9 +95,11 @@ class _loginState extends State<login> {
                     offset: Offset(0,2)
                 )
               ]
+
           ),
           height: 60,
           child: TextField(
+
             controller: _emailCo,
             keyboardType: TextInputType.emailAddress,
             style: TextStyle(
@@ -208,7 +247,6 @@ class _loginState extends State<login> {
           // ))
           print(_emailCo.text+" "+_pswdCo.text),
           loginRequest(),
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> Remote()))
         } ,
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(
@@ -226,7 +264,7 @@ class _loginState extends State<login> {
       ),
     );
   }
-Widget buildSignupBtn(){
+  Widget buildSignupBtn(){
       return GestureDetector(
         onTap: ()=> {
           Navigator.push(context, MaterialPageRoute(builder: (context)=> signIn()))

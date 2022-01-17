@@ -6,6 +6,7 @@ import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart';
+import '../information.dart';
 import 'login_page.dart';
 
 // void main() => runApp(MyApp());
@@ -32,7 +33,11 @@ import 'login_page.dart';
 // }
 
 class Remote extends StatefulWidget {
-  const Remote({Key? key}) : super(key: key);
+  final String url;
+  information infos;
+
+
+   Remote({Key? key , required this.url, required this.infos}) : super(key: key);
 
   @override
   State<Remote> createState() => _RemoteState();
@@ -40,13 +45,14 @@ class Remote extends StatefulWidget {
 
 class _RemoteState extends State<Remote> {
   String label = "Réponse du serveur ici";
-  final id = 1234;
-
-  final url = "http://192.168.1.33:8080";
+  // final id = 1234;
+  //
+  // final url = "http://192.168.1.33:8080";
 
   Future<String> fetchPosts(String request) async {
     try {
-      final response = await get(Uri.parse(url + request));
+      final response = await get(Uri.parse(widget.url + request),
+          headers: {"x-access-token": widget.infos.token});
       final jsonData = jsonDecode(response.body);
       log("success");
       log(response.statusCode.toString());
@@ -68,35 +74,35 @@ class _RemoteState extends State<Remote> {
     switch (state) {
       case 1:
         message = "up - ";
-        request = "/volume/up/" + id.toString();
+        request = "/volume/up/" + widget.infos.computerId.toString();
         break;
       case 2:
-        request = "/volume/down/" + id.toString();
+        request = "/volume/down/" +  widget.infos.computerId.toString();
         message = "down - ";
 
         break;
       case 3:
-        request = "/volume/mute/" + id.toString();
+        request = "/volume/mute/" +  widget.infos.computerId.toString();
         message = "mute - ";
 
         break;
       case 4:
-        request = "/volume/unmute/" + id.toString();
+        request = "/volume/unmute/" +  widget.infos.computerId.toString();
         message = "unmute - ";
 
         break;
       case 5:
-        request = "/volume/play/" + id.toString();
+        request = "/volume/play/" +  widget.infos.computerId.toString();
         message = "play - ";
 
         break;
       case 6:
-        request = "/volume/pause/" + id.toString();
+        request = "/volume/pause/" +  widget.infos.computerId.toString();
         message = "pause - ";
 
         break;
       case 7:
-        request = "/shutdown/" + id.toString();
+        request = "/shutdown/" +  widget.infos.computerId.toString();
         message = "shutdown - ";
 
         break;
