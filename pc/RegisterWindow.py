@@ -1,4 +1,5 @@
 from tkinter import *
+from APICommunication import HttpsRequest
 import re
 
 
@@ -35,7 +36,12 @@ class Register:
             self.errorMessage.set("Error: \"Confirm password\" must be the same as \"Password\"")
             return False
 
+        self.register()
         return True
+
+    def register(self):
+        rqt = HttpsRequest()
+        rqt.register(self.username, self.password)
 
     def login(self):
         # Close window

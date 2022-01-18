@@ -1,6 +1,6 @@
 import asyncio
 
-from APICommunication import Server_communication
+from APICommunication import SocketCommunication
 from LocalUserData import LocalUserData
 from LoginWindow import Login
 from SetupWindow import Setup

@@ -1,5 +1,6 @@
 from tkinter import *
 from RegisterWindow import Register
+from APICommunication import HttpsRequest
 
 import re
 
@@ -31,6 +32,13 @@ class Login:
 
         self.localUserData.setUserPassword(self.password.get())
         self.loginWin.destroy()
+
+        self.login()
+        return True
+
+    def login(self):
+        rqt = HttpsRequest()
+        rqt.login(self.username, self.password)
 
     # Change window for registering
     def register(self):

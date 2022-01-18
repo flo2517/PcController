@@ -1,12 +1,29 @@
 import asyncio
 import socketio
+import requests
 
 from Executors import Executor
 
 sio = socketio.AsyncClient()
 
 
-class Server_communication:
+class HttpsRequest:
+
+    def __init__(self):
+        self.address = "http://thrallweb:8080/"
+
+    def register(self, email, password):
+        pload = {"email": email, "username": "johndoe", "password": password}
+        r = requests.post(self.address+"register", data=pload)
+        print(r)
+
+    def login(self, email, password):
+        pload = {"email": email, "password": password}
+        r = requests.post(self.address+"login", data=pload)
+        print(r)
+
+
+class SocketCommunication:
 
     def __init__(self, localUserData):
         self.localUserData = localUserData
