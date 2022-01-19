@@ -36,12 +36,20 @@ class Register:
             self.errorMessage.set("Error: \"Confirm password\" must be the same as \"Password\"")
             return False
 
-        self.register()
         return True
 
     def register(self):
         rqt = HttpsRequest()
-        rqt.register(self.username, self.password)
+        res = rqt.register(self.localUserData.getUserID(), self.localUserData.getUserPassword())
+        if res[0]:
+            # Save token
+            self.localUserData.setServerToken(res[1])
+            return True
+        else:
+            # Print error message
+            self.errorMessage.set("Error : "+res[1])
+            return False
+
 
     def login(self):
         # Close window
@@ -68,17 +76,23 @@ class Register:
         print("Save password")
         self.localUserData.setUserPassword(self.password.get())
 
-        print("Close register window")
-        self.registerWin.destroy()
+        if self.register():
+            print("User well registered")
+            print("Close register window")
+            self.registerWin.destroy()
+            return True
+        else:
+            return False
 
-    def __init__(self, loginWin, localUserData, errorMessage):
+
+
+    def __init__(self, loginWin, localUserData):
         self.loginWin = loginWin
         self.localUserData = localUserData
         self.registerWin = Tk()
         self.registerWin.title("Register")
 
         self.errorMessage = StringVar()
-        self.errorMessage.set(errorMessage)
 
         self.registerWin.geometry("500x500")
         self.registerWin.configure(bg="#21a6ff")
@@ -93,8 +107,7 @@ class Register:
         # Add mail input
         Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 330))
         self.username = Entry(self.registerWin, font=("Arial", 25), borderwidth=3, relief="solid")
-        if self.localUserData.getUserID() != "[]" and self.localUserData.getUserID() != "":
-            self.username.insert(END, self.localUserData.getUserID())
+        self.username.insert(END, self.localUserData.getUserID())
         self.username.pack(pady=(0, 15))
 
         # Add password inputs

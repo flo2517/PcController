@@ -31,14 +31,24 @@ class Login:
             return
 
         self.localUserData.setUserPassword(self.password.get())
-        self.loginWin.destroy()
 
-        self.login()
-        return True
+        if self.login():
+            self.loginWin.destroy()
+            return True
+
+        return False
 
     def login(self):
         rqt = HttpsRequest()
-        rqt.login(self.username, self.password)
+        res = rqt.login(self.localUserData.getUserID(), self.localUserData.getUserPassword())
+        if res[0]:
+            # Save token
+            self.localUserData.setServerToken(res[1])
+            return True
+        else:
+            # Print error message
+            self.errorMessage.set("Error : "+res[1])
+            return False
 
     # Change window for registering
     def register(self):
@@ -68,8 +78,7 @@ class Login:
         # Add mail input
         Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 330))
         self.username = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid")
-        if self.localUserData.getUserID() != "[]" and self.localUserData.getUserID() != "":
-            self.username.insert(END, self.localUserData.getUserID())
+        self.username.insert(END, self.localUserData.getUserID())
         self.username.pack(pady=(0, 15))
 
         # Add password input

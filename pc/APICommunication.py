@@ -10,17 +10,30 @@ sio = socketio.AsyncClient()
 class HttpsRequest:
 
     def __init__(self):
-        self.address = "http://thrallweb:8080/"
+        self.address = "http://thrallweb.fr:8080/"
 
     def register(self, email, password):
         pload = {"email": email, "username": "johndoe", "password": password}
         r = requests.post(self.address+"register", data=pload)
-        print(r)
+        dico = r.json()
+        if dico['success']:
+            print(dico['message'])
+            return [True, dico['token']]
+        else:
+            print(dico['message'])
+            return [False, dico['message']]
 
     def login(self, email, password):
         pload = {"email": email, "password": password}
         r = requests.post(self.address+"login", data=pload)
-        print(r)
+        dico = r.json()
+        if dico['success']:
+            print(dico['message'])
+            return [True, dico['token']]
+        else:
+            print(dico['message'])
+            return [False, dico['message']]
+
 
 
 class SocketCommunication:
@@ -46,10 +59,22 @@ class SocketCommunication:
     def callBack(self):
         @sio.event
         async def connect():
-            await sio.emit('source', )
+            pload = {"token":self.localUserData.getToken()}
+            await sio.emit('source', pload)
             print('connection established')
 
-        @sio.on('pause')
-        async def pause():
-            self.executor.exe(6)
+        @sio.on('volumeMute')
+        async def mute():
+            self.executor.execute(4)
 
+        @sio.on('volumePlay')
+        async def play():
+            self.executor.execute(5)
+
+        @sio.on('volumeUp')
+        async def vUp():
+            self.executor.execute(2)
+
+        @sio.on('volumeDown')
+        async def vDown():
+            self.executor.execute(3)

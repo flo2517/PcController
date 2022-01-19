@@ -21,9 +21,9 @@ class Executor:
         # Save in log file
         file = open("commandHistory.log", "a")
         if res == 1:
-            file.write("Can't find command number ", commandID, "\n")
+            file.write("Can't find command number "+commandID+"\n")
         else:
-            file.write("Command number ", commandID, " is executed\n")
+            file.write("Command number "+commandID+" is executed\n")
         file.close()
         return
 
@@ -33,7 +33,8 @@ class WinExe:
         print("Executing by WinExe")
         return
 
-    def exe(self, commandID):
+    @staticmethod
+    def exe(commandID):
         # Execute command corresponding to id
         print("CommadID = ", commandID)
         if commandID == 0:
@@ -69,7 +70,8 @@ class LinuxExe:
         print("Executing by LinuxExe")
         return
 
-    def exe(self, commandID):
+    @staticmethod
+    def exe(commandID):
         # Execute command corresponding to id
         print(commandID)
         return 1
@@ -80,7 +82,8 @@ class MacExe:
         print("Executing by MacExe")
         return
 
-    def exe(self, commandID):
+    @staticmethod
+    def exe(commandID):
         # Execute command corresponding to id
         print(commandID)
         return 1

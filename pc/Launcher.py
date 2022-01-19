@@ -1,27 +1,21 @@
 import asyncio
-
+from APICommunication import HttpsRequest
 from APICommunication import SocketCommunication
 from LocalUserData import LocalUserData
 from LoginWindow import Login
 from SetupWindow import Setup
-from RegisterWindow import Register
-
 
 class Launcher:
     def __init__(self):
         userData = LocalUserData()
-        # Check if there is user data
-        """
-        if userData.getUserID() == "[]" or userData.getUserPassword() == "[]":
-            # Ask to user to give his ID and his password
-        """
-        Login(userData, "")
-        #self.com = Server_communication(userData)
-        #asyncio.run(self.com.task())
 
-        #Setup(userData)
+        # Try to auto-connect to server
+        rqt = HttpsRequest()
+        res = rqt.login(userData.getUserID(), userData.getUserPassword())
+        if not res[0]:
+            # Manually connect to server
+            Login(userData, res[1])
 
-
-
-    def executeManual(self, commandID):
-        self.osExecutor.exe(commandID)
+        self.com = SocketCommunication(userData)
+        asyncio.run(self.com.task())
+        Setup(userData)
