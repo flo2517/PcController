@@ -12,8 +12,8 @@ void main(){
 }
 
 class MyApp extends StatelessWidget {
- final String url  ="http://192.168.93.35:8080";
-  // String url = "http://thrallweb.fr:8080/register";
+ //final String url  ="http://192.168.93.35:8080";
+   String url = "http://thrallweb.fr:8080";
  information infos = information();
 
  MyApp({Key? key}) : super(key: key);
