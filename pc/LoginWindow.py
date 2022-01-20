@@ -56,7 +56,7 @@ class Login:
         self.loginWin.withdraw()
 
         # Launch register window
-        self.registerWin = Register(self.loginWin, self.localUserData, "")
+        self.registerWin = Register(self.loginWin, self.localUserData)
 
     def __init__(self, localUserData, errorMessage):
         self.registerWin = None
@@ -65,7 +65,7 @@ class Login:
         self.loginWin.title("Login")
 
         self.errorMessage = StringVar()
-        self.errorMessage.set(errorMessage)
+        self.errorMessage.set("Error : "+errorMessage)
 
         self.loginWin.geometry("500x420")
         self.loginWin.configure(bg="#21a6ff")
