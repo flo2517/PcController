@@ -55,11 +55,15 @@ class SocketCommunication:
 
         await sio.wait()
 
+    @staticmethod
+    async def disconnect():
+        await sio.disconnect()
+
 
     def callBack(self):
         @sio.event
         async def connect():
-            pload = {"token":self.localUserData.getToken()}
+            pload = {"token": self.localUserData.getToken()}
             await sio.emit('source', pload)
             print('connection established')
 
