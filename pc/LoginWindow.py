@@ -1,3 +1,4 @@
+import sys
 from tkinter import *
 from RegisterWindow import Register
 from APICommunication import HttpsRequest
@@ -6,6 +7,11 @@ import re
 
 
 class Login:
+
+    # Add close all app on closing window
+    @staticmethod
+    def onClosing():
+        sys.exit(0)
 
     # Check mail address by using regex
     def checkMail(self, mail):
@@ -70,6 +76,8 @@ class Login:
         self.loginWin.geometry("500x420")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
+        # Add action on window close event
+        self.loginWin.protocol("WM_DELETE_WINDOW", self.onClosing)
 
         # Add text to window
         Label(self.loginWin, text="Login", font=("Arial", 40), bg="#21a6ff", pady=20).pack()

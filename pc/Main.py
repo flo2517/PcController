@@ -1,3 +1,8 @@
 from Launcher import Launcher
 
-test = Launcher()
+restart = True
+
+while restart:
+    restart = False
+    app = Launcher()
+    restart = app.getRestartValue()

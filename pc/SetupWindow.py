@@ -1,11 +1,11 @@
 from tkinter import *
 
 
-
 class Setup:
 
+    # Log out user
     def logOut(self):
-        self.result = 1
+        self.result[0] = 1
         self.setupWin.destroy()
 
     def __init__(self, localUserData, result):

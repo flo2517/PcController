@@ -37,9 +37,12 @@ class HttpsRequest:
 
 class SocketCommunication:
 
-    def __init__(self, localUserData):
+    def __init__(self, localUserData, shmSock):
         self.localUserData = localUserData
         self.executor = Executor()
+        self.shmSock = shmSock
+
+
 
     async def task(self):
         await asyncio.gather(self.launchCom())
@@ -48,15 +51,13 @@ class SocketCommunication:
 
         self.callBack()
 
+
         await sio.connect('http://thrallweb.fr:8080')
 
 
 
         await sio.wait()
 
-    @staticmethod
-    async def disconnect():
-        await sio.disconnect()
 
 
     def callBack(self):
@@ -81,3 +82,13 @@ class SocketCommunication:
         @sio.on('volumeDown')
         async def vDown():
             self.executor.execute(3)
+
+        async def background_task():
+            while True:
+                if self.shmSock[0] == 1:
+                    print("Disconnected")
+                    await sio.disconnect()
+                    return
+                await sio.sleep(1)
+
+        sio.start_background_task(background_task)

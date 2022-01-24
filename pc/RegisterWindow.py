@@ -1,3 +1,4 @@
+import sys
 from tkinter import *
 from APICommunication import HttpsRequest
 import re
@@ -5,10 +6,10 @@ import re
 
 class Register:
 
-    # Add close login window when user close register window
-    def onClosing(self):
-        self.loginWin.destroy()
-        self.registerWin.destroy()
+    # Add close all app on closing window
+    @staticmethod
+    def onClosing():
+        sys.exit(0)
 
     # Check mail address by using regex
     def checkMail(self, mail):

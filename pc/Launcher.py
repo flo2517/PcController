@@ -11,9 +11,19 @@ from SetupWindow import Setup
 class Launcher:
     def __init__(self):
         self.userData = LocalUserData()
-        self.result = sm.SharedMemory
+        shmWin = sm.SharedMemory(create=True, size=128)
+        self.result = shmWin.buf
+        self.result[0] = 0
+
+        shmSocket = sm.SharedMemory(create=True, size=128)
+        self.shmSock = shmSocket.buf
+        self.shmSock[0] = 0
+
+        self.restart = False
 
         self.httpConnect()
+
+        self.com = SocketCommunication(self.userData, self.shmSock)
 
         self.threadSocket = threading.Thread(target=self.socketConnect)
         self.threadSocket.start()
@@ -22,23 +32,36 @@ class Launcher:
         self.threadSetupWindow.start()
 
         self.threadSetupWindow.join()
-        print(self.result)
-        if self.result == 1:
-            print("hello")
+
+        # Del user data and restart app
+        if self.result[0] == 1:
+            shmWin.close()
+            shmWin.unlink()
+            self.shmSock[0] = 1
+            self.threadSocket.join()
+            self.userData.delUser()
+            self.restart = True
+            return
 
         self.threadSocket.join()
 
-    # Try to auto-connect to server
+    # Authentication with server
     def httpConnect(self):
         rqt = HttpsRequest()
+        # Try to auto-connect to server
         res = rqt.login(self.userData.getUserID(), self.userData.getUserPassword())
         if not res[0]:
             # Manually connect to server
             Login(self.userData, res[1])
 
+    # Launch socket connection
     def socketConnect(self):
-        self.com = SocketCommunication(self.userData)
         asyncio.run(self.com.task())
 
+    # Launch setup window
     def setupWindow(self):
         Setup(self.userData, self.result)
+
+    # Get restart value
+    def getRestartValue(self):
+        return self.restart
