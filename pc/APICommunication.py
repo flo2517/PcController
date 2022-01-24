@@ -1,7 +1,6 @@
 import asyncio
 import socketio
 import requests
-
 from Executors import Executor
 
 sio = socketio.AsyncClient()

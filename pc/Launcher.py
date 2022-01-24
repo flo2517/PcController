@@ -1,5 +1,6 @@
 import asyncio
 import threading
+from multiprocessing import shared_memory as sm
 from APICommunication import HttpsRequest
 from APICommunication import SocketCommunication
 from LocalUserData import LocalUserData
@@ -10,8 +11,7 @@ from SetupWindow import Setup
 class Launcher:
     def __init__(self):
         self.userData = LocalUserData()
-        self.com = ""
-        self.result = ""
+        self.result = sm.SharedMemory
 
         self.httpConnect()
 
@@ -22,12 +22,11 @@ class Launcher:
         self.threadSetupWindow.start()
 
         self.threadSetupWindow.join()
-        self.threadSocket.join()
-
-
+        print(self.result)
         if self.result == 1:
             print("hello")
-            self.com.disconnect()
+
+        self.threadSocket.join()
 
     # Try to auto-connect to server
     def httpConnect(self):
@@ -37,14 +36,9 @@ class Launcher:
             # Manually connect to server
             Login(self.userData, res[1])
 
-
     def socketConnect(self):
         self.com = SocketCommunication(self.userData)
         asyncio.run(self.com.task())
 
     def setupWindow(self):
         Setup(self.userData, self.result)
-
-
-
-
