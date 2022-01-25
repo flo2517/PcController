@@ -48,13 +48,29 @@ server.listen(port, function() {
     console.log("C'est parti ! En attente de connexion sur le port "+port+"...");
 });
 
+
+const jwt = require("jsonwebtoken");
 io.on('connection', (socket) => {
 
     let token = null;
     socket.on('source', (data) => {
         console.log(socket.request.connection.remoteAddress);
         console.log(socket.handshake);
-        uuidValidation(data.token, data.user)
+        let user = {}
+        jwt.verify(token, config.TOKEN_KEY, (err, decoded) => {
+            if(err) {
+                console.log(err);
+                if (err instanceof TokenExpiredError) {
+                    socket.emit('error', { message: "Unauthorized! Access Token was expired!" });
+                    return;
+                }
+                socket.emit('error', { message: 'Failed to authenticate token.' });
+                return;
+            }
+            // console.log(decoded);
+            user = decoded
+        });
+        uuidValidation(data.token, user.id)
             .then(() => {
                 CLIENT[data.token] = socket;
                 console.log(`Client ${data.token} connecté`);
