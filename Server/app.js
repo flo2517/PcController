@@ -57,7 +57,6 @@ io.on('connection', (socket) => {
     socket.on('source', (data) => {
         console.log(socket.request.connection.remoteAddress);
         console.log(socket.handshake);
-        let user = {}
         jwt.verify(data.user, process.env.TOKEN_KEY, (err, decoded) => {
             if(err) {
                 console.log(err);
@@ -68,19 +67,20 @@ io.on('connection', (socket) => {
                 socket.emit('error', { message: 'Failed to authenticate token.' });
                 return;
             }
-            // console.log(decoded);
-            user = decoded
+            console.log(decoded);
+
+            uuidValidation(data.token, decoded.id)
+                .then(() => {
+                    CLIENT[data.token] = socket;
+                    console.log(`Client ${data.token} connecté`);
+                    token = data.token;
+                })
+                .catch((err) => {
+                    console.log(err);
+                    socket.emit('error', err);
+                });
         });
-        uuidValidation(data.token, user.id)
-            .then(() => {
-                CLIENT[data.token] = socket;
-                console.log(`Client ${data.token} connecté`);
-                token = data.token;
-            })
-            .catch((err) => {
-                console.log(err);
-                socket.emit('error', err);
-            });
+
     });
 
     socket.on('disconnect', () => {
