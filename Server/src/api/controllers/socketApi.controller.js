@@ -60,7 +60,23 @@ const volume = (req, res) => {
     }
 }
 
+const lock = (req, res) => {
+    let socket = req.app.get('client');
+    let id = req.params.id;
+    if(socket[id]) {
+        socket[id].emit('lock');
+        res.status(200).json({
+            message: 'Lock request sent'
+        });
+    } else {
+        res.status(404).send({
+            message: 'Socket not found'
+        });
+    }
+}
+
 module.exports = {
     shutdown,
-    volume
+    volume,
+    lock
 }

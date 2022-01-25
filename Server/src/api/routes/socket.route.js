@@ -3,6 +3,7 @@ const controller = require("../controllers/socketApi.controller");
 const oapi = require("../../config/openapi.config");
 const auth = require('../middlewares/auth.middleware');
 const socket = require('../middlewares/socket.middleware');
+const {error401, error403, error400} = require("../helpers/errorsList.helper");
 
 let router = require("express").Router();
 
@@ -11,6 +12,16 @@ router.get("/shutdown/:id", auth, socket, oapi.path({
     summary: "Shutdown a device",
     description: "Shutdown a device",
     parameters: [
+        {
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
+            }
+        },
         {
             name: "id",
             in: "path",
@@ -62,6 +73,16 @@ router.get("/volume/:action/:id", auth, socket, oapi.path({
     summary: "Change volume",
     description: "Change volume",
     parameters: [
+        {
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
+            }
+        },
         {
             name: "id",
             in: "path",
@@ -131,5 +152,69 @@ router.get("/volume/:action/:id", auth, socket, oapi.path({
         }
     }
 }), (req, res) => controller.volume(req, res));
+
+router.get("/lock/:id", auth, socket, oapi.path({
+    tags: ["socket"],
+    summary: "Lock device",
+    description: "Lock device",
+    parameters: [
+        {
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
+            }
+        },
+        {
+            name: "id",
+            in: "path",
+            description: "Device ID",
+            required: true,
+            type: "string"
+        }
+    ],
+    responses: {
+        200: {
+            description: "Success",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Success message",
+                                example: "Device locked"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        400: error400,
+        401: error401,
+        403: error403,
+        404: {
+            description: "Device not found",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Error message",
+                                example: "Device not found"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}), (req, res) => controller.lock(req, res))
 
 module.exports = router;
