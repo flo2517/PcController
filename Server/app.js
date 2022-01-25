@@ -59,7 +59,7 @@ io.on('connection', (socket) => {
         // console.log(socket.handshake);
 
         console.log(data);
-        console.log(data.type);
+        console.log(typeof data);
         console.log(data.user);
         console.log(data.token);
 
