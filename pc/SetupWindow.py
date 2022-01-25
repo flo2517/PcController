@@ -8,13 +8,18 @@ class Setup:
         self.result[0] = 1
         self.setupWin.destroy()
 
+    # End program
+    def exitApp(self):
+        self.result[0] = 2
+        self.setupWin.destroy()
+
     def __init__(self, localUserData, result):
         self.result = result
         self.localUserData = localUserData
         self.setupWin = Tk()
         self.setupWin.title("Setup")
 
-        self.setupWin.geometry("650x550")
+        self.setupWin.geometry("750x600")
         self.setupWin.configure(bg="#21a6ff")
         self.setupWin.resizable(False, False)
 
@@ -30,6 +35,9 @@ class Setup:
 
         # Add del account button
         Button(self.setupWin, text="Del Account", font=("Arial", 20), relief="solid", borderwidth=3, height=1, width=30).pack(pady=10)
+
+        # Add close app button
+        Button(self.setupWin, text="Exit app", font=("Arial", 20), relief="solid", borderwidth=3, height=1, width=30, command=self.exitApp).pack(pady=10)
 
         # Add credit button
         Button(self.setupWin, text="Credit", font=("Arial", 20), relief="solid", borderwidth=3, height=1, width=30).pack(pady=10)

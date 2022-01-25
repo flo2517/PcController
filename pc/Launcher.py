@@ -1,4 +1,5 @@
 import asyncio
+import sys
 import threading
 from multiprocessing import shared_memory as sm
 from APICommunication import HttpsRequest
@@ -42,6 +43,14 @@ class Launcher:
             self.userData.delUser()
             self.restart = True
             return
+
+        # End app
+        if self.result[0] == 2:
+            shmWin.close()
+            shmWin.unlink()
+            self.shmSock[0] = 1
+            self.threadSocket.join()
+            sys.exit(0)
 
         self.threadSocket.join()
 
