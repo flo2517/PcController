@@ -63,7 +63,9 @@ io.on('connection', (socket) => {
         console.log(data.user);
         console.log(data.token);
 
-        // console.log(JSON.stringify(data).token);
+        let parse = JSON.parse(data);
+        console.log(parse.token);
+        console.log(parse.user);
         token = data.token;
         jwt.verify(data.user, process.env.TOKEN_KEY, (err, decoded) => {
             if(err) {
