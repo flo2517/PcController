@@ -57,7 +57,7 @@ io.on('connection', (socket) => {
         console.log(socket.request.connection.remoteAddress);
         console.log(socket.handshake);
         let user = {}
-        jwt.verify(token, config.TOKEN_KEY, (err, decoded) => {
+        jwt.verify(data.user, process.env.TOKEN_KEY, (err, decoded) => {
             if(err) {
                 console.log(err);
                 if (err instanceof TokenExpiredError) {
