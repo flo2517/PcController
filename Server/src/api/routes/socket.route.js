@@ -1,10 +1,12 @@
 
-const controller = require("../controllers/socket.controller");
+const controller = require("../controllers/socketApi.controller");
 const oapi = require("../../config/openapi.config");
+const auth = require('../middlewares/auth.middleware');
+const socket = require('../middlewares/socket.middleware');
 
 let router = require("express").Router();
 
-router.get("/shutdown/:id", oapi.path({
+router.get("/shutdown/:id", auth, socket, oapi.path({
     tags: ["socket"],
     summary: "Shutdown a device",
     description: "Shutdown a device",
@@ -55,7 +57,7 @@ router.get("/shutdown/:id", oapi.path({
     }
 }), (req, res) => controller.shutdown(req, res));
 
-router.get("/volume/:action/:id", oapi.path({
+router.get("/volume/:action/:id", auth, socket, oapi.path({
     tags: ["socket"],
     summary: "Change volume",
     description: "Change volume",

@@ -5,6 +5,8 @@ let router = require("express").Router();
 
 const oapi = require("../../config/openapi.config");
 
+const auth = require("../middlewares/auth.middleware");
+
 
 router.post('/register', oapi.path({
     tags: ['Auth'],
@@ -357,5 +359,7 @@ router.post('/refreshtoken', oapi.path({
     }
 
 }), (req, res) => controller.refreshToken(req, res));
+
+router.post('/changePassword', oapi.path({}), auth,  (req, res) => controller.changePassword(req, res));
 
 module.exports = router;

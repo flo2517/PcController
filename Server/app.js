@@ -23,27 +23,13 @@ app.set('client', CLIENT);
 
 require('dotenv').config({path : path.resolve(process.cwd(), './Server/.env')});
 
-
-console.log(process.cwd());
-
-console.log(process.env);
-
-
 const oapi = require('./src/config/openapi.config');
+const uuidValidation = require("./src/api/validations/uudi.validation");
 
 app.use(oapi)
 
-
-
-
-
-
 const {API_PORT} = process.env;
 const port = process.env.PORT || API_PORT ;
-
-
-
-
 
 app.use('/', require("./src/api/routes/socket.route"));
 app.use('/', require("./src/api/routes/auth.route"));
@@ -55,12 +41,10 @@ app.use(function (req, res, next) {
 
 app.use('/device', require("./src/api/routes/device.route"));
 
-
 server.listen(port, function() {
     console.log("C'est parti ! En attente de connexion sur le port "+port+"...");
 });
 
-console.log(oapi.document);
 
 app.use('/doc', oapi.swaggerui);
 
@@ -69,10 +53,17 @@ io.on('connection', (socket) => {
     let token = null;
     socket.on('source', (data) => {
         console.log(socket.request.connection.remoteAddress);
-        CLIENT[data.token] = socket;
         console.log(socket.handshake);
-        console.log(`Client ${data.token} connecté`);
-        token = data.token;
+        uuidValidation(data.token, data.user)
+            .then(() => {
+                CLIENT[data.token] = socket;
+                console.log(`Client ${data.token} connecté`);
+                token = data.token;
+            })
+            .catch((err) => {
+                console.log(err);
+                socket.emit('error', err);
+            });
     });
 
     socket.on('disconnect', (data) => {
@@ -80,6 +71,5 @@ io.on('connection', (socket) => {
         console.log(CLIENT);
         console.log(`Client ${token} déconnecté`);
     });
-
 
 });

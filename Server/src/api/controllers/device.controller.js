@@ -4,7 +4,6 @@ const add = (req, res) => {
 
     const {uuid, name} = req.body;
 
-    console.log(req.decoded);
 
     if (!uuid || !name) {
         return res.status(400).json({
