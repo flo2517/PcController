@@ -31,22 +31,22 @@ app.use(oapi)
 const {API_PORT} = process.env;
 const port = process.env.PORT || API_PORT ;
 
-app.use('/', require("./src/api/routes/socket.route"));
-app.use('/', require("./src/api/routes/auth.route"));
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "x-access-token, Origin, Content-Type, Accept");
     res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' ws://* https://*");
     next();
 });
 
+app.use('/', require("./src/api/routes/socket.route"));
+app.use('/', require("./src/api/routes/auth.route"));
 app.use('/device', require("./src/api/routes/device.route"));
+app.use('/user', require("./src/api/routes/user.route"));
+app.use('/doc', oapi.swaggerui);
+
 
 server.listen(port, function() {
     console.log("C'est parti ! En attente de connexion sur le port "+port+"...");
 });
-
-
-app.use('/doc', oapi.swaggerui);
 
 io.on('connection', (socket) => {
 
@@ -66,7 +66,7 @@ io.on('connection', (socket) => {
             });
     });
 
-    socket.on('disconnect', (data) => {
+    socket.on('disconnect', () => {
         delete CLIENT[token];
         console.log(CLIENT);
         console.log(`Client ${token} déconnecté`);
