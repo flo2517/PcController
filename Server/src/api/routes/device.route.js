@@ -12,16 +12,18 @@ router.post("/add", oapi.path({
     tags: ["Device"],
     summary: "Add a new device",
     description: "Add a new device",
-    headers: [
+    parameters: [
         {
-            "name": "x-access-token",
-            "in": "header",
-            "description": "{token}",
-            "required": true,
-            "type": "string"
-        }
-    ],
-    parameters: [{
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
+            }
+        },
+        {
         in: "body",
         name: "device",
         description: "Device object",
@@ -98,41 +100,18 @@ router.get("/getAll", oapi.path({
     tags: ["Device"],
     summary: "Add a new device",
     description: "Add a new device",
-    headers: [
+    parameters: [
         {
-            "name": "x-access-token",
-            "in": "header",
-            "description": "{token}",
-            "required": true,
-            "type": "string"
-        }
-    ],
-    parameters: [{
-        in: "body",
-        name: "device",
-        description: "Device object",
-        required: true,
-        schema: {
-            type: "object",
-            properties: {
-                uuid: {
-                    type: "string",
-                    description: "Device uuid",
-                    example: "5e8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8"
-                },
-                name: {
-                    type: "string",
-                    description: "Device name",
-                    example: "My device"
-                },
-                userId: {
-                    type: "string",
-                    description: "User id",
-                    example: 1
-                }
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
             }
-        }
-    }],
+        },
+    ],
     responses: {
         200: {
             description: "Device added",
