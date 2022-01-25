@@ -50,6 +50,7 @@ server.listen(port, function() {
 
 
 const jwt = require("jsonwebtoken");
+const {TokenExpiredError} = require("jsonwebtoken");
 io.on('connection', (socket) => {
 
     let token = null;
