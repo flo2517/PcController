@@ -59,6 +59,7 @@ io.on('connection', (socket) => {
         // console.log(socket.handshake);
 
         console.log(data);
+        console.log(data.user);
         token = data.token;
         jwt.verify(data.user, process.env.TOKEN_KEY, (err, decoded) => {
             if(err) {
