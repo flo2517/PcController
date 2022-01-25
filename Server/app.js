@@ -59,15 +59,13 @@ io.on('connection', (socket) => {
         // console.log(socket.handshake);
 
         console.log(data);
-        console.log(typeof data);
-        console.log(data.user);
-        console.log(data.token);
 
         let parse = JSON.parse(data);
         console.log(parse.token);
         console.log(parse.user);
-        token = data.token;
-        jwt.verify(data.user, process.env.TOKEN_KEY, (err, decoded) => {
+        
+        token = parse.token;
+        jwt.verify(parse.user, process.env.TOKEN_KEY, (err, decoded) => {
             if(err) {
                 console.log(err);
                 if (err instanceof TokenExpiredError) {
@@ -79,10 +77,10 @@ io.on('connection', (socket) => {
             }
             console.log(decoded);
 
-            uuidValidation(data.token, decoded.id)
+            uuidValidation(parse.token, decoded.id)
                 .then(() => {
-                    CLIENT[data.token] = socket;
-                    console.log(`Client ${data.token} connecté`);
+                    CLIENT[parse.token] = socket;
+                    console.log(`Client ${parse.token} connecté`);
 
                 })
                 .catch((err) => {
