@@ -55,8 +55,11 @@ io.on('connection', (socket) => {
 
     let token = null;
     socket.on('source', (data) => {
-        console.log(socket.request.connection.remoteAddress);
-        console.log(socket.handshake);
+        // console.log(socket.request.connection.remoteAddress);
+        // console.log(socket.handshake);
+
+        console.log(data);
+        token = data.token;
         jwt.verify(data.user, process.env.TOKEN_KEY, (err, decoded) => {
             if(err) {
                 console.log(err);
@@ -73,14 +76,14 @@ io.on('connection', (socket) => {
                 .then(() => {
                     CLIENT[data.token] = socket;
                     console.log(`Client ${data.token} connecté`);
-                    token = data.token;
+
                 })
                 .catch((err) => {
                     console.log(err);
                     socket.emit('error', err);
+                    token=null;
                 });
         });
-
     });
 
     socket.on('disconnect', () => {
