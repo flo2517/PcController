@@ -16,6 +16,16 @@ class DeviceService {
         );
     }
 
+    async getByUuid(uuid) {
+        return this.device.findAll(
+            {
+                where: {
+                    uuid: uuid
+                }
+            }
+        );
+    }
+
     async getById(id, userId) {
         return this.device.findOne({
             where: {

@@ -17,6 +17,7 @@ Device.belongsTo(sequelize.models.user, {
     targetKey: "id"
 });
 
+
 User.sync({force: false});
 RefreshToken.sync({force: false});
 Device.sync({force: false});

@@ -173,7 +173,7 @@ const refreshToken = (req, res) => {
                     message: 'refresh token has expired. Please login again'
                 });
             }
-            const user = await RefreshToken.getUser();
+            const user = await token.getUser();
             let newAccessToken = jwt.sign({
                 id: user.id,
                 email: user.email,

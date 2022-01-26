@@ -17,7 +17,7 @@ const verifyToken = (req, res, next) => {
             if (err instanceof TokenExpiredError) {
                 return res.status(401).send({ message: "Unauthorized! Access Token was expired!" });
             }
-            return res.status(401).send({
+            return res.status(402).send({
                 success: false,
                 message: 'Failed to authenticate token.'
             });
