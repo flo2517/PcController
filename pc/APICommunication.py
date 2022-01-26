@@ -38,6 +38,30 @@ class HttpsRequest:
             print(requestResult['message'])
             return [False, requestResult['message']]
 
+    # Send refresh token request to server
+    def refreshToken(self, serverToken):
+        pload = {"refreshToken": serverToken}
+        r = requests.post(self.address + "refreshToken", data=pload)
+        requestResult = r.json()
+        if requestResult['success']:
+            print("Token refreshed successfully")
+            return [True, requestResult['refreshToken']['token']]
+        else:
+            print("Error : Token refresh failed cause of \"" + requestResult['message'] + "\"")
+            return [False, requestResult["message"]]
+
+    # Send change password request to server
+    def changePassword(self, oldPassword, newPassword):
+        pload = {"oldPassword": oldPassword, "newPassword": newPassword}
+        r = requests.post(self.address + "changePassword", data=pload)
+        print(r)
+        requestResult = r.json()
+        if requestResult['message'] == "Password changed successfully":
+            print(requestResult["message"])
+            return True
+        else:
+            print("Error : Password changed failed cause of \"" + requestResult['message'] + "\"")
+            return False
 
 
 class SocketCommunication:
@@ -84,16 +108,12 @@ class SocketCommunication:
         @sio.on('error')
         async def error(msg):
             print(msg)
-            print("Error : "+msg['message'])
+            print("Error : " + msg['message'])
             if msg['message'] == 'Unauthorized! Access Token was expired!':
-                pload = {"refreshToken": self.localUserData.getServerToken()}
-                r = requests.post(serverAddress + "refreshToken", data=pload)
-                r = r.json()
-                if r['success']:
-                    print("Token refreshed successfully")
-                    self.localUserData.setServerToken(r['refreshToken']['token'])
-                else:
-                    print("Error : token refresh failed cause of \""+r['message']+"\"")
+                rqt = HttpsRequest()
+                res = rqt.refreshToken(self.localUserData.getServerToken())
+                if res[0]:
+                    self.localUserData.setServerToken(res[1])
 
         # In background of socket communication check
         # on shared memory if connection need to be ended
@@ -101,7 +121,10 @@ class SocketCommunication:
             while True:
                 if self.shmSock[0] == 1:
                     print("Disconnected")
-                    await sio.disconnect()
+                    try:
+                        await sio.disconnect()
+                    except client_session:
+                        pass
                     return
                 await sio.sleep(1)
 

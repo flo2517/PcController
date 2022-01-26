@@ -59,7 +59,7 @@ class Login:
 
     # Change window for registering
     def register(self):
-        # Close window
+        # Hide window
         self.loginWin.withdraw()
 
         # Launch register window

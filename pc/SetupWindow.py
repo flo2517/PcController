@@ -1,20 +1,119 @@
+import re
 from tkinter import *
+from APICommunication import HttpsRequest
 from PIL import Image, ImageTk
 import os.path
 
-class Setup:
 
-    def onSetupClose(self):
-        if self.credWin is not None:
-            if self.credWin is not None:
-                try:
-                    self.credWin.destroy()
-                except TclError:
-                    pass
-            self.creditBtn.configure(state=ACTIVE)
+class ChangePassword:
+    def getWindow(self):
+        return self.chgPassWin
+
+    def onClosing(self):
+        self.changePasswordBtn.configure(state=ACTIVE)
+        self.exitBtn.configure(state=ACTIVE)
+        self.chgPassWin.destroy()
+
+    def checkOldPassword(self):
+        if not self.oldPassword.get() == self.userData.getUserPassword():
+            print("Error: Old password is incorrect")
+            return False
+        return True
+
+    def checkNewPassword(self):
+        print("Checking new passwords")
+        # regex = r'^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$'
+
+        if len(self.newPassword1.get()) > 255 or len(self.newPassword1.get()) < 6:
+            print("Error: Invalid size of password")
+            return False
+
+        if self.oldPassword.get() == self.newPassword1.get():
+            print("Error : New password need to be different as old password")
+            return False
+
+        """
+        if not re.fullmatch(regex, self.newPassword1.get()):
+            print("Error: Password to week")
+            return False
+        """
+
+        if not self.newPassword1.get() == self.newPassword2.get():
+            print("Error: \"Confirm new password\" must be the same as \"New Password\"")
+            return False
+
+        return True
+
+    def sendRequest(self):
+        rqt = HttpsRequest()
+        res = rqt.changePassword(self.oldPassword.get(), self.newPassword1.get())
+        return res
+
+    def submit(self):
+        print("Checking old password")
+        if not self.checkOldPassword():
+            return False
+
+        print("Checking new password")
+        if not self.checkNewPassword():
+            return False
+
+        """
+        print('submit')
+        if not self.sendRequest():
+            return False
+        """
+
+        # Show setup window
+        self.setupWin.deiconify()
+        self.chgPassWin.destroy()
+
+    def __init__(self, userData, changePasswordBtn, exitBtn):
+        self.userData = userData
+        self.changePasswordBtn = changePasswordBtn
+        self.exitBtn = exitBtn
+        self.chgPassWin = Tk()
+        self.chgPassWin.title('Change Password')
+        self.chgPassWin.geometry("500x500")
+        self.chgPassWin.configure(bg="#21a6ff")
+        self.chgPassWin.resizable(False, False)
+        # Add action on window close event
+        self.chgPassWin.protocol("WM_DELETE_WINDOW", self.onClosing)
+
+        # Add text to window
+        Label(self.chgPassWin, text="Change Password", font=("Arial", 40), bg="#21a6ff", pady=15).pack()
+
+        # Old password input
+        Label(self.chgPassWin, text="Old password:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(70, 290))
+        self.oldPassword = Entry(self.chgPassWin, font=("Arial", 25), borderwidth=3, relief="solid")
+        self.oldPassword.config(show="●")
+        self.oldPassword.pack(pady=(0, 15))
+
+        # New password input
+        Label(self.chgPassWin, text="New password:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(70, 285))
+        self.newPassword1 = Entry(self.chgPassWin, font=("Arial", 25), borderwidth=3, relief="solid")
+        self.newPassword1.config(show="●")
+        self.newPassword1.pack(pady=(0, 15))
+
+        # New password confirmation input
+        Label(self.chgPassWin, text="Confirm new password:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(
+            padx=(70, 207))
+        self.newPassword2 = Entry(self.chgPassWin, font=("Arial", 25), borderwidth=3, relief="solid")
+        self.newPassword2.config(show="●")
+        self.newPassword2.pack(pady=(0, 15))
+
+        # Add submit button
+        Button(self.chgPassWin, text="submit", font=("Arial", 25), borderwidth=1, relief="solid",
+               command=self.submit).pack(pady=(30, 0))
+
+        self.chgPassWin.mainloop()
+
+
+class Credits:
 
     def onCreditsClose(self):
-        self.creditBtn.configure(state=ACTIVE)
+        self.creditsBtn.configure(state=ACTIVE)
+        self.exitBtn.configure(state=ACTIVE)
         self.credWin.destroy()
 
     # Display the beautiful and too cute little panda at the bottom of the credit window
@@ -40,9 +139,10 @@ class Setup:
             print('Picture not found')
             return
 
-    # Open credit window
-    def creditsWin(self):
-        self.creditBtn.configure(state=DISABLED)
+    def __init__(self, setupWin, accessBtn, exitBtn):
+        self.exitBtn = exitBtn
+        self.creditsBtn = accessBtn
+        self.setupWin = setupWin
         self.credWin = Tk()
         self.credWin.title("Credits")
         self.credWin.geometry("550x550")
@@ -61,6 +161,24 @@ class Setup:
 
         self.credWin.mainloop()
 
+
+class Setup:
+
+    def onSetupClose(self):
+        pass
+
+    # Open credit window
+    def creditsWin(self):
+        self.exitBtn.configure(state=DISABLED)
+        self.creditBtn.configure(state=DISABLED)
+        self.credWin = Credits(self.setupWin, self.creditBtn, self.exitBtn)
+
+    def changePassword(self):
+        # Hide window
+        self.changePasswordBtn.configure(state=DISABLED)
+        self.exitBtn.configure(state=DISABLED)
+        ChangePassword(self.localUserData, self.changePasswordBtn, self.exitBtn)
+
     # Log out user
     def logOut(self):
         self.result[0] = 1
@@ -69,14 +187,12 @@ class Setup:
     # End program
     def exitApp(self):
         self.result[0] = 2
-        if self.credWin is not None:
-            try:
-                self.credWin.destroy()
-            except TclError:
-                pass
         self.setupWin.destroy()
 
+
+
     def __init__(self, localUserData, result):
+        self.chgPassWin = None
         self.credWin = None
         self.result = result
         self.localUserData = localUserData
@@ -98,8 +214,10 @@ class Setup:
                command=self.logOut).pack(pady=20)
 
         # Add change password button
-        Button(self.setupWin, text="Change Password", font=("Arial", 20), relief="solid", borderwidth=3, height=1,
-               width=30).pack(pady=10)
+        self.changePasswordBtn = Button(self.setupWin, text="Change Password", font=("Arial", 20), relief="solid",
+                                        borderwidth=3, height=1,
+                                        width=30, command=self.changePassword)
+        self.changePasswordBtn.pack(pady=10)
 
         # Add del account button
         Button(self.setupWin, text="Del Account", font=("Arial", 20), relief="solid", borderwidth=3, height=1,
@@ -112,8 +230,10 @@ class Setup:
         self.creditBtn.pack(pady=10)
 
         # Add close app button
-        Button(self.setupWin, text="Exit app", font=("Arial", 20), relief="solid", borderwidth=3, height=1, width=30,
-               command=self.exitApp).pack(pady=10)
+        self.exitBtn = Button(self.setupWin, text="Exit app", font=("Arial", 20), relief="solid", borderwidth=3,
+                              height=1, width=30,
+                              command=self.exitApp)
+        self.exitBtn.pack(pady=10)
 
         # Add launch on pc starting check button
         Checkbutton(self.setupWin, text="Start-up launch", font=("Arial", 20), var=self.startUpLaunch, bg="#21a6ff",
