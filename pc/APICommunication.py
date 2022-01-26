@@ -1,37 +1,42 @@
 import asyncio
 import socketio
 import requests
+import json
 from Executors import Executor
 
 sio = socketio.AsyncClient()
+
+serverAddress = "http://thrallweb.fr:8080/"
 
 
 class HttpsRequest:
 
     def __init__(self):
-        self.address = "http://thrallweb.fr:8080/"
+        self.address = serverAddress
 
+    # Send register request to server
     def register(self, email, password):
         pload = {"email": email, "username": "johndoe", "password": password}
         r = requests.post(self.address + "register", data=pload)
-        dico = r.json()
-        if dico['success']:
-            print(dico['message'])
-            return [True, dico['token']]
+        requestResult = r.json()
+        if requestResult['success']:
+            print(requestResult['message'])
+            return [True, requestResult['token'], requestResult['refreshToken']]
         else:
-            print(dico['message'])
-            return [False, dico['message']]
+            print(requestResult['message'])
+            return [False, requestResult['message']]
 
+    # Send login request to server
     def login(self, email, password):
         pload = {"email": email, "password": password}
         r = requests.post(self.address + "login", data=pload)
-        dico = r.json()
-        if dico['success']:
-            print(dico['message'])
-            return [True, dico['token']]
+        requestResult = r.json()
+        if requestResult['success']:
+            print(requestResult['message'])
+            return [True, requestResult['token'], requestResult['refreshToken']]
         else:
-            print(dico['message'])
-            return [False, dico['message']]
+            print(requestResult['message'])
+            return [False, requestResult['message']]
 
 
 
@@ -49,14 +54,14 @@ class SocketCommunication:
 
         self.callBack()
 
-        await sio.connect('http://thrallweb.fr:8080')
+        await sio.connect(serverAddress)
 
         await sio.wait()
 
     def callBack(self):
         @sio.event
         async def connect():
-            pload = {"token": self.localUserData.getToken()}
+            pload = json.dumps({"token": self.localUserData.getToken(), "user": self.localUserData.getJwtToken()})
             await sio.emit('source', pload)
             print('Connection established')
 
@@ -76,6 +81,22 @@ class SocketCommunication:
         async def vDown():
             self.executor.execute(3)
 
+        @sio.on('error')
+        async def error(msg):
+            print(msg)
+            print("Error : "+msg['message'])
+            if msg['message'] == 'Unauthorized! Access Token was expired!':
+                pload = {"refreshToken": self.localUserData.getServerToken()}
+                r = requests.post(serverAddress + "refreshToken", data=pload)
+                r = r.json()
+                if r['success']:
+                    print("Token refreshed successfully")
+                    self.localUserData.setServerToken(r['refreshToken']['token'])
+                else:
+                    print("Error : token refresh failed cause of \""+r['message']+"\"")
+
+        # In background of socket communication check
+        # on shared memory if connection need to be ended
         async def background_task():
             while True:
                 if self.shmSock[0] == 1:
@@ -84,4 +105,5 @@ class SocketCommunication:
                     return
                 await sio.sleep(1)
 
+        # Launch background task
         sio.start_background_task(background_task)

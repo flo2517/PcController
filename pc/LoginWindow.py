@@ -48,8 +48,9 @@ class Login:
         rqt = HttpsRequest()
         res = rqt.login(self.localUserData.getUserID(), self.localUserData.getUserPassword())
         if res[0]:
-            # Save token
-            self.localUserData.setServerToken(res[1])
+            # Save tokens
+            self.localUserData.setJwtToken(res[1])
+            self.localUserData.setServerToken(res[2]['token'])
             return True
         else:
             # Print error message

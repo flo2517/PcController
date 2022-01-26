@@ -17,7 +17,7 @@ class LocalUserData:
             # Create file
             print("Create and format user data file")
             file = open("userData.json", "w")
-            file.write('{"username":"", "password":"", "token":"", "server_token" : ""}')
+            file.write('{"username":"", "password":"", "token":"", "jwt_token" : "", "server_token":""}')
             file.close()
         else:
             print("User data file exist")
@@ -29,7 +29,7 @@ class LocalUserData:
                 print("Reformat user data file")
                 # Reformat file
                 file = open("userData.json", "w")
-                file.write('{"username":"", "password":"", "token":"", "server_token" : ""}')
+                file.write('{"username":"", "password":"", "token":"", "jwt_token" : "", "server_token":""}')
                 file.close()
 
         # Get data of data user file
@@ -43,6 +43,7 @@ class LocalUserData:
         self.username = data["username"]
         self.password = data["password"]
         self.token = data["token"]
+        self.jwt_token = data["jwt_token"]
         self.server_token = data["server_token"]
 
         if self.token == "":
@@ -52,7 +53,7 @@ class LocalUserData:
             # Generate the token
             self.token = uuid4().hex
             userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-                self.token) + '","server_token":"' + str(self.server_token)+'"}'
+                self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token)+'"}'
             file.write(userData)
             file.close()
 
@@ -66,7 +67,7 @@ class LocalUserData:
         self.username = ID
         file = open("userData.json", "w")
         userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-            self.token) + '","server_token":"' + str(self.server_token) + '"}'
+            self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token) + '"}'
         file.write(userData)
         file.close()
         return 0
@@ -78,7 +79,7 @@ class LocalUserData:
         self.password = password
         file = open("userData.json", "w")
         userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-            self.token) + '","server_token":"' + str(self.server_token) + '"}'
+            self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token) + '"}'
         file.write(userData)
         file.close()
         return 0
@@ -89,7 +90,7 @@ class LocalUserData:
         self.password = ""
         file = open("userData.json", "w")
         userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-            self.token) + '","server_token":"' + str(self.server_token) + '"}'
+            self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token) + '"}'
         file.write(userData)
         file.close()
         return 0
@@ -101,7 +102,7 @@ class LocalUserData:
         self.token = ""
         file = open("userData.json", "w")
         userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-            self.token) + '","server_token":"' + str(self.server_token) + '"}'
+            self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token) + '"}'
         file.write(userData)
         file.close()
         return 0
@@ -111,7 +112,7 @@ class LocalUserData:
         self.token = uuid4().hex
         file = open("userData.json", "w")
         userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-            self.token) + '","server_token":"' + str(self.server_token) + '"}'
+            self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token) + '"}'
         file.write(userData)
         file.close()
         return 0
@@ -123,7 +124,20 @@ class LocalUserData:
         self.server_token = newServerToken
         file = open("userData.json", "w")
         userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-            self.token) + '","server_token":"' + str(self.server_token) + '"}'
+            self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token) + '"}'
         file.write(userData)
         file.close()
         return 0
+
+    def setJwtToken(self, newJwtToken):
+        self.jwt_token = newJwtToken
+        file = open("userData.json", "w")
+        userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
+            self.token) + '","jwt_token":"' + str(self.jwt_token) + '","server_token":"' + str(self.server_token) + '"}'
+        file.write(userData)
+        file.close()
+        return 0
+
+    def getJwtToken(self):
+        return self.jwt_token
+

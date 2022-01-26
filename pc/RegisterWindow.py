@@ -27,9 +27,16 @@ class Register:
     # Check if password and confirmation password as same
     def checkPassword(self, password1, password2):
         print("Checking passwords")
+        regex = r'/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/'
+
         if len(password1) > 255 or len(password1) < 6:
             print("Error: Invalid size of password")
             self.errorMessage.set("Error: Invalid size of password")
+            return False
+
+        if not re.fullmatch(regex, password1):
+            print("Error: Password to week")
+            self.errorMessage.set("Error: Password to week")
             return False
 
         if not password1 == password2:
@@ -43,8 +50,9 @@ class Register:
         rqt = HttpsRequest()
         res = rqt.register(self.localUserData.getUserID(), self.localUserData.getUserPassword())
         if res[0]:
-            # Save token
-            self.localUserData.setServerToken(res[1])
+            # Save tokens
+            self.localUserData.setJwtToken(res[1])
+            self.localUserData.setServerToken(res[2]['token'])
             return True
         else:
             # Print error message

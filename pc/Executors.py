@@ -1,6 +1,7 @@
 import os
 import pyautogui
 import platform
+from datetime import datetime as date
 
 
 class Executor:
@@ -20,10 +21,11 @@ class Executor:
         res = self.osExecutor.exe(commandID)
         # Save in log file
         file = open("commandHistory.log", "a")
+        now = date.now().strftime("%b-%d-%Y, %H:%M:%S | ")
         if res == 1:
-            file.write("Can't find command number "+commandID+"\n")
+            file.write(now+"Can't find command number "+str(commandID)+"\n")
         else:
-            file.write("Command number "+commandID+" is executed\n")
+            file.write(now+"Command number "+str(commandID)+" is executed\n")
         file.close()
         return
 
