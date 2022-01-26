@@ -256,4 +256,5 @@ module.exports = {
     login,
     register,
     refreshToken,
+    verify
 };

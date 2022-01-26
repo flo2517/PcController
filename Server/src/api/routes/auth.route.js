@@ -352,4 +352,6 @@ router.post('/refreshtoken', oapi.path({
 
 }), (req, res) => controller.refreshToken(req, res));
 
+router.get('/verify/:verifyString', (req, res) => controller.verify(req, res));
+
 module.exports = router;
