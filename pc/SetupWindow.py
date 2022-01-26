@@ -4,22 +4,67 @@ from APICommunication import HttpsRequest
 from PIL import Image, ImageTk
 import os.path
 
+rqt = HttpsRequest()
+
+
+class DelAccount:
+    # Add show setup window at closing window
+    def onClosing(self):
+        self.setupWin.deiconify()
+        self.delUserWin.destroy()
+
+    # Send delete account request to server and close or show setup window
+    def request(self):
+        res = rqt.delAccount(self.userData.getUserPassword())
+        if res:
+            self.result[0] = 1
+            self.setupWin.destroy()
+            self.delUserWin.destroy()
+        else:
+            self.setupWin.deiconify()
+            self.delUserWin.destroy()
+
+    def __init__(self, userData, setupWin, result):
+        self.result = result
+        self.userData = userData
+        self.setupWin = setupWin
+        self.delUserWin = Tk()
+        self.delUserWin.title('Delete Account')
+        self.delUserWin.geometry("500x250")
+        self.delUserWin.configure(bg="#21a6ff")
+        self.delUserWin.resizable(False, False)
+        # Add action on window close event
+        self.delUserWin.protocol("WM_DELETE_WINDOW", self.onClosing)
+
+        # Add text to window
+        Label(self.delUserWin, text="Do you really want to delete this account ?", font=("Arial", 18),
+              bg="#21a6ff").pack(pady=(50, 0))
+
+        # Add confirm button
+        Button(self.delUserWin, text="Confirm", font=("Arial", 25), borderwidth=1, relief="solid",
+               command=self.request).pack(side=LEFT, pady=20, padx=(90, 20))
+
+        # Add abandon button
+        Button(self.delUserWin, text="Abandon", font=("Arial", 25), borderwidth=1, relief="solid",
+               command=self.onClosing).pack(side=RIGHT, pady=20, padx=(15, 90))
+
+        self.delUserWin.mainloop()
+
 
 class ChangePassword:
-    def getWindow(self):
-        return self.chgPassWin
-
+    # Add show setup window at closing window
     def onClosing(self):
-        self.changePasswordBtn.configure(state=ACTIVE)
-        self.exitBtn.configure(state=ACTIVE)
+        self.setupWin.deiconify()
         self.chgPassWin.destroy()
 
+    # Check if old password is correct
     def checkOldPassword(self):
         if not self.oldPassword.get() == self.userData.getUserPassword():
             print("Error: Old password is incorrect")
             return False
         return True
 
+    # Check validity of new password
     def checkNewPassword(self):
         print("Checking new passwords")
         # regex = r'^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$'
@@ -44,11 +89,12 @@ class ChangePassword:
 
         return True
 
+    # Send change password request to server
     def sendRequest(self):
-        rqt = HttpsRequest()
         res = rqt.changePassword(self.oldPassword.get(), self.newPassword1.get())
         return res
 
+    # Check data and send request to server
     def submit(self):
         print("Checking old password")
         if not self.checkOldPassword():
@@ -58,20 +104,17 @@ class ChangePassword:
         if not self.checkNewPassword():
             return False
 
-        """
         print('submit')
         if not self.sendRequest():
             return False
-        """
 
         # Show setup window
         self.setupWin.deiconify()
         self.chgPassWin.destroy()
 
-    def __init__(self, userData, changePasswordBtn, exitBtn):
+    def __init__(self, userData, setupWin):
         self.userData = userData
-        self.changePasswordBtn = changePasswordBtn
-        self.exitBtn = exitBtn
+        self.setupWin = setupWin
         self.chgPassWin = Tk()
         self.chgPassWin.title('Change Password')
         self.chgPassWin.geometry("500x500")
@@ -175,9 +218,8 @@ class Setup:
 
     def changePassword(self):
         # Hide window
-        self.changePasswordBtn.configure(state=DISABLED)
-        self.exitBtn.configure(state=DISABLED)
-        ChangePassword(self.localUserData, self.changePasswordBtn, self.exitBtn)
+        self.setupWin.withdraw()
+        ChangePassword(self.localUserData, self.setupWin)
 
     # Log out user
     def logOut(self):
@@ -189,7 +231,11 @@ class Setup:
         self.result[0] = 2
         self.setupWin.destroy()
 
-
+    # Del user account
+    def delUserAccount(self):
+        # Hide window
+        self.setupWin.withdraw()
+        DelAccount(self.localUserData, self.setupWin, self.result)
 
     def __init__(self, localUserData, result):
         self.chgPassWin = None
@@ -220,8 +266,11 @@ class Setup:
         self.changePasswordBtn.pack(pady=10)
 
         # Add del account button
-        Button(self.setupWin, text="Del Account", font=("Arial", 20), relief="solid", borderwidth=3, height=1,
-               width=30).pack(pady=10)
+        self.delAccountBtn = Button(self.setupWin, text="Del Account", font=("Arial", 20), relief="solid",
+                                    borderwidth=3,
+                                    height=1,
+                                    width=30, command=self.delUserAccount)
+        self.delAccountBtn.pack(pady=10)
 
         # Add credit button
         self.creditBtn = Button(self.setupWin, text="Credits", font=("Arial", 20), relief="solid", borderwidth=3,

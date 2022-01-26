@@ -53,14 +53,25 @@ class HttpsRequest:
     # Send change password request to server
     def changePassword(self, oldPassword, newPassword):
         pload = {"oldPassword": oldPassword, "newPassword": newPassword}
-        r = requests.post(self.address + "changePassword", data=pload)
-        print(r)
+        r = requests.post(self.address + "user/changePassword", data=pload)
         requestResult = r.json()
         if requestResult['message'] == "Password changed successfully":
             print(requestResult["message"])
             return True
         else:
             print("Error : Password changed failed cause of \"" + requestResult['message'] + "\"")
+            return False
+
+    # Send del user account request to server
+    def delAccount(self, password):
+        pload = {"password": password}
+        r = requests.post(self.address + "user/deleteAccount", data=pload)
+        requestResult = r.json()
+        if requestResult['message'] == "Account deleted successfully":
+            print(requestResult["message"])
+            return True
+        else:
+            print("Error : Account deleted failed cause of \"" + requestResult['message'] + "\"")
             return False
 
 
@@ -121,10 +132,7 @@ class SocketCommunication:
             while True:
                 if self.shmSock[0] == 1:
                     print("Disconnected")
-                    try:
-                        await sio.disconnect()
-                    except client_session:
-                        pass
+                    await sio.disconnect()
                     return
                 await sio.sleep(1)
 
