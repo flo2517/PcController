@@ -4,6 +4,8 @@ const bcrypt = require("bcryptjs");
 const {RefreshToken} = require("../models/index");
 
 const {validateEmail, validatePassword} = require("../validations/auth.validation");
+const {v4: uuidv4} = require("uuid");
+const {sendVerifyMail} = require("../services/email.service");
 
 const register = async (req, res) => {
     let userService;
@@ -43,13 +45,15 @@ const register = async (req, res) => {
 
         let encryptedPassword = await bcrypt.hash(password, 10);
 
+        let unique = uuidv4();
+
         const user = await userService.createUser({
             email: email.toLowerCase(),
             password: encryptedPassword,
-            verified: false
+            verifyString: unique
         });
 
-        console.log(process.env.TOKEN_KEY);
+        sendVerifyMail(email, unique);
 
         user.token = jwt.sign({
             id: user.id,
@@ -201,6 +205,50 @@ const refreshToken = (req, res) => {
             });
         });
 };
+
+const verify = (req, res) =>  {
+    const {verifyString} = req.body;
+
+    if(!verifyString){
+        return res.status(400).json({
+            success: false,
+            message: 'verify string is required'
+        });
+    }
+
+    const userService = new UserService();
+    userService.getUserByVerifyString(verifyString).then(user => {
+        if(!user){
+            return res.status(400).json({
+                success: false,
+                message: 'verify string is invalid'
+            });
+        }
+        if(user.verified){
+            return res.status(400).json({
+                success: false,
+                message: 'user is already verified'
+            });
+        }
+        user.verified = true;
+        user.verifyString = null;
+        user.save().then(() => {
+            return res.status(200).json({
+                success: true,
+                message: 'user is verified'
+            });
+        });
+    }).catch(err => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    });
+
+}
+
+
 
 
 

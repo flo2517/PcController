@@ -25,6 +25,14 @@ class UserService {
     });
   }
 
+  async getUserByVerifyString(verifyString) {
+    return User.findAll({
+      where: {
+        verifyString: verifyString,
+      },
+    });
+  }
+
   async getUsers() {
     return User.findAll();
   }

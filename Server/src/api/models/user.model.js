@@ -23,6 +23,11 @@ User.init({
         allowNull: false,
         defaultValue: false
     },
+    verifyString: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
 }, {
     sequelize,
     modelName: "user",
