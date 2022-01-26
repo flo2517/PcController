@@ -55,6 +55,7 @@ class Login:
         else:
             # Print error message
             self.errorMessage.set("Error : "+res[1])
+            self.errorMessage.set("Error : "+res[1])
             return False
 
     # Change window for registering

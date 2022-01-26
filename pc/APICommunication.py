@@ -21,7 +21,7 @@ class HttpsRequest:
         requestResult = r.json()
         if requestResult['success']:
             print(requestResult['message'])
-            return [True, requestResult['token'], requestResult['refreshToken']]
+            return [True, requestResult['token']]
         else:
             print(requestResult['message'])
             return [False, requestResult['message']]
@@ -125,6 +125,15 @@ class SocketCommunication:
                 res = rqt.refreshToken(self.localUserData.getServerToken())
                 if res[0]:
                     self.localUserData.setServerToken(res[1])
+                else:
+                    res = rqt.login(self.localUserData.getUserID(), self.localUserData.getPassword())
+                    if res[0]:
+                        # Save tokens
+                        self.localUserData.setJwtToken(res[1])
+                        self.localUserData.setServerToken(res[2]['token'])
+                    else:
+                        await sio.disconnect()
+                        print('Error : ' + res[1])
 
         # In background of socket communication check
         # on shared memory if connection need to be ended

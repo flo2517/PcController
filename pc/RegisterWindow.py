@@ -27,7 +27,7 @@ class Register:
     # Check if password and confirmation password as same
     def checkPassword(self, password1, password2):
         print("Checking passwords")
-        regex = r'/^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$/'
+        regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
 
         if len(password1) > 255 or len(password1) < 6:
             print("Error: Invalid size of password")
@@ -52,11 +52,13 @@ class Register:
         if res[0]:
             # Save tokens
             self.localUserData.setJwtToken(res[1])
-            self.localUserData.setServerToken(res[2]['token'])
+            self.localUserData.setServerToken(None)
             return True
         else:
             # Print error message
             self.errorMessage.set("Error : "+res[1])
+            self.loginWin.deiconify()
+            self.registerWin.destroy()
             return False
 
 
@@ -88,8 +90,9 @@ class Register:
         if self.register():
             print("User well registered")
             print("Close register window")
+            # Close register window
             self.registerWin.destroy()
-            return True
+            self.loginWin.destroy()
         else:
             return False
 

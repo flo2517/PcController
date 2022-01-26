@@ -67,7 +67,7 @@ class ChangePassword:
     # Check validity of new password
     def checkNewPassword(self):
         print("Checking new passwords")
-        # regex = r'^(?=.[a-z])(?=.[A-Z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%?&]{8,}$'
+        regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
 
         if len(self.newPassword1.get()) > 255 or len(self.newPassword1.get()) < 6:
             print("Error: Invalid size of password")
@@ -77,11 +77,9 @@ class ChangePassword:
             print("Error : New password need to be different as old password")
             return False
 
-        """
         if not re.fullmatch(regex, self.newPassword1.get()):
             print("Error: Password to week")
             return False
-        """
 
         if not self.newPassword1.get() == self.newPassword2.get():
             print("Error: \"Confirm new password\" must be the same as \"New Password\"")
