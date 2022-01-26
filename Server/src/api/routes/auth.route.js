@@ -23,11 +23,6 @@ router.post('/register', oapi.path({
                         format: 'email',
                         example: 'john@doe.fr'
                     },
-                    username: {
-                        type: 'string',
-                        example: 'johndoe',
-                        description: 'Username of the user'
-                    },
                     password: {
                         type: 'string',
                         example: 'johndoe',

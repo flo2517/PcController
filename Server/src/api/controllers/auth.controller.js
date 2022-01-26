@@ -5,14 +5,11 @@ const {RefreshToken} = require("../models/index");
 
 const {validateEmail, validatePassword} = require("../validations/auth.validation");
 
-
-
-
 const register = async (req, res) => {
     let userService;
     try {
-        const { email, username, password } = req.body;
-        if(!email || !username || !password){
+        const { email, password } = req.body;
+        if(!email || !password){
             return res.status(400).json({
                 success: false,
                 message: 'Please enter all fields'
@@ -48,8 +45,8 @@ const register = async (req, res) => {
 
         const user = await userService.createUser({
             email: email.toLowerCase(),
-            username: username,
-            password: encryptedPassword
+            password: encryptedPassword,
+            verified: false
         });
 
         console.log(process.env.TOKEN_KEY);
@@ -96,6 +93,14 @@ const login = (req, res) => {
                     message: 'User not found'
                 });
             }
+            
+            // if(user[0].verified === false){
+            //     return res.status(400).json({
+            //         success: false,
+            //         message: 'Please verify your email'
+            //     });
+            // }
+
             bcrypt.compare(password, user[0].password)
                 .then(async isMatch => {
                     if (!isMatch) {
