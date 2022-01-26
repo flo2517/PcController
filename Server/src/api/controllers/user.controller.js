@@ -69,11 +69,19 @@ const deleteAccount = (req, res) => {
                     message: 'User not found'
                 });
             }
-            user[0].remove();
-            return res.status(200).json({
-                success: true,
-                message: 'Account deleted successfully'
+            user[0].destroy().then(() => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Account deleted successfully'
+                }).catch((err) => {
+                    console.log(err);
+                    return res.status(500).json({
+                        success: false,
+                        message: err.message
+                    });
+                });
             });
+
         })
         .catch(err => {
             console.log(err);
