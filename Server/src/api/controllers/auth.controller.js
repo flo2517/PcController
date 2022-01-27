@@ -158,7 +158,7 @@ const refreshToken = (req, res) => {
         });                            
     }
 
-    console.log(requestToken);
+    // console.log(requestToken);
     RefreshToken.findOne({
         where: {
             token: requestToken
