@@ -250,10 +250,6 @@ const verify = (req, res) =>  {
 
 }
 
-
-
-
-
 module.exports = {
     login,
     register,
