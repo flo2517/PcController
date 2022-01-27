@@ -27,6 +27,25 @@ class information {
    void print(){
       log("email : "+email!+"\nmdp : "+password!+"\nIsConnected : "+isConnected.toString()+"\nToken : "+token+"\nRefreshToken : "+refreshToken.toString());
    }
+   Map<String, dynamic> toJson() => {
+      'email': email,
+      'password': password,
+      'isConnected': isConnected,
+      'token' : token,
+      'refreshToken' : refreshToken,
+      'computerId' : computerId
+   };
+
+   void fromJson(Map<String, dynamic> json){
+      email = json['email'];
+      password = json['password'];
+      isConnected = json['isConnected'];
+      token = json['token'];
+      refreshToken = json['refreshToken'];
+      computerId = json['computerId'];
+
+   }
+
 
 
 

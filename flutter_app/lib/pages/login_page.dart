@@ -4,13 +4,16 @@ import 'dart:convert';
 import 'dart:developer';
 
 
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/information.dart';
+import 'package:flutter_app/input_validator.dart';
 import 'package:flutter_app/pages/computer_chose.dart';
 import 'package:flutter_app/pages/control_page.dart';
 import 'package:flutter_app/pages/sign_in.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class login extends StatefulWidget {
   final String url;
@@ -31,11 +34,52 @@ class _loginState extends State<login> {
   // final url ="http://192.168.51.35:8080/login";
   // String url = widget.url;
   bool hidePassword = true;
-  bool isRememberMe = false;
+  bool rememberMe = false;
   TextEditingController _emailCo = TextEditingController();
   TextEditingController _pswdCo = TextEditingController();
+  late SharedPreferences prefs;
+
+@override
+  void initState() {
+      getData();
 
 
+
+  }
+  getData() async{
+     prefs = await SharedPreferences.getInstance();
+
+
+    setState(() {
+       // var mail = prefs.getString("email");
+       // var pass = prefs.getString("password");
+       // if(mail != null){
+       //   _emailCo.text = mail;
+       // }
+       // if(pass !=null){
+       //   _pswdCo.text = pass;
+       // }
+       // if(mail!= null && pass!=null){
+       //
+       //   loginRequest();
+       // }
+      var jsonInfo = prefs.getString("infos");
+      if(jsonInfo !=null){
+        widget.infos.fromJson(json.decode(jsonInfo));
+        log(widget.infos.isConnected.toString());
+        log(jsonInfo);
+        rememberMe = true;
+        _emailCo.text = widget.infos.email!;
+        _pswdCo.text = widget.infos.password!;
+        if(widget.infos.isConnected){
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
+        }
+      }
+
+   });
+
+
+  }
 
   void snackBarMessage(String msg){
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -60,6 +104,19 @@ class _loginState extends State<login> {
     if(response.statusCode==200){
       widget.infos.connexion(jsonDecode(response.body), _emailCo.text,  _pswdCo.text);
       widget.infos.print();
+      if(rememberMe) {
+        log(json.encode(widget.infos.toJson()));
+        prefs.setString("infos", json.encode(widget.infos.toJson()));
+        // prefs.setString("email", _emailCo.text);
+        // prefs.setString("password", _pswdCo.text);
+      }
+      else {
+      //   prefs.remove("email");
+      //   prefs.remove("password");
+      //
+       // prefs.remove("infos");
+       }
+
       Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
 
 
@@ -128,7 +185,7 @@ class _loginState extends State<login> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         Text(
-          'Mot de passe',
+          'Password',
           style:TextStyle(
               color: Colors.white,
               fontSize: 16,
@@ -176,7 +233,7 @@ class _loginState extends State<login> {
                 ),
 
 
-                hintText: 'Mot de passe',
+                hintText: 'Password',
                 hintStyle: TextStyle(
                     color: Colors.black26
 
@@ -197,7 +254,7 @@ class _loginState extends State<login> {
         },
         padding: EdgeInsets.only(right: 0),
         child: Text(
-          'Mot de passe oublié ?',
+          'Forgotten password ?',
           style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold
@@ -215,17 +272,17 @@ class _loginState extends State<login> {
           Theme(
               data: ThemeData(unselectedWidgetColor: Colors.white),
               child: Checkbox (
-                value: isRememberMe,
+                value: rememberMe,
                 checkColor: Colors.blue,
                 activeColor: Colors.white,
                 onChanged: (value){
                   setState(() {
-                    isRememberMe = value!;
+                    rememberMe = value!;
                   });
                 },
               )),
           Text(
-            'Se souvenir de moi',
+            'Remember me',
             style: TextStyle(
               color: Colors.white,
               fontWeight: FontWeight.bold,
@@ -246,7 +303,10 @@ class _loginState extends State<login> {
           //     builder: (context)=>Remote()
           // ))
           print(_emailCo.text+" "+_pswdCo.text),
-          loginRequest(),
+          if(EmailValidator.Validate(_emailCo.text,context) && PasswordValidator.Validate(_pswdCo.text, context)){
+            loginRequest()
+          }
+
         } ,
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(
@@ -254,7 +314,7 @@ class _loginState extends State<login> {
         ),
           color: Colors.white,
         child: Text(
-          'Se connecter',
+          'Login',
           style: TextStyle(
             color : Colors.blue,
             fontSize: 18,
@@ -267,7 +327,7 @@ class _loginState extends State<login> {
   Widget buildSignupBtn(){
       return GestureDetector(
         onTap: ()=> {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> signIn()))
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> signIn(url : widget.url, infos : widget.infos)))
         },
         child: RichText(
           text : TextSpan (
