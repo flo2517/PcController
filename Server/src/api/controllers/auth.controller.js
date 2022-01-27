@@ -6,7 +6,6 @@ const {validateEmail, validatePassword} = require("../validations/auth.validatio
 const {v4: uuidv4} = require("uuid");
 const EmailService = require("../services/email.service");
 
-
 const register = async (req, res) => {
     let userService;
     try {
