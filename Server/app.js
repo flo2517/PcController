@@ -13,7 +13,7 @@ app.use(helmet());
 app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '100mb', parameterLimit: 1000000 }));
 app.use(cors());
-app.use(morgan('combined'));
+app.use(morgan('dev'));
 const server = require('http').createServer(app);
 
 const io = require('socket.io')(server);
@@ -98,3 +98,7 @@ io.on('connection', (socket) => {
     });
 
 });
+
+// const {sendVerifyMail} = require("./src/api/services/email.service");
+//
+// sendVerifyMail('jeandenans.florian@gmail.com', 'yolo');

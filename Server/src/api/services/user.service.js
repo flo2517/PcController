@@ -4,9 +4,10 @@ const {User} = require("../models/index");
 
 
 class UserService {
-constructor() {
 
-}
+  constructor() {
+
+  }
 
   async getUser(id) {
     return User.findAll({
@@ -20,6 +21,14 @@ constructor() {
     return User.findAll({
       where: {
         email: email,
+      },
+    });
+  }
+
+  async getUserByVerifyString(verifyString) {
+    return User.findAll({
+      where: {
+        verifyString: verifyString,
       },
     });
   }

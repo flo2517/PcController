@@ -23,11 +23,6 @@ router.post('/register', oapi.path({
                         format: 'email',
                         example: 'john@doe.fr'
                     },
-                    username: {
-                        type: 'string',
-                        example: 'johndoe',
-                        description: 'Username of the user'
-                    },
                     password: {
                         type: 'string',
                         example: 'johndoe',
@@ -356,5 +351,7 @@ router.post('/refreshtoken', oapi.path({
     }
 
 }), (req, res) => controller.refreshToken(req, res));
+
+router.get('/verify/:verifyString', (req, res) => controller.verify(req, res));
 
 module.exports = router;

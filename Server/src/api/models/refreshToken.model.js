@@ -46,6 +46,7 @@ RefreshToken.verifyExpiration = (token) => {
 }
 
 RefreshToken.getUser = () => {
+    console.log(this.userId);
     const userService = new UserService();
     return userService.getUser(this.userId);
 }

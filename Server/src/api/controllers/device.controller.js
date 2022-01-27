@@ -14,16 +14,31 @@ const add = (req, res) => {
 
     const deviceService = new DeviceService();
 
-    deviceService.create({
-        uuid: uuid,
-        name: name,
-        userId: req.decoded.id
-    }).then(device => {
-        return res.status(200).json({
-            success: true,
-            message: 'Device added successfully',
-            device
-        });
+    deviceService.getByUuid(uuid).then(device => {
+        if (device) {
+            return res.status(400).json({
+                success: false,
+                message: 'Device already exists'
+            });
+        } else {
+            deviceService.create({
+                uuid: uuid,
+                name: name,
+                userId: req.decoded.id
+            }).then(device => {
+                return res.status(200).json({
+                    success: true,
+                    message: 'Device added successfully',
+                    device
+                });
+            }).catch(err => {
+                return res.status(500).json({
+                    success: false,
+                    message: 'Error adding device',
+                    error: err
+                });
+            });
+        }
     }).catch(err => {
         return res.status(500).json({
             success: false,

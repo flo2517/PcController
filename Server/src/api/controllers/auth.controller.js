@@ -2,17 +2,16 @@ const UserService = require("../services/user.service");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {RefreshToken} = require("../models/index");
-
 const {validateEmail, validatePassword} = require("../validations/auth.validation");
-
-
+const {v4: uuidv4} = require("uuid");
+const EmailService = require("../services/email.service");
 
 
 const register = async (req, res) => {
     let userService;
     try {
-        const { email, username, password } = req.body;
-        if(!email || !username || !password){
+        const { email, password } = req.body;
+        if(!email || !password){
             return res.status(400).json({
                 success: false,
                 message: 'Please enter all fields'
@@ -46,13 +45,15 @@ const register = async (req, res) => {
 
         let encryptedPassword = await bcrypt.hash(password, 10);
 
+        let unique = uuidv4();
+
         const user = await userService.createUser({
             email: email.toLowerCase(),
-            username: username,
-            password: encryptedPassword
+            password: encryptedPassword,
+            verifyString: unique
         });
-
-        console.log(process.env.TOKEN_KEY);
+        
+        EmailService.sendVerifyMail(email, unique);
 
         user.token = jwt.sign({
             id: user.id,
@@ -96,6 +97,14 @@ const login = (req, res) => {
                     message: 'User not found'
                 });
             }
+            
+            if(user[0].verified === false){
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please verify your email'
+                });
+            }
+
             bcrypt.compare(password, user[0].password)
                 .then(async isMatch => {
                     if (!isMatch) {
@@ -148,8 +157,7 @@ const refreshToken = (req, res) => {
             message: 'refresh token is required'
         });                            
     }
-
-    console.log(requestToken);
+    // console.log(requestToken);
     RefreshToken.findOne({
         where: {
             token: requestToken
@@ -173,7 +181,7 @@ const refreshToken = (req, res) => {
                     message: 'refresh token has expired. Please login again'
                 });
             }
-            const user = await RefreshToken.getUser();
+            const user = await token.getUser();
             let newAccessToken = jwt.sign({
                 id: user.id,
                 email: user.email,
@@ -197,10 +205,52 @@ const refreshToken = (req, res) => {
         });
 };
 
+const verify = (req, res) =>  {
+    const {verifyString} = req.params;
 
+    if(!verifyString){
+        return res.status(400).json({
+            success: false,
+            message: 'verify string is required'
+        });
+    }
+
+    const userService = new UserService();
+    userService.getUserByVerifyString(verifyString).then(users => {
+        let user = users[0];
+        console.log(user)
+        if(!user){
+            return res.status(400).json({
+                success: false,
+                message: 'verify string is invalid'
+            });
+        }
+        if(user.verified){
+            return res.status(400).json({
+                success: false,
+                message: 'user is already verified'
+            });
+        }
+        user.verified = true;
+        user.verifyString = null;
+        user.save().then(() => {
+            return res.status(200).json({
+                success: true,
+                message: 'user is verified'
+            });
+        });
+    }).catch(err => {
+        console.log(err);
+        return res.status(500).json({
+            success: false,
+            message: err.message
+        });
+    });
+}
 
 module.exports = {
     login,
     register,
     refreshToken,
+    verify
 };
