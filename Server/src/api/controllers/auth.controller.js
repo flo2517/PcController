@@ -2,7 +2,6 @@ const UserService = require("../services/user.service");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const {RefreshToken} = require("../models/index");
-
 const {validateEmail, validatePassword} = require("../validations/auth.validation");
 const {v4: uuidv4} = require("uuid");
 const EmailService = require("../services/email.service");
