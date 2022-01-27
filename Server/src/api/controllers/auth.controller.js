@@ -157,7 +157,6 @@ const refreshToken = (req, res) => {
             message: 'refresh token is required'
         });                            
     }
-
     // console.log(requestToken);
     RefreshToken.findOne({
         where: {
