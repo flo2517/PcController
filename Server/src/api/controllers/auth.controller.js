@@ -247,7 +247,6 @@ const verify = (req, res) =>  {
             message: err.message
         });
     });
-
 }
 
 module.exports = {
