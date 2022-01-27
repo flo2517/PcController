@@ -22,7 +22,8 @@ EmailService.sendVerifyMail = (email, verifyString) => {
             console.log('Email sent: ' , info);
         }
     });
-    
+
+
 }
 
 module.exports = EmailService;
