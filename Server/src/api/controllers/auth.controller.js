@@ -5,7 +5,7 @@ const {RefreshToken} = require("../models/index");
 
 const {validateEmail, validatePassword} = require("../validations/auth.validation");
 const {v4: uuidv4} = require("uuid");
-const {sendVerifyMail} = require("../services/email.service");
+const EmailService = require("../services/email.service");
 
 const register = async (req, res) => {
     let userService;
@@ -52,8 +52,8 @@ const register = async (req, res) => {
             password: encryptedPassword,
             verifyString: unique
         });
-
-        sendVerifyMail(email, unique);
+        
+        EmailService.sendVerifyMail(email, unique);
 
         user.token = jwt.sign({
             id: user.id,
@@ -98,12 +98,12 @@ const login = (req, res) => {
                 });
             }
             
-            // if(user[0].verified === false){
-            //     return res.status(400).json({
-            //         success: false,
-            //         message: 'Please verify your email'
-            //     });
-            // }
+            if(user[0].verified === false){
+                return res.status(400).json({
+                    success: false,
+                    message: 'Please verify your email'
+                });
+            }
 
             bcrypt.compare(password, user[0].password)
                 .then(async isMatch => {
@@ -207,7 +207,7 @@ const refreshToken = (req, res) => {
 };
 
 const verify = (req, res) =>  {
-    const {verifyString} = req.body;
+    const {verifyString} = req.params;
 
     if(!verifyString){
         return res.status(400).json({
@@ -217,7 +217,9 @@ const verify = (req, res) =>  {
     }
 
     const userService = new UserService();
-    userService.getUserByVerifyString(verifyString).then(user => {
+    userService.getUserByVerifyString(verifyString).then(users => {
+        let user = users[0];
+        console.log(user)
         if(!user){
             return res.status(400).json({
                 success: false,
