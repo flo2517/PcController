@@ -40,13 +40,12 @@ app.use(function (req, res, next) {
     next();
 });
 
-const subdomain = require('./src/api/middlewares/subdomain.middleware');
 
-app.use('/', subdomain('remotecontroller', require("./src/api/routes/socket.route")));
-app.use('/', subdomain('remotecontroller', require("./src/api/routes/auth.route")));
-app.use('/device', subdomain('remotecontroller', require("./src/api/routes/device.route")));
-app.use('/user', subdomain('remotecontroller', require("./src/api/routes/user.route")));
-app.use('/doc', subdomain('remotecontroller',oapi.swaggerui));
+app.use('/', require("./src/api/routes/socket.route"));
+app.use('/', require("./src/api/routes/auth.route"));
+app.use('/device', require("./src/api/routes/device.route"));
+app.use('/user', require("./src/api/routes/user.route"));
+app.use('/doc', oapi.swaggerui);
 
 
 server.listen(port, function() {
