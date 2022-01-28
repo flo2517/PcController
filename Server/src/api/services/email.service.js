@@ -30,7 +30,7 @@ EmailService.sendVerifyMail = (email, verifyString) => {
 
 EmailService.sendResetPasswordMail = (email, passwordToken) => {
     let sender = process.env.MAIL_USER;
-    ejs.renderFile(__dirname + '/../../views/emails/welcomeEmail.ejs', {
+    ejs.renderFile(__dirname + '/../../views/emails/forgetPassword.ejs', {
         user_firstname: 'You',
         confirm_link: `http://${process.env.API_HOST}:${process.env.API_PORT}/resetPassword?token=${passwordToken}`
     }).then(function(data) {
