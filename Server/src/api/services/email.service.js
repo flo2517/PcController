@@ -10,7 +10,7 @@ EmailService.sendVerifyMail = (email, verifyString) => {
     let sender = process.env.MAIL_USER;
     ejs.renderFile(__dirname + '/../../views/emails/welcomeEmail.ejs', {
         user_firstname: 'You',
-        confirm_link: `http://${process.env.API_HOST}:${process.env.API_PORT}/verify/${verifyString}"`
+        confirm_link: `http://${process.env.API_HOST}:${process.env.API_PORT}/verify/${verifyString}`
     }).then(function(data) {
         let mailOptions = {
             from: sender,
