@@ -30,21 +30,24 @@ EmailService.sendVerifyMail = (email, verifyString) => {
 
 EmailService.sendResetPasswordMail = (email, passwordToken) => {
     let sender = process.env.MAIL_USER;
-    let mailOptions = {
-        from: sender,
-        to: email,
-        subject: 'Reset your password',
-        text: 'Reset your password',
-        html: `<p>Please reset your password by clicking the link below:</p>
-        <a href="http://${process.env.API_HOST}:${process.env.API_PORT}/resetPassword?token=${passwordToken}">Reset</a>`
-    };
-
-    transporter.sendMail(mailOptions, (error, info) => {
-        if (error) {
-            console.log(error);
-        } else {
-            console.log('Email sent: ' , info);
-        }
+    ejs.renderFile(__dirname + '/../../views/emails/welcomeEmail.ejs', {
+        user_firstname: 'You',
+        confirm_link: `http://${process.env.API_HOST}:${process.env.API_PORT}/resetPassword?token=${passwordToken}`
+    }).then(function(data) {
+        let mailOptions = {
+            from: sender,
+            to: email,
+            subject: 'Reset your password',
+            text: 'Reset your password',
+            html: data
+        };
+        transporter.sendMail(mailOptions, function(error, info) {
+            if (error) {
+                console.log(error);
+            } else {
+                console.log('Email sent: ' + info.response);
+            }
+        });
     });
 }
 
