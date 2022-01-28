@@ -28,6 +28,16 @@ User.init({
         allowNull: true,
         defaultValue: null
     },
+    resetPasswordToken: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
+    resetPasswordExpire: {
+        type: Sequelize.DATE,
+        allowNull: true,
+        defaultValue: null
+    },
 }, {
     sequelize,
     modelName: "user",
@@ -35,15 +45,7 @@ User.init({
     createdAt: true
 });
 
-
-
-console.log("User model loaded", new User());
-
-
-
 sequelize.define("user", User.attributes, User.options);
-
-
 
 module.exports = User;
 

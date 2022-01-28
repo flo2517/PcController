@@ -60,6 +60,14 @@ class UserService {
       },
     });
   }
+
+  async getUserByResetPasswordToken(resetPasswordToken) {
+    return User.findAll({
+      where: {
+        resetPasswordToken: resetPasswordToken,
+      },
+    });
+  }
 }
 
 module.exports = UserService;

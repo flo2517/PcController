@@ -14,6 +14,9 @@ app.use(bodyParser.json({ limit: '100mb' }));
 app.use(bodyParser.urlencoded({ extended: true, limit: '100mb', parameterLimit: 1000000 }));
 app.use(cors());
 app.use(morgan('dev'));
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, '/src/views'));
+
 const server = require('http').createServer(app);
 
 const io = require('socket.io')(server);

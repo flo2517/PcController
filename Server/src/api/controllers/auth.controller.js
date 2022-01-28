@@ -248,9 +248,176 @@ const verify = (req, res) =>  {
     });
 }
 
+const resetPasswordEmail = (req, res) => {
+    const {email} = req.body;
+
+    if (!email) {
+        return res.status(400).json({
+            success: false,
+            message: 'email is required'
+        });
+    }
+
+
+    let userService = new UserService();
+    userService.getUserByEmail(email).then(users => {
+        let user = users[0];
+        if (!user) {
+            return res.status(400).json({
+                success: false,
+                message: 'email is invalid'
+            });
+        }
+        if (!user.verified) {
+            return res.status(400).json({
+                success: false,
+                message: 'user is not verified'
+            });
+        }
+        user.resetPasswordToken = uuidv4();
+        let today = new Date();
+        user.resetPasswordExpire = today.setSeconds(today.getSeconds() + process.env.EXPIRE_TIME)
+        user.save().then(() => {
+            EmailService.sendResetPasswordMail(user.email, user.resetPasswordToken);
+            return res.status(200).json({
+                success: true,
+                message: 'reset password email is sent'
+            });
+        }).catch(err => {
+            return res.status(500).json({
+                success: false,
+                message: err
+            });
+        })
+    });
+
+}
+
+const resetPassword = (req, res) => {
+    console.log(req.body);
+    console.log(req.params);
+
+    const {token, password} = req.body;
+
+    if (!token) {
+        return res.status(400).render('pages/changePassword' ,{
+            success: false,
+            title: 'Reset Password Page',
+            token: token,
+            messages: {
+                error: 'reset password token is required'
+            }
+        });
+    }
+
+    if (!password) {
+        return res.status(400).render('pages/changePassword', {
+            success: false,
+            title: 'Reset Password Page',
+            token: token,
+            messages: {
+                error: 'password is required'
+            }
+        });
+    }
+
+    let userService = new UserService();
+    userService.getUserByResetPasswordToken(token).then(async users => {
+        let user = users[0];
+        if (!user) {
+            return res.status(400).render('pages/changePassword', {
+                success: false,
+                title: 'Reset Password Page',
+                token: token,
+                messages: {
+                    error: 'reset password token is invalid'
+                }
+            });
+        }
+
+        if (!user.verified) {
+
+            return res.status(400).render('pages/changePassword', {
+                success: false,
+                title: 'Reset Password Page',
+                token: token,
+                messages: {
+                    error: 'user has not validate his mail'
+                }
+            })
+        }
+
+        if (user.resetPasswordExpire < new Date()) {
+            return res.status(400).render('pages/changePassword', {
+                success: false,
+                title: 'Reset Password Page',
+                token: token,
+                messages: {
+                    error: 'reset password token is expired'
+                }
+            })
+        }
+        user.password = await bcrypt.hash(password, 10);
+        user.resetPasswordToken = null;
+        user.resetPasswordExpire = null;
+        user.save().then(() => {
+            return res.status(200).render('pages/changePassword', {
+                success: true,
+                title: 'Reset Password Page',
+                token: token,
+                messages: {
+                    success: 'Password has changed'
+                }
+            })
+        }).catch(err => {
+            return res.status(500).render('pages/changePassword', {
+                success: false,
+                title: 'Reset Password Page',
+                token: token,
+                messages: {
+                    error: err
+                }
+            })
+        })
+    }).catch(err => {
+        return res.status(500).render('pages/changePassword', {
+            success: false,
+            title: 'Reset Password Page',
+            token: token,
+            messages: {
+                error: err
+            }
+        })
+    });
+}
+
+const resetPasswordPage = (req, res) => {
+    const {token} = req.query;
+
+    if(!token){
+        return res.status(400).render('pages/changePassword', {
+            title: 'Reset Password Page',
+            token: token,
+            messages: {
+                error: 'token is required'
+            }
+        })
+    }
+
+    return res.status(200).render('pages/changePassword',  {
+        title: 'Reset Password Page',
+        token: token,
+        messages: {
+        }
+    })
+}
+
 module.exports = {
-    login,
     register,
+    login,
     refreshToken,
-    verify
-};
+    verify,
+    resetPasswordEmail,
+    resetPassword,
+    resetPasswordPage
+}

@@ -354,4 +354,12 @@ router.post('/refreshtoken', oapi.path({
 
 router.get('/verify/:verifyString', (req, res) => controller.verify(req, res));
 
+router.post('/resetPasswordMail', (req, res) => controller.resetPasswordEmail(req, res));
+
+router.get('/resetPassword', (req, res) => controller.resetPasswordPage(req, res));
+
+router.post('/resetPassword', (req, res) => controller.resetPassword(req, res));
+
+
+
 module.exports = router;

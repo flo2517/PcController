@@ -25,8 +25,8 @@ Device.belongsTo(sequelize.models.user, {
     targetKey: "id"
 });
 
-User.sync({force: false});
-RefreshToken.sync({force: false});
-Device.sync({force: false});
+// RefreshToken.sync({force: true});
+// Device.sync({force: true});
+// User.sync({force: true});
 
 module.exports =  {User, RefreshToken, Device};
