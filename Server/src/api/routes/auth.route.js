@@ -4,6 +4,7 @@ const controller = require("../controllers/auth.controller");
 let router = require("express").Router();
 
 const oapi = require("../../config/openapi.config");
+const {error400, error401, error403, error500} = require("../helpers/errorsList.helper");
 
 router.post('/register', oapi.path({
     tags: ['Auth'],
@@ -354,7 +355,55 @@ router.post('/refreshtoken', oapi.path({
 
 router.get('/verify/:verifyString', (req, res) => controller.verify(req, res));
 
-router.post('/resetPasswordMail', (req, res) => controller.resetPasswordEmail(req, res));
+router.post('/resetPasswordMail', oapi.path({
+    description: 'Send reset password email',
+    summary: 'Send reset password email',
+    tags: ['Auth'],
+    parameters: [
+        {
+            name: 'body',
+            in: 'body',
+            description: 'Email address',
+            required: true,
+            schema: {
+                type: 'object',
+                properties: {
+                    email: {
+                        type: 'string',
+                        description: 'Email address',
+                        example: 'john@doe.fr'
+                    }
+                }
+            }
+        }
+    ],
+    responses: {
+        200: {
+            description: 'Success',
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'object',
+                        properties: {
+                            message: {
+                                type: 'string',
+                                description: 'Success message',
+                                example: 'Reset password email is sent'
+                            },
+                            success: {
+                                type: 'boolean',
+                                description: 'Success status',
+                                example: true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        400: error400,
+        500: error500
+    }
+}), (req, res) => controller.resetPasswordEmail(req, res));
 
 router.get('/resetPassword', (req, res) => controller.resetPasswordPage(req, res));
 
