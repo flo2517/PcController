@@ -48,7 +48,6 @@ const add = (req, res) => {
     });
 }
 
-
 const update = (req, res) => {
 
     const {uuid, name} = req.body;
@@ -80,6 +79,7 @@ const update = (req, res) => {
         });
     });
 }
+
 const del = (req, res) => {
 
     const {uuid} = req.body;
@@ -111,12 +111,24 @@ const del = (req, res) => {
     });
 }
 
-
 const getAll = (req, res) => {
 
     const deviceService = new DeviceService();
 
     deviceService.getAll(req.decoded.id).then(devices => {
+        let connected = req.app.get('client');
+        let uuids = Object.keys(connected);
+        devices.forEach((device, index) => {
+            if(uuids.length === 0) {
+                devices[index].dataValues.isOnline = false;
+            } else if (uuids.find(client => {
+                return client === device.dataValues.uuid
+            })) {
+                devices[index].dataValues.isOnline = true;
+            } else {
+                device[index].dataValues.isOnline = false;
+            }
+        });
         return res.status(200).json({
             success: true,
             message: 'Devices retrieved successfully',

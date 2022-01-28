@@ -270,13 +270,15 @@ router.get("/getAll", oapi.path({
                                         id: 1,
                                         uuid: "5e8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8",
                                         name: "My device",
-                                        userId: 1
+                                        userId: 1,
+                                        isOnline: false
                                     },
                                     {
                                         id: 2,
                                         uuid: "5e8f8f8f-8f8f-8f8f-8f8f-8f8f8f8f8f8",
                                         name: "My device",
-                                        userId: 1
+                                        userId: 1,
+                                        isOnline: true
                                     }
                                 ]
                             }
