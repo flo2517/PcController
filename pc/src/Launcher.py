@@ -64,12 +64,15 @@ class Launcher:
 
     # Authentication with server
     def httpConnect(self):
+        Login(self.userData, "")
+        """
         rqt = HttpsRequest()
         # Try to auto-connect to server
         res = rqt.login(self.userData.getUserID(), self.userData.getUserPassword())
         if not res[0]:
             # Manually connect to server
             Login(self.userData, res[1])
+        """
 
     # Launch socket connection
     def socketConnect(self):

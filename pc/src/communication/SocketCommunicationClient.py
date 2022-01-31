@@ -22,8 +22,7 @@ class SocketCommunication:
 
         self.callBack()
 
-        # await sio.connect("http://thrallweb.fr:8080/")
-        await sio.connect("laurahost.fr:8080/")
+        await sio.connect("http://thrallweb.fr:8080/")
 
 
         await sio.wait()
@@ -53,10 +52,10 @@ class SocketCommunication:
 
         @sio.on('error')
         async def error(msg):
+            rqt = HttpsRequest()
             print(msg)
             print("Error : " + msg['message'])
             if msg['message'] == 'Unauthorized! Access Token was expired!':
-                rqt = HttpsRequest()
                 res = rqt.refreshToken(self.localUserData.getServerToken())
                 if res[0]:
                     self.localUserData.setServerToken(res[1])
@@ -69,6 +68,12 @@ class SocketCommunication:
                     else:
                         await sio.disconnect()
                         print('Error : ' + res[1])
+            if msg['message'] == "User has no devices":
+                res = rqt.addDevice(self.localUserData)
+                if not res:
+                    await sio.disconnect()
+                    print('Error : Can\'t add device')
+                    return
 
         # In background of socket communication check
         # on shared memory if connection need to be ended

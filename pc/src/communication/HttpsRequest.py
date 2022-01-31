@@ -1,11 +1,12 @@
+import os
+
 import requests
 
 
 class HttpsRequest:
 
     def __init__(self):
-        # self.address = "http://thrallweb.fr:8080/"
-        self.address = "laurahost.fr:8080/"
+        self.address = "http://thrallweb.fr:8080/"
 
     # Send register request to server
     def register(self, email, password):
@@ -44,9 +45,10 @@ class HttpsRequest:
             return [False, requestResult["message"]]
 
     # Send change password request to server
-    def changePassword(self, oldPassword, newPassword):
+    def changePassword(self, oldPassword, newPassword, token):
+        header = token
         pload = {"oldPassword": oldPassword, "newPassword": newPassword}
-        r = requests.post(self.address + "user/changePassword", data=pload)
+        r = requests.post(self.address + "user/changePassword", data=pload, headers=header)
         requestResult = r.json()
         if requestResult['message'] == "Password changed successfully":
             print(requestResult["message"])
@@ -74,7 +76,20 @@ class HttpsRequest:
         requestResult = r.json()
         if requestResult['success']:
             print(requestResult["message"])
+            return [True, requestResult["message"]]
+        else:
+            print("Error : Mail send failed cause of \"" + requestResult['message'] + "\"")
+            return [True, "Error : Mail send failed cause of \"" + requestResult['message'] + "\""]
+
+    # Send request to add new device to server
+    def addDevice(self, userData):
+        header = userData.getJwtToken()
+        pload = {"uuid": userData.getServerToken(), "name": os.environ['COMPUTERNAME']}
+        r = requests.post(self.address + "device/add", data=pload, headers=header)
+        requestResult = r.json()
+        if requestResult["success"]:
+            print(requestResult["message"])
             return True
         else:
-            print("Error : Account deleted failed cause of \"" + requestResult['message'] + "\"")
+            print(requestResult["message"])
             return False
