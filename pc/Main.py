@@ -1,3 +1,8 @@
-import Launcher
+from pc.src.Launcher import Launcher
 
-test = Launcher()
+restart = True
+
+while restart:
+    restart = False
+    app = Launcher()
+    restart = app.getRestartValue()
