@@ -69,10 +69,14 @@ class SocketCommunication:
                         await sio.disconnect()
                         print('Error : ' + res[1])
             if msg['message'] == "User has no devices":
+                print("Adding device...")
                 res = rqt.addDevice(self.localUserData)
-                if not res:
-                    await sio.disconnect()
+                if res:
+                    pload = json.dumps({"token": self.localUserData.getToken(), "user": self.localUserData.getJwtToken()})
+                    await sio.emit('source', pload)
+                else:
                     print('Error : Can\'t add device')
+                    await sio.disconnect()
                     return
 
         # In background of socket communication check

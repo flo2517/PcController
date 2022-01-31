@@ -46,7 +46,7 @@ class HttpsRequest:
 
     # Send change password request to server
     def changePassword(self, oldPassword, newPassword, token):
-        header = token
+        header = {'x-access-token': token}
         pload = {"oldPassword": oldPassword, "newPassword": newPassword}
         r = requests.post(self.address + "user/changePassword", data=pload, headers=header)
         requestResult = r.json()
@@ -83,8 +83,8 @@ class HttpsRequest:
 
     # Send request to add new device to server
     def addDevice(self, userData):
-        header = userData.getJwtToken()
-        pload = {"uuid": userData.getServerToken(), "name": os.environ['COMPUTERNAME']}
+        header = {'x-access-token': userData.getJwtToken()}
+        pload = {"uuid": userData.getToken(), "name": os.environ['COMPUTERNAME']}
         r = requests.post(self.address + "device/add", data=pload, headers=header)
         requestResult = r.json()
         if requestResult["success"]:
