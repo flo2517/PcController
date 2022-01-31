@@ -13,6 +13,16 @@ class Login:
     def onClosing():
         sys.exit(0)
 
+    # Send change password https request
+    def forgetPassword(self):
+        self.errorMessage.set("")
+        if self.username.get() == "":
+            self.errorMessage.set("Please fill in the email field")
+        rqt = HttpsRequest()
+        r = rqt.passwordForget(self.username.get())
+        self.errorMessage.set(r[1])
+        return
+
     # Check mail address by using regex
     def checkMail(self, mail):
         if len(mail) > 255:
@@ -57,6 +67,7 @@ class Login:
             self.errorMessage.set("Error : "+res[1])
             self.errorMessage.set("Error : "+res[1])
             return False
+
     # Change window for registering
     def register(self):
         # Hide window
@@ -72,9 +83,12 @@ class Login:
         self.loginWin.title("Login")
 
         self.errorMessage = StringVar()
-        self.errorMessage.set("Error : "+errorMessage)
+        if not errorMessage == "":
+            self.errorMessage.set("Error : "+errorMessage)
+        else:
+            self.errorMessage.set(errorMessage)
 
-        self.loginWin.geometry("500x420")
+        self.loginWin.geometry("500x480")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
         # Add action on window close event
@@ -96,11 +110,14 @@ class Login:
         self.password.config(show="●")
         self.password.pack(pady=(0, 15))
 
+        # Add forget password button
+        Button(self.loginWin, text="Password forget", font=("Arial", 15), bg="#21a6ff", relief="flat", command=self.forgetPassword).pack(padx=(230, 15))
+
         # Add login button
         Button(self.loginWin, text="login", font=("Arial", 25), borderwidth=1, relief="solid",
-               command=self.getUserData).pack(side=LEFT, pady=20, padx=(140, 20))
+               command=self.getUserData).pack(side=LEFT, pady=(5, 20), padx=(140, 20))
         # Add register button
         Button(self.loginWin, text="register", font=("Arial", 20), bg="#21a6ff", relief="flat",
-               command=self.register).pack(side=RIGHT, pady=20, padx=(15, 130))
+               command=self.register).pack(side=RIGHT, pady=(5, 20), padx=(15, 130))
 
         self.loginWin.mainloop()

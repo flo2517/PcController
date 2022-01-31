@@ -71,6 +71,7 @@ class Launcher:
             # Manually connect to server
             Login(self.userData, res[1])
 
+
     # Launch socket connection
     def socketConnect(self):
         asyncio.run(self.comSock.task())

@@ -41,7 +41,7 @@ class ChangePassword:
 
     # Send change password request to server
     def sendRequest(self):
-        res = self.rqt.changePassword(self.oldPassword.get(), self.newPassword1.get())
+        res = self.rqt.changePassword(self.oldPassword.get(), self.newPassword1.get(), self.userData.getJwtToken())
         return res
 
     # Check data and send request to server
