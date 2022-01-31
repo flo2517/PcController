@@ -409,5 +409,4 @@ router.get('/resetPassword', (req, res) => controller.resetPasswordPage(req, res
 
 router.post('/resetPassword', (req, res) => controller.resetPassword(req, res));
 
-
 module.exports = router;

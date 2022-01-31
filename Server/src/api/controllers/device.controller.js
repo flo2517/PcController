@@ -15,7 +15,8 @@ const add = (req, res) => {
     const deviceService = new DeviceService();
 
     deviceService.getByUuid(uuid).then(device => {
-        if (device) {
+        console.log(device);
+        if (device.length > 0) {
             return res.status(400).json({
                 success: false,
                 message: 'Device already exists'
