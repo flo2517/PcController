@@ -24,7 +24,7 @@ const CLIENT = {};
 
 app.set('client', CLIENT);
 
-require('dotenv').config({path : path.resolve(process.cwd(), './Server/.env')});
+require('dotenv').config({path : path.join(__dirname, '/.env')});
 
 const oapi = require('./src/config/openapi.config');
 const uuidValidation = require("./src/api/validations/uudi.validation");
@@ -40,9 +40,9 @@ app.use(function (req, res, next) {
     next();
 });
 
-
 app.use('/', require("./src/api/routes/socket.route"));
 app.use('/', require("./src/api/routes/auth.route"));
+app.use('/', require("./src/api/routes/pages.route"));
 app.use('/device', require("./src/api/routes/device.route"));
 app.use('/user', require("./src/api/routes/user.route"));
 app.use('/doc', oapi.swaggerui);
