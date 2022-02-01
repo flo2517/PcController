@@ -254,7 +254,7 @@ const resetPasswordEmail = (req, res) => {
     if (!email) {
         return res.status(400).json({
             success: false,
-            message: 'email is required'
+            message: 'Email is required'
         });
     }
 
@@ -265,13 +265,13 @@ const resetPasswordEmail = (req, res) => {
         if (!user) {
             return res.status(400).json({
                 success: false,
-                message: 'email is invalid'
+                message: 'Email is invalid'
             });
         }
         if (!user.verified) {
             return res.status(400).json({
                 success: false,
-                message: 'user is not verified'
+                message: 'User is not verified'
             });
         }
         user.resetPasswordToken = uuidv4();
@@ -281,7 +281,7 @@ const resetPasswordEmail = (req, res) => {
             EmailService.sendResetPasswordMail(user.email, user.resetPasswordToken);
             return res.status(200).json({
                 success: true,
-                message: 'reset password email is sent'
+                message: 'Reset password email is sent'
             });
         }).catch(err => {
             return res.status(500).json({
