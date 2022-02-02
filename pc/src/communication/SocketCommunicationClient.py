@@ -71,7 +71,7 @@ class SocketCommunication:
                     else:
                         sio.disconnect()
                         print('Error : ' + res[1])
-            if msg['message'] == "User has no devices":
+            if msg['message'] == "User has no devices" or "Device not found":
                 print("Adding device...")
                 res = rqt.addDevice(self.localUserData)
                 if res:

@@ -78,7 +78,6 @@ class Launcher:
     # Launch socket connection
     def socketConnect(self):
         self.comSock.launchCom()
-        # asyncio.run(self.comSock.task())
 
     # Launch setup window
     def setupWindow(self):
