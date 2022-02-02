@@ -17,7 +17,7 @@ class Launcher:
         # Shared memory to communicate with setup window
         shmWin = sm.SharedMemory(create=True, size=128)
         self.shmSetupWin = shmWin.buf
-        self.shmSetupWin[0] = 0 # 0 = do nothing
+        self.shmSetupWin[0] = 0  # 0 = do nothing
 
         # Shared memory to communicate with the socket program
         shmSocket = sm.SharedMemory(create=True, size=128)
@@ -48,6 +48,8 @@ class Launcher:
             shmWin.unlink()
             self.shmSock[0] = 1
             self.threadSocket.join()
+            shmSocket.close()
+            shmSocket.unlink()
             self.userData.delUser()
             self.restart = True
             return
@@ -61,6 +63,8 @@ class Launcher:
             sys.exit(0)
 
         self.threadSocket.join()
+        shmSocket.close()
+        shmSocket.unlink()
 
     # Authentication with server
     def httpConnect(self):
@@ -71,10 +75,10 @@ class Launcher:
             # Manually connect to server
             Login(self.userData, res[1])
 
-
     # Launch socket connection
     def socketConnect(self):
-        asyncio.run(self.comSock.task())
+        self.comSock.launchCom()
+        # asyncio.run(self.comSock.task())
 
     # Launch setup window
     def setupWindow(self):
