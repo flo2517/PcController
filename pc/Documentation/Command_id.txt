@@ -1,0 +1,9 @@
+Command id -> Corresponding command
+0 -> nothing
+1 -> shutdown pc
+2 -> turn volume up
+3 -> turn volume down
+4 -> mute volume
+5 -> pause/play the music
+6 -> pause the music
+7 -> lock the pc

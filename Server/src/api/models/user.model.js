@@ -9,10 +9,6 @@ User.init({
         primaryKey: true,
         autoIncrement: true
     },
-    username: {
-        type: Sequelize.STRING,
-        allowNull: false,
-    },
     email: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -22,6 +18,26 @@ User.init({
         type: Sequelize.STRING,
         allowNull: false,
     },
+    verified: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+    verifyString: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
+    resetPasswordToken: {
+        type: Sequelize.STRING,
+        allowNull: true,
+        defaultValue: null
+    },
+    resetPasswordExpire: {
+        type: Sequelize.DATE,
+        allowNull: true,
+        defaultValue: null
+    },
 }, {
     sequelize,
     modelName: "user",
@@ -29,15 +45,7 @@ User.init({
     createdAt: true
 });
 
-
-
-console.log("User model loaded", new User());
-
-
-
 sequelize.define("user", User.attributes, User.options);
-
-
 
 module.exports = User;
 

@@ -10,19 +10,19 @@ const verifyToken = (req, res, next) => {
             message: 'No token provided.'
         });
     }
-    console.log(token);
+    // console.log(token);
     jwt.verify(token, config.TOKEN_KEY, (err, decoded) => {
         if(err) {
             console.log(err);
             if (err instanceof TokenExpiredError) {
                 return res.status(401).send({ message: "Unauthorized! Access Token was expired!" });
             }
-            return res.status(401).send({
+            return res.status(402).send({
                 success: false,
                 message: 'Failed to authenticate token.'
             });
         }
-        console.log(decoded);
+        // console.log(decoded);
         req.decoded = decoded;
         next();
     });
