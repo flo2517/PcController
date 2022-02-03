@@ -1,7 +1,9 @@
+import asyncio
 import socketio
 import json
-from pc.src.communication.HttpsRequest import HttpsRequest
-from pc.src.executors.Executor import Executor
+
+from src.communication.HttpsRequest import HttpsRequest
+from src.osExecutors.Executor import Executor
 
 sio = socketio.Client()
 
@@ -14,6 +16,8 @@ class SocketCommunication:
         self.shmSock = shmSock
         self.serverAddress = "http://pandapp.thrallweb.fr/"
 
+    async def task(self):
+        await asyncio.gather(self.launchCom())
 
     def launchCom(self):
         self.callBack()
