@@ -2,8 +2,8 @@ import asyncio
 import socketio
 import json
 
-from pc.src.communication.HttpsRequest import HttpsRequest
-from pc.src.osExecutors.Executor import Executor
+from src.communication.HttpsRequest import HttpsRequest
+from src.osExecutors.Executor import Executor
 
 sio = socketio.AsyncClient()
 

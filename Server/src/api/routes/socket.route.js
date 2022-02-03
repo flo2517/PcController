@@ -1,4 +1,3 @@
-
 const controller = require("../controllers/socketApi.controller");
 const oapi = require("../../config/openapi.config");
 const auth = require('../middlewares/auth.middleware');
@@ -216,5 +215,133 @@ router.get("/lock/:id", auth, socket, oapi.path({
         }
     }
 }), (req, res) => controller.lock(req, res))
+
+router.get("/next-music/:id", auth, socket, oapi.path({
+    tags: ["socket"],
+    summary: "Next music",
+    description: "Next music",
+    parameters: [
+        {
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
+            }
+        },
+        {
+            name: "id",
+            in: "path",
+            description: "Device ID",
+            required: true,
+            type: "string"
+        }
+    ],
+    responses: {
+        200: {
+            description: "Success",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Success message",
+                                example: "Next music"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        400: error400,
+        401: error401,
+        403: error403,
+        404: {
+            description: "Device not found",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Error message",
+                                example: "Device not found"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}), controller.next);
+
+router.get("/previous-music/:id", auth, socket, oapi.path({
+    tags: ["socket"],
+    summary: "Previous music",
+    description: "Previous music",
+    parameters: [
+        {
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
+            }
+        },
+        {
+            name: "id",
+            in: "path",
+            description: "Device ID",
+            required: true,
+            type: "string"
+        }
+    ],
+    responses: {
+        200: {
+            description: "Success",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Success message",
+                                example: "Previous music"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        400: error400,
+        401: error401,
+        403: error403,
+        404: {
+            description: "Device not found",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Error message",
+                                example: "Device not found"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}), controller.previous);
 
 module.exports = router;
