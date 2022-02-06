@@ -14,11 +14,11 @@ import '../input_validator.dart';
 class signIn extends StatefulWidget {
   final String url;
   information infos;
- signIn({
-   Key? key,
-   required this.url,
-   required this.infos
- }) : super(key: key);
+  signIn({
+    Key? key,
+    required this.url,
+    required this.infos
+  }) : super(key: key);
 
   @override
   _signIn createState() => _signIn();
@@ -43,13 +43,13 @@ class _signIn extends State<signIn> {
     log(response.statusCode.toString());
     log(response.body);
     if(response.statusCode ==200){
-      showAlertDialog(context, "Success, now login to continue","Sign up",sign: true);
+      showAlertDialog(context, "Success\nA validation email was send, click the link then login to continue","Sign up",sign: true);
 
     }
 
 
   }
- 
+
   Widget buildEmail() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -222,9 +222,9 @@ class _signIn extends State<signIn> {
           //     builder: (context)=>Remote()
           // ))
           print(_emailCo.text + " " + _pswdCo.text ),
-        if(EmailValidator.Validate(_emailCo.text,context) && PasswordValidator.Validate(_pswdCo.text, context)){
-          signInRequest()
-        }
+          if(EmailValidator.Validate(_emailCo.text,context) && PasswordValidator.Validate(_pswdCo.text, context)){
+            signInRequest()
+          }
           //Navigator.push(context, MaterialPageRoute(builder: (context)=> Remote()))
         },
         padding: EdgeInsets.all(15),
@@ -277,10 +277,10 @@ class _signIn extends State<signIn> {
                         begin: Alignment.topCenter,
                         end: Alignment.bottomCenter,
                         colors: [
-                      Colors.blue,
-                      Colors.blue[300]!,
-                      Colors.blue[100]!,
-                    ])),
+                          Colors.blue,
+                          Colors.blue[300]!,
+                          Colors.blue[100]!,
+                        ])),
                 child: SingleChildScrollView(
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 120),
                   child: Column(
