@@ -9,6 +9,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_app/information.dart';
 import 'package:http/http.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import '../input_validator.dart';
 import 'control_page.dart';
 import 'login_page.dart';
 
@@ -49,7 +51,18 @@ class computer_chose extends StatefulWidget {
 class _computer_choseState extends State<computer_chose> {
   List<dynamic> devices = <dynamic>[];
   bool fetched = false;
+  void snackBarMessage(String msg){
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content:  Text(msg),
+      duration: const Duration(seconds: 5),
+      // action: SnackBarAction(
+      //   label: 'ACTION',
+      //   onPressed: () { },
+      // ),
+    ));
+  }
 
+  ///retreive all device of the connected user
   void getAllDevices() async {
     try {
       log(widget.url);
@@ -57,6 +70,33 @@ class _computer_choseState extends State<computer_chose> {
       final response = await get(Uri.parse(widget.url + "/device/getAll"),
           headers: {"x-access-token": widget.infos.token});
       final jsonData = jsonDecode(response.body);
+
+
+      // ///if token expired
+      // if(response.statusCode == 401){
+      //   log("token expiré");
+      //   var refresh = await post(Uri.parse(widget.url+"/login"),body: {
+      //     "refreshToken" : widget.infos.refreshToken["token"]
+      //   });
+      //   final jsonToken = jsonDecode(refresh.body);
+      //   ///if refresh token has expired
+      //   if(refresh.statusCode == 403){
+      //     log("refresh espiré");
+      //     showAlertDialog(context, "Token expired, please login again","Get device",sign: true);
+      //   }if(refresh.statusCode != 200){
+      //
+      //     snackBarMessage(jsonToken["message"]);
+      //   }else{
+      //     widget.infos.token = jsonToken["accessToken"];
+      //     widget.infos.updateJson();
+      //     snackBarMessage(jsonToken["Token récupéré, reload"]);
+      //
+      //   }
+      //
+      //
+      // }
+
+
       log("success");
       log(response.statusCode.toString());
       log(response.body);
@@ -151,25 +191,25 @@ class _computer_choseState extends State<computer_chose> {
             value: SystemUiOverlayStyle.light,
             child: GestureDetector(
                 child: Stack(children: <Widget>[
-              Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                        begin: Alignment.topCenter,
-                        end: Alignment.bottomCenter,
-                        colors: [
-                      Colors.blue,
-                      Colors.blue[300]!,
-                      Colors.blue[100]!,
-                    ])),
-                child: SingleChildScrollView(
-                  padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                  child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: allComputer()),
-                ),
-              ),
-            ]))));
+                  Container(
+                    height: double.infinity,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.blue,
+                              Colors.blue[300]!,
+                              Colors.blue[100]!,
+                            ])),
+                    child: SingleChildScrollView(
+                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: allComputer()),
+                    ),
+                  ),
+                ]))));
   }
 }

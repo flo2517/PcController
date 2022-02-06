@@ -4,3 +4,4 @@ desktop.ini
 /node_modules/
 /pc/userData.json
 /pc/commandHistory.log
+Server/package-lock.json
