@@ -16,6 +16,9 @@ class information {
    var computerId;
    String? computerName;
 
+   void setToken(token){
+      this.token = token;
+   }
 
    void setToken(token){
       this.token = token;

@@ -60,13 +60,34 @@ class _forgotPassState extends State<forgotPass> {
 
       print(response.body);
 
+      if(response.statusCode==200){
+        widget.infos.connexion(jsonDecode(response.body), _emailCo.text,  _pswdCo.text);
+        widget.infos.print();
+        if(rememberMe) {
+          log(json.encode(widget.infos.toJson()));
+          widget.infos.updateJson();
+
+          //prefs.setString("infos", json.encode(widget.infos.toJson()));
+          // prefs.setString("email", _emailCo.text);
+          // prefs.setString("password", _pswdCo.text);
+        }
+        else {
+          //   prefs.remove("email");
+          //   prefs.remove("password");
+          //
+          // prefs.remove("infos");
+          widget.infos.deleteJson();
+        }
 
         Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
 
 
         return;
+      }else{
+        snackBarMessage(jsonDecode(response.body)["message"]);
+        return;
       }
-     catch (err) {
+    } catch (err) {
       log(err.toString());
 
     }
@@ -80,7 +101,13 @@ class _forgotPassState extends State<forgotPass> {
       child: RaisedButton(
         elevation: 5,
         onPressed: ()=> {
-
+          // Navigator.of(context).(MaterialPageRoute(
+          //     builder: (context)=>Remote()
+          // ))
+          print(_emailCo.text+" "+_pswdCo.text),
+          if(EmailValidator.Validate(_emailCo.text,context) && PasswordValidator.Validate(_pswdCo.text, context)){
+            loginRequest()
+          }
 
         } ,
         padding: EdgeInsets.all(15),

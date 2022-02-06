@@ -15,6 +15,8 @@ import 'package:flutter_app/pages/sign_in.dart';
 import 'package:http/http.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'forget_password.dart';
+
 class login extends StatefulWidget {
   final String url;
   information infos;
@@ -93,40 +95,45 @@ class _loginState extends State<login> {
   }
 
   void loginRequest() async{
-    var response = await post(Uri.parse(widget.url+"/login"),body: {
-      "email" : _emailCo.text,
-      "password" : _pswdCo.text
-    });
-    log(response.body);
+    try {
+      var response = await post(Uri.parse(widget.url+"/login"),body: {
+        "email" : _emailCo.text,
+        "password" : _pswdCo.text
+      });
+      log(response.body);
 
-    print(response.body);
+      print(response.body);
 
-    if(response.statusCode==200){
-      widget.infos.connexion(jsonDecode(response.body), _emailCo.text,  _pswdCo.text);
-      widget.infos.print();
-      if(rememberMe) {
-        log(json.encode(widget.infos.toJson()));
-        widget.infos.updateJson();
+      if(response.statusCode==200){
+        widget.infos.connexion(jsonDecode(response.body), _emailCo.text,  _pswdCo.text);
+        widget.infos.print();
+        if(rememberMe) {
+          log(json.encode(widget.infos.toJson()));
+          widget.infos.updateJson();
 
-        //prefs.setString("infos", json.encode(widget.infos.toJson()));
-        // prefs.setString("email", _emailCo.text);
-        // prefs.setString("password", _pswdCo.text);
+          //prefs.setString("infos", json.encode(widget.infos.toJson()));
+          // prefs.setString("email", _emailCo.text);
+          // prefs.setString("password", _pswdCo.text);
+        }
+        else {
+          //   prefs.remove("email");
+          //   prefs.remove("password");
+          //
+          // prefs.remove("infos");
+          widget.infos.deleteJson();
+        }
+
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
+
+
+        return;
+      }else{
+        snackBarMessage(jsonDecode(response.body)["message"]);
+        return;
       }
-      else {
-        //   prefs.remove("email");
-        //   prefs.remove("password");
-        //
-        // prefs.remove("infos");
-        widget.infos.deleteJson();
-      }
+    } catch (err) {
+      log(err.toString());
 
-      Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
-
-
-      return;
-    }else{
-      snackBarMessage(jsonDecode(response.body)["message"]);
-      return;
     }
   }
 
@@ -253,8 +260,9 @@ class _loginState extends State<login> {
       alignment: Alignment.centerRight,
       child: FlatButton(
         onPressed:( ) =>{
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> forgotPass(url : widget.url, infos : widget.infos)))
 
-        },
+      },
         padding: EdgeInsets.only(right: 0),
         child: Text(
           'Forgotten password ?',

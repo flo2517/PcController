@@ -163,12 +163,8 @@ class _RemoteState extends State<Remote> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  SizedBox(height: 20.0),
-                  Text('Device : '+widget.infos.computerName!, style: TextStyle(fontSize: 20,
-                      color: Colors.white)),
                   SizedBox(
                     height: 100,
-
 
                     ///volume
                     child: Row(
