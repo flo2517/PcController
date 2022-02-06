@@ -20,7 +20,7 @@ class login extends StatefulWidget {
   information infos;
   // login({Key? key}) :
 
-   login({
+  login({
     Key? key,
     required this.url,
     required this.infos
@@ -39,30 +39,30 @@ class _loginState extends State<login> {
   TextEditingController _pswdCo = TextEditingController();
   late SharedPreferences prefs;
 
-@override
+  @override
   void initState() {
-      getData();
+    getData();
 
 
 
   }
   getData() async{
-     prefs = await SharedPreferences.getInstance();
+    prefs = await SharedPreferences.getInstance();
 
 
     setState(() {
-       // var mail = prefs.getString("email");
-       // var pass = prefs.getString("password");
-       // if(mail != null){
-       //   _emailCo.text = mail;
-       // }
-       // if(pass !=null){
-       //   _pswdCo.text = pass;
-       // }
-       // if(mail!= null && pass!=null){
-       //
-       //   loginRequest();
-       // }
+      // var mail = prefs.getString("email");
+      // var pass = prefs.getString("password");
+      // if(mail != null){
+      //   _emailCo.text = mail;
+      // }
+      // if(pass !=null){
+      //   _pswdCo.text = pass;
+      // }
+      // if(mail!= null && pass!=null){
+      //
+      //   loginRequest();
+      // }
       var jsonInfo = prefs.getString("infos");
       if(jsonInfo !=null){
         widget.infos.fromJson(json.decode(jsonInfo));
@@ -76,7 +76,7 @@ class _loginState extends State<login> {
         }
       }
 
-   });
+    });
 
 
   }
@@ -106,24 +106,27 @@ class _loginState extends State<login> {
       widget.infos.print();
       if(rememberMe) {
         log(json.encode(widget.infos.toJson()));
-        prefs.setString("infos", json.encode(widget.infos.toJson()));
+        widget.infos.updateJson();
+
+        //prefs.setString("infos", json.encode(widget.infos.toJson()));
         // prefs.setString("email", _emailCo.text);
         // prefs.setString("password", _pswdCo.text);
       }
       else {
-      //   prefs.remove("email");
-      //   prefs.remove("password");
-      //
-       // prefs.remove("infos");
-       }
+        //   prefs.remove("email");
+        //   prefs.remove("password");
+        //
+        // prefs.remove("infos");
+        widget.infos.deleteJson();
+      }
 
       Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
 
 
       return;
     }else{
-     snackBarMessage(jsonDecode(response.body)["message"]);
-     return;
+      snackBarMessage(jsonDecode(response.body)["message"]);
+      return;
     }
   }
 
@@ -310,50 +313,50 @@ class _loginState extends State<login> {
         } ,
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15)
+            borderRadius: BorderRadius.circular(15)
         ),
-          color: Colors.white,
+        color: Colors.white,
         child: Text(
           'Login',
           style: TextStyle(
-            color : Colors.blue,
-            fontSize: 18,
-            fontWeight: FontWeight.bold
+              color : Colors.blue,
+              fontSize: 18,
+              fontWeight: FontWeight.bold
           ),
         ) ,
       ),
     );
   }
   Widget buildSignupBtn(){
-      return GestureDetector(
-        onTap: ()=> {
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> signIn(url : widget.url, infos : widget.infos)))
-        },
-        child: RichText(
+    return GestureDetector(
+      onTap: ()=> {
+        Navigator.push(context, MaterialPageRoute(builder: (context)=> signIn(url : widget.url, infos : widget.infos)))
+      },
+      child: RichText(
           text : TextSpan (
-            children: [
-              TextSpan(
-                text: "Pas de compte ? ",
-                style : TextStyle(
-                  color : Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500
+              children: [
+                TextSpan(
+                    text: "Pas de compte ? ",
+                    style : TextStyle(
+                        color : Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w500
 
+                    )
+                ),
+                TextSpan(
+                    text: 'S\'inscrire',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold
+                    )
                 )
-              ),
-              TextSpan(
-                text: 'S\'inscrire',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 18,
-                  fontWeight: FontWeight.bold
-                )
-              )
-            ]
+              ]
           )
-        ),
-      );
-}
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -367,46 +370,46 @@ class _loginState extends State<login> {
                 height: double.infinity,
                 width: double.infinity,
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.blue,
-                      Colors.blue[300]!,
-                      Colors.blue[100]!,
+                    gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.blue,
+                          Colors.blue[300]!,
+                          Colors.blue[100]!,
 
-                    ]
-                  )
+                        ]
+                    )
                 ),
-               child: SingleChildScrollView(
+                child: SingleChildScrollView(
 
-                 padding: EdgeInsets.symmetric(
-                   horizontal: 25,
-                   vertical: 120
-                 ),
-                 child: Column(
-                   mainAxisAlignment: MainAxisAlignment.center,
-                   children: <Widget>[
-                     Text(
-                       "Se connecter",
-                       style : TextStyle(
-                           color : Colors.white,
-                           fontSize: 40,
-                           fontWeight: FontWeight.bold
-                       ),
-                     ),
-                     SizedBox(height: 50),
-                     buildEmail(),
-                     SizedBox(height: 20),
+                  padding: EdgeInsets.symmetric(
+                      horizontal: 25,
+                      vertical: 120
+                  ),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: <Widget>[
+                      Text(
+                        "Login",
+                        style : TextStyle(
+                            color : Colors.white,
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(height: 50),
+                      buildEmail(),
+                      SizedBox(height: 20),
 
-                     buildPassword(),
-                     buildForgotPassBtn(),
-                     buildRemember(),
-                     buildLoginBtn(),
-                     buildSignupBtn()
-                   ],
-                 ),
-               ),
+                      buildPassword(),
+                      buildForgotPassBtn(),
+                      buildRemember(),
+                      buildLoginBtn(),
+                      buildSignupBtn()
+                    ],
+                  ),
+                ),
               )
             ],
           ),

@@ -1,4 +1,7 @@
+import 'dart:convert';
 import 'dart:developer';
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class information {
 
@@ -44,6 +47,16 @@ class information {
       refreshToken = json['refreshToken'];
       computerId = json['computerId'];
 
+   }
+
+   void updateJson () async{
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("infos", json.encode(toJson()));
+   }
+
+   void deleteJson() async {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.remove("infos");
    }
 
 

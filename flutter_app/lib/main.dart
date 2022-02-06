@@ -16,23 +16,23 @@ void main(){
 }
 
 class MyApp extends StatelessWidget {
- //final String url  ="http://192.168.93.35:8080";
-   String url = "http://thrallweb.fr:8080";
- information infos = information();
+  // final String url  ="http://192.168.0.232:8080";
+  final String url = "http://local.thrallweb.fr:8080";
+  information infos = information();
 
- MyApp({Key? key}) {
+  MyApp({Key? key}) {
 
     getData();
- }
-void getData ()async{
-   log("iciiiiii");
-   SharedPreferences prefs = await SharedPreferences.getInstance();
-   var jsonInfo = prefs.getString("infos");
-   if(jsonInfo !=null){
-     infos.fromJson(json.decode(jsonInfo));
-     log(jsonInfo);
-   }
-}
+  }
+  void getData ()async{
+
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var jsonInfo = prefs.getString("infos");
+    if(jsonInfo !=null){
+      infos.fromJson(json.decode(jsonInfo));
+      log(jsonInfo);
+    }
+  }
 
 
 
