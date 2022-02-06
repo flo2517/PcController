@@ -186,7 +186,7 @@ const refreshToken = (req, res) => {
                 id: user.id,
                 email: user.email,
                 username: user.username
-            }, process.env.TOkEN_KEY, {
+            }, process.env.TOKEN_KEY, {
                 expiresIn: process.env.JWT_EXPIRATION_TIME
             });
             return res.status(200).json({
