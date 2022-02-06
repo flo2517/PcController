@@ -9,9 +9,15 @@ class information {
    String? password;
    bool isConnected = false;
    var token;
+
+
+
    var refreshToken;
    var computerId;
 
+   void setToken(token){
+      this.token = token;
+   }
 
    void connexion (json, email, password){
       this.email = email;
