@@ -57,7 +57,8 @@ const register = async (req, res) => {
 
         user.token = jwt.sign({
             id: user.id,
-            email: user.email
+            email: user.email,
+            username: user.username
         }, process.env.TOKEN_KEY, {
             expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
         });
@@ -116,7 +117,8 @@ const login = (req, res) => {
 
                     user[0].token = jwt.sign({
                         id: user[0].id,
-                        email: user[0].email
+                        email: user[0].email,
+                        username: user[0].username
                     }, process.env.TOKEN_KEY, {
                         expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
                     });
@@ -182,9 +184,10 @@ const refreshToken = (req, res) => {
             const user = await token.getUser();
             let newAccessToken = jwt.sign({
                 id: user.id,
-                email: user.email
+                email: user.email,
+                username: user.username
             }, process.env.TOKEN_KEY, {
-                expiresIn: parseInt(process.env.JWT_EXPIRATION_TIME)
+                expiresIn: process.env.JWT_EXPIRATION_TIME
             });
             return res.status(200).json({
                 success: true,
