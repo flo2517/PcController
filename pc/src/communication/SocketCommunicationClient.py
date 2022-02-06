@@ -1,11 +1,13 @@
 import asyncio
+import sys
+
 import socketio
 import json
 
-from pc.src.communication.HttpsRequest import HttpsRequest
-from pc.src.osExecutors.Executor import Executor
+from src.communication.HttpsRequest import HttpsRequest
+from src.osExecutors.Executor import Executor
 
-sio = socketio.AsyncClient()
+sio = socketio.Client()
 
 
 class SocketCommunication:
@@ -18,40 +20,41 @@ class SocketCommunication:
     async def task(self):
         await asyncio.gather(self.launchCom())
 
-    async def launchCom(self):
+    def launchCom(self):
 
         self.callBack()
 
-        await sio.connect("http://thrallweb.fr:8080/")
+        sio.connect("http://thrallweb.fr:8080/")
 
 
-        await sio.wait()
+        sio.wait()
+
 
     def callBack(self):
         @sio.event
-        async def connect():
+        def connect():
             pload = json.dumps({"token": self.localUserData.getToken(), "user": self.localUserData.getJwtToken()})
-            await sio.emit('source', pload)
+            sio.emit('source', pload)
             print('Connection established')
 
         @sio.on('volumeMute')
-        async def mute():
+        def mute():
             self.executor.execute(4)
 
         @sio.on('volumePlay')
-        async def play():
+        def play():
             self.executor.execute(5)
 
         @sio.on('volumeUp')
-        async def vUp():
+        def vUp():
             self.executor.execute(2)
 
         @sio.on('volumeDown')
-        async def vDown():
+        def vDown():
             self.executor.execute(3)
 
         @sio.on('error')
-        async def error(msg):
+        def error(msg):
             rqt = HttpsRequest()
             print(msg)
             print("Error : " + msg['message'])
@@ -60,34 +63,34 @@ class SocketCommunication:
                 if res[0]:
                     self.localUserData.setServerToken(res[1])
                 else:
-                    res = rqt.login(self.localUserData.getUserID(), self.localUserData.getPassword())
+                    res = rqt.login(self.localUserData.getUserID(), self.localUserData.getUserPassword())
                     if res[0]:
                         # Save tokens
                         self.localUserData.setJwtToken(res[1])
                         self.localUserData.setServerToken(res[2]['token'])
                     else:
-                        await sio.disconnect()
+                        sio.disconnect()
                         print('Error : ' + res[1])
-            if msg['message'] == "User has no devices":
+            if msg['message'] == "User has no devices" or "Device not found":
                 print("Adding device...")
                 res = rqt.addDevice(self.localUserData)
                 if res:
                     pload = json.dumps({"token": self.localUserData.getToken(), "user": self.localUserData.getJwtToken()})
-                    await sio.emit('source', pload)
+                    sio.emit('source', pload)
                 else:
                     print('Error : Can\'t add device')
-                    await sio.disconnect()
+                    sio.disconnect()
                     return
 
         # In background of socket communication check
         # on shared memory if connection need to be ended
-        async def backgroundTask():
+        def backgroundTask():
             while True:
                 if self.shmSock[0] == 1:
                     print("Disconnected")
-                    await sio.disconnect()
+                    sio.disconnect()
                     return
-                await sio.sleep(1)
+                sio.sleep(1)
 
         # Launch background task
         sio.start_background_task(backgroundTask)

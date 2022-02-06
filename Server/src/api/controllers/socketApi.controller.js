@@ -75,8 +75,40 @@ const lock = (req, res) => {
     }
 }
 
+const next = (req, res) => {
+    let socket = req.app.get('client');
+    let id = req.params.id;
+    if(socket[id]) {
+        socket[id].emit('next');
+        res.status(200).json({
+            message: 'Next music request sent'
+        });
+    } else {
+        res.status(404).send({
+            message: 'Socket not found'
+        });
+    }
+}
+
+const previous = (req, res) => {
+    let socket = req.app.get('client');
+    let id = req.params.id;
+    if(socket[id]) {
+        socket[id].emit('previous');
+        res.status(200).json({
+            message: 'Previous music request sent'
+        });
+    } else {
+        res.status(404).send({
+            message: 'Socket not found'
+        });
+    }
+}
+
 module.exports = {
     shutdown,
     volume,
-    lock
+    lock,
+    next,
+    previous
 }
