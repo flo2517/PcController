@@ -5,6 +5,8 @@ import 'dart:developer';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_app/pages/edit_device.dart';
 import 'package:http/http.dart';
 import '../information.dart';
 import 'login_page.dart';
@@ -67,7 +69,7 @@ class _RemoteState extends State<Remote> {
     }
   }
 
-  /// state : 1- up , 2-down, 3-mute, 4-unmute, 5-play, 6-pause , 7-shutdown
+  /// state : 1- up , 2-down, 3-mute, 4-unmute, 5-play, 6-pause , 7-shutdown, 8 skip previous, 9 skip next
   void requete(int state) async {
     String message = "";
     String request = "";
@@ -104,8 +106,16 @@ class _RemoteState extends State<Remote> {
       case 7:
         request = "/shutdown/" +  widget.infos.computerId.toString();
         message = "shutdown - ";
-
         break;
+      case 8:
+        request = "/previous-music/" +  widget.infos.computerId.toString();
+        message = "previous-music - ";
+        break;
+      case 9:
+        request = "/next-music/" +  widget.infos.computerId.toString();
+        message = "next-music - ";
+        break;
+
       default:
         break;
     }
@@ -123,146 +133,217 @@ class _RemoteState extends State<Remote> {
         title: Text('Pc controller'),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {},
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> editDevice(url : widget.url, infos : widget.infos)));
+
+        },
         icon: const Icon(Icons.edit),
-        label: const Text('Changer d\'appareil'),
+        label: const Text('Edit device'),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          children: [
-            SizedBox(
-              height: 100,
-
-              ///volume
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Transform.scale(
-                    scale: 3,
-                    child: IconButton(
-                      icon: const Icon(Icons.volume_off_rounded),
-                      onPressed: () {
-                        requete(3);
-                      },
-                    ),
-                  ),
-                  Transform.scale(
-                    scale: 3,
-                    child: IconButton(
-                      icon: const Icon(Icons.volume_down_rounded),
-                      onPressed: () {
-                        requete(2);
-                      },
-                    ),
-                  ),
-                  Transform.scale(
-                    scale: 3,
-                    child: IconButton(
-                      icon: const Icon(Icons.volume_up_rounded),
-                      onPressed: () {
-                        requete(1);
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ), //Controle du volume
-            SizedBox(
-              height: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      body: AnnotatedRegion<SystemUiOverlayStyle>(
+        value: SystemUiOverlayStyle.light,
+        child: GestureDetector(
+          child: Stack(
+            children: <Widget>[
+          Container(
+          height: double.infinity,
+            width: double.infinity,
+            decoration: BoxDecoration(
+                gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.blue,
+                      Colors.blue[300]!,
+                      Colors.blue[100]!,
+                    ])),
+            child: SingleChildScrollView(
+             // padding: EdgeInsets.symmetric(horizontal: 25, vertical: 120),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  Transform.scale(
-                    scale: 3,
-                    child: IconButton(
-                      icon: const Icon(Icons.play_circle_outline_rounded),
-                      onPressed: () {
-                        requete(5);
-                      },
+                  SizedBox(
+                    height: 100,
+
+                    ///volume
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.volume_off_rounded),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(3);
+                            },
+                          ),
+                        ),
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.volume_down_rounded),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(2);
+                            },
+                          ),
+                        ),
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.volume_up_rounded),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(1);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Transform.scale(
-                    scale: 3,
-                    child: IconButton(
-                      icon: const Icon(Icons.pause_circle_outline_rounded),
-                      onPressed: () {
-                        requete(6);
-                      },
+                  ///play pause
+                  // SizedBox(
+                  //   height: 100,
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //     children: [
+                  //       Transform.scale(
+                  //         scale: 3,
+                  //         child: IconButton(
+                  //           icon: const Icon(Icons.play_circle_outline_rounded),
+                  //           onPressed: () {
+                  //             requete(5);
+                  //           },
+                  //         ),
+                  //       ),
+                  //       Transform.scale(
+                  //         scale: 3,
+                  //         child: IconButton(
+                  //           icon: const Icon(Icons.pause_circle_outline_rounded),
+                  //           onPressed: () {
+                  //             requete(6);
+                  //           },
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
+                  ///previous, play/pause next
+                  SizedBox(
+                    height: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.skip_previous_rounded),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(8);
+                            },
+                          ),
+                        ),
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.play_circle_outline_rounded),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(6);
+                            },
+                          ),
+                        ),
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.skip_next_rounded),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(9);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
+                 ///lock shutdown
+                  SizedBox(
+                    height: 100,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.lock_outline_rounded),
+                            color: Colors.white,
+                            onPressed: () {},
+                          ),
+                        ),
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.power_settings_new_rounded),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(7);
+
+                              // showDialog(
+                              //     context: context,
+                              //     barrierDismissible: false,
+                              //
+                              //     builder: (_) =>
+                              //         CupertinoAlertDialog(
+                              //           title: Text("clique"),
+                              //           //content: Text("fezgzge"),
+                              //           actions:
+                              //             <Widget>[
+                              //               CupertinoDialogAction(
+                              //                 child: Text('ok'),
+                              //                 onPressed: () {
+                              //                   Navigator.of(context).pop();
+                              //                 },
+                              //               ),
+                              //
+                              //             ],
+                              //
+                              //         )
+                              // );
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  ), //
+                  SizedBox(height: 10.0),
+                  Text('$label', style: TextStyle(fontSize: 20,
+                  color: Colors.white)),
+
+                  // Align(
+                  //   alignment: Alignment.bottomLeft,
+                  //   child: TextButton(
+                  //     onPressed: () {},
+                  //     child: Text(
+                  //       "Changer d'appareil",
+                  //       style: TextStyle(
+                  //           color: Colors.black,
+                  //           fontSize: 18,
+                  //           fontWeight: FontWeight.w500),
+                  //     ),
+                  //   ),
+                  // ),
+
+
+
                 ],
               ),
-            ), //play pause
-            SizedBox(
-              height: 100,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Transform.scale(
-                    scale: 3,
-                    child: IconButton(
-                      icon: const Icon(Icons.lock_outline_rounded),
-                      onPressed: () {},
-                    ),
-                  ),
-                  Transform.scale(
-                    scale: 3,
-                    child: IconButton(
-                      icon: const Icon(Icons.power_settings_new_rounded),
-                      onPressed: () {
-                        requete(7);
-
-                        // showDialog(
-                        //     context: context,
-                        //     barrierDismissible: false,
-                        //
-                        //     builder: (_) =>
-                        //         CupertinoAlertDialog(
-                        //           title: Text("clique"),
-                        //           //content: Text("fezgzge"),
-                        //           actions:
-                        //             <Widget>[
-                        //               CupertinoDialogAction(
-                        //                 child: Text('ok'),
-                        //                 onPressed: () {
-                        //                   Navigator.of(context).pop();
-                        //                 },
-                        //               ),
-                        //
-                        //             ],
-                        //
-                        //         )
-                        // );
-                      },
-                    ),
-                  ),
-                ],
-              ),
-            ), //
-            SizedBox(height: 10.0),
-            Text('$label', style: TextStyle(fontSize: 20)),
-
-            // Align(
-            //   alignment: Alignment.bottomLeft,
-            //   child: TextButton(
-            //     onPressed: () {},
-            //     child: Text(
-            //       "Changer d'appareil",
-            //       style: TextStyle(
-            //           color: Colors.black,
-            //           fontSize: 18,
-            //           fontWeight: FontWeight.w500),
-            //     ),
-            //   ),
-            // ),
-
-
-
-          ],
+            ),
+          ),
+      ]),
         ),
-      ),
-    );
+      ));
   }
 }
