@@ -16,8 +16,8 @@ void main(){
 }
 
 class MyApp extends StatelessWidget {
-  // final String url  ="http://192.168.82.35:8080";
-  final String url = "http://pandapp.thrallweb.fr";
+  // final String url  ="http://192.168.0.232:8080";
+  final String url = "http://local.thrallweb.fr:8080";
   information infos = information();
 
   MyApp({Key? key}) {

@@ -66,56 +66,47 @@ class _computer_choseState extends State<computer_chose> {
   void getAllDevices() async {
     try {
       log(widget.url);
-      log("token actuel : \n"+widget.infos.token);
+      log(widget.infos.token);
       final response = await get(Uri.parse(widget.url + "/device/getAll"),
           headers: {"x-access-token": widget.infos.token});
       final jsonData = jsonDecode(response.body);
 
 
-      ///if token expired
-      if(response.statusCode == 401){
-        log("token expiré");
-        log( widget.infos.refreshToken["token"]);
-        var refresh = await post(Uri.parse(widget.url+"/refreshToken"),body: {
-          "refreshToken" : widget.infos.refreshToken["token"]
-        });
-        final jsonToken = jsonDecode(refresh.body);
-        log(refresh.body);
-        log(refresh.statusCode.toString());
-        ///if refresh token has expired
-        if(refresh.statusCode ==200){
-          log("token récupéré");
-          snackBarMessage("Token récupéré, reload");
-
-            widget.infos.setToken(jsonToken["accessToken"]);
-            widget.infos.updateJson();
-
-        }
-
-        if(refresh.statusCode == 403){
-          log("refresh espiré");
-          showAlertDialog(context, "Token expired, please login again","Get device",sign: true);
-        }else {
-
-          snackBarMessage(jsonToken["message"]);
-        }
-
-
-      }
-
-
-      // log("success");
-      // log(response.statusCode.toString());
-      // log(response.body);
+      // ///if token expired
+      // if(response.statusCode == 401){
+      //   log("token expiré");
+      //   var refresh = await post(Uri.parse(widget.url+"/login"),body: {
+      //     "refreshToken" : widget.infos.refreshToken["token"]
+      //   });
+      //   final jsonToken = jsonDecode(refresh.body);
+      //   ///if refresh token has expired
+      //   if(refresh.statusCode == 403){
+      //     log("refresh espiré");
+      //     showAlertDialog(context, "Token expired, please login again","Get device",sign: true);
+      //   }if(refresh.statusCode != 200){
       //
-      // log(jsonData["message"]);
-      if(response.statusCode == 200) {
-        log("yesyesyes");
-        setState(() {
-          devices = jsonData["devices"];
-          fetched = true;
-        });
-      }
+      //     snackBarMessage(jsonToken["message"]);
+      //   }else{
+      //     widget.infos.token = jsonToken["accessToken"];
+      //     widget.infos.updateJson();
+      //     snackBarMessage(jsonToken["Token récupéré, reload"]);
+      //
+      //   }
+      //
+      //
+      // }
+
+
+      log("success");
+      log(response.statusCode.toString());
+      log(response.body);
+
+      log(jsonData["message"]);
+
+      setState(() {
+        devices = jsonData["devices"];
+        fetched = true;
+      });
     } catch (err) {
       log(err.toString());
       //return err.toString();
@@ -139,11 +130,6 @@ class _computer_choseState extends State<computer_chose> {
     return list;
   }
 
-  void refreshData(dynamic value) {
-    fetched = false;
-    getAllDevices();
-  }
-
   Widget computer(computer_info) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
@@ -155,9 +141,7 @@ class _computer_choseState extends State<computer_chose> {
           //     builder: (context)=>Remote()
           // ))
           widget.infos.computerId = computer_info["uuid"],
-          widget.infos.computerName = computer_info["name"],
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> Remote(url : widget.url, infos : widget.infos))).then(refreshData )
-
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> Remote(url : widget.url, infos : widget.infos)))
 
 
         },
