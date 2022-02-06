@@ -184,8 +184,7 @@ const refreshToken = (req, res) => {
             const user = await token.getUser();
             let newAccessToken = jwt.sign({
                 id: user.id,
-                email: user.email,
-                username: user.username
+                email: user.email
             }, process.env.TOKEN_KEY, {
                 expiresIn: process.env.JWT_EXPIRATION_TIME
             });
