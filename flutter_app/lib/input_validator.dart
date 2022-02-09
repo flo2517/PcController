@@ -1,7 +1,7 @@
 import 'dart:developer';
 //import 'dart:math';
 import 'package:flutter/material.dart';
- showAlertDialog(BuildContext context, String text, String title, {bool sign = false}) {
+ showAlertDialog(BuildContext context, String text, String title, {bool sign  = false, bool rename = false}) {
 
   // set up the button
   Widget okButton = TextButton(
@@ -9,6 +9,9 @@ import 'package:flutter/material.dart';
     onPressed: () {
       Navigator.of(context).pop(); // dismiss dialog
       if(sign){
+        Navigator.of(context).pop();
+      }
+      if(rename){
         Navigator.of(context).pop();
       }
     },
