@@ -53,7 +53,7 @@ const update = (req, res) => {
 
     const {uuid, name} = req.body;
 
-    if (!uuid || !name) {
+    if (!uuid || !name ) {
         return res.status(400).json({
             success: false,
             message: 'Please provide a uuid and name'
