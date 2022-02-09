@@ -47,10 +47,10 @@ class DeviceService {
         });
     }
 
-    async delete(id) {
+    async delete(uuid) {
         return await this.device.destroy({
             where: {
-                id: id
+                uuid: uuid
             }
         });
     }
