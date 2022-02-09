@@ -53,7 +53,7 @@ const update = (req, res) => {
 
     const {uuid, name} = req.body;
 
-    if (!uuid || !name) {
+    if (!uuid || !name ) {
         return res.status(400).json({
             success: false,
             message: 'Please provide a uuid and name'
@@ -94,10 +94,7 @@ const del = (req, res) => {
 
     const deviceService = new DeviceService();
 
-    deviceService.delete({
-        uuid: uuid,
-        userId: req.decoded.id
-    }).then(device => {
+    deviceService.delete(uuid).then(device => {
         return res.status(200).json({
             success: true,
             message: 'Device deleted successfully',

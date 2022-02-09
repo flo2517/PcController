@@ -39,18 +39,18 @@ class DeviceService {
         return this.device.create(device);
     }
 
-    async update(id, device) {
+    async update(device) {
         return await this.device.update(device, {
             where: {
-                id: id
+                uuid: device.uuid
             }
         });
     }
 
-    async delete(id) {
+    async delete(uuid) {
         return await this.device.destroy({
             where: {
-                id: id
+                uuid: uuid
             }
         });
     }
