@@ -139,6 +139,11 @@ class _computer_choseState extends State<computer_chose> {
     return list;
   }
 
+  void refreshData(dynamic value) {
+    fetched = false;
+    getAllDevices();
+  }
+
   Widget computer(computer_info) {
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
@@ -150,7 +155,9 @@ class _computer_choseState extends State<computer_chose> {
           //     builder: (context)=>Remote()
           // ))
           widget.infos.computerId = computer_info["uuid"],
-          Navigator.push(context, MaterialPageRoute(builder: (context)=> Remote(url : widget.url, infos : widget.infos)))
+          widget.infos.computerName = computer_info["name"],
+          Navigator.push(context, MaterialPageRoute(builder: (context)=> Remote(url : widget.url, infos : widget.infos))).then(refreshData )
+
 
 
         },

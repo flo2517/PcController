@@ -14,6 +14,8 @@ class information {
 
    var refreshToken;
    var computerId;
+   String? computerName;
+
 
    void setToken(token){
       this.token = token;
