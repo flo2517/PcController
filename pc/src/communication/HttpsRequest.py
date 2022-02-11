@@ -6,7 +6,7 @@ import requests
 class HttpsRequest:
 
     def __init__(self):
-        self.address = "http://thrallweb.fr:8080/"
+        self.address = "http://pandapp.thrallweb.fr/"
 
     # Send register request to server
     def register(self, email, password):
@@ -39,7 +39,7 @@ class HttpsRequest:
         requestResult = r.json()
         if requestResult['success']:
             print("Token refreshed successfully")
-            return [True, requestResult['refreshToken']['token']]
+            return [True, requestResult['accessToken']]
         else:
             print("Error : Token refresh failed cause of \"" + requestResult['message'] + "\"")
             return [False, requestResult["message"]]

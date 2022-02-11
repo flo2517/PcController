@@ -1,6 +1,6 @@
 import sys
 from tkinter import *
-from pc.src.register.RegisterWindow import Register
+from pc.src.loginRegister.RegisterWindow import Register
 from pc.src.communication.SocketCommunicationClient import HttpsRequest
 
 import re
