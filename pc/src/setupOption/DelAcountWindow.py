@@ -10,18 +10,16 @@ class DelAccount:
 
     # Send delete account request to server and close or show setup window
     def request(self):
-        res = self.rqt.delAccount(self.userData.getUserPassword())
+        res = self.rqt.delAccount(self.userData.getUserPassword(), self.userData.getJwtToken())
         if res:
-            self.result[0] = 1
             self.setupWin.destroy()
             self.delUserWin.destroy()
         else:
             self.setupWin.deiconify()
             self.delUserWin.destroy()
 
-    def __init__(self, userData, setupWin, result):
+    def __init__(self, userData, setupWin):
         self.rqt = HttpsRequest()
-        self.result = result
         self.userData = userData
         self.setupWin = setupWin
         self.delUserWin = Tk()
