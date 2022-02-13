@@ -6,11 +6,11 @@ import requests
 class HttpsRequest:
 
     def __init__(self):
-        self.address = "http://thrallweb.fr:8080/"
+        self.address = "http://pandapp.thrallweb.fr/"
 
     # Send register request to server
     def register(self, email, password):
-        pload = {"email": email, "username": "johndoe", "password": password}
+        pload = {"email": email, "password": password}
         r = requests.post(self.address + "register", data=pload)
         requestResult = r.json()
         if requestResult['success']:
@@ -39,7 +39,7 @@ class HttpsRequest:
         requestResult = r.json()
         if requestResult['success']:
             print("Token refreshed successfully")
-            return [True, requestResult['refreshToken']['token']]
+            return [True, requestResult['accessToken']]
         else:
             print("Error : Token refresh failed cause of \"" + requestResult['message'] + "\"")
             return [False, requestResult["message"]]
@@ -58,9 +58,10 @@ class HttpsRequest:
             return False
 
     # Send del user account request to server
-    def delAccount(self, password):
+    def delAccount(self, password, jwt):
+        header = {'x-access-token': jwt}
         pload = {"password": password}
-        r = requests.post(self.address + "user/deleteAccount", data=pload)
+        r = requests.post(self.address + "user/deleteAccount", data=pload, headers=header)
         requestResult = r.json()
         if requestResult['message'] == "Account deleted successfully":
             print(requestResult["message"])

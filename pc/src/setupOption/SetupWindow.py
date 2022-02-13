@@ -1,14 +1,23 @@
 from tkinter import *
-
-from pc.src.setupTools.ChangePasswordWindow import ChangePassword
-from pc.src.setupTools.CreditsWindow import Credits
-from pc.src.setupTools.DelAcountWindow import DelAccount
+import pystray
+from pystray import MenuItem as item
+from PIL import Image
+from pc.src.setupOption.ChangePasswordWindow import ChangePassword
+from pc.src.setupOption.CreditsWindow import Credits
+from pc.src.setupOption.DelAcountWindow import DelAccount
 
 
 class Setup:
 
+    # Hide window
     def onClosing(self):
-        pass
+        self.setupWin.withdraw()
+        path = 'pictures/panda.png'
+        img = Image.open(path)
+
+        menu = (item('Show Window', self.showWin), item('Exit', self.exitApp))
+        self.icon = pystray.Icon("PcController", img, "PcController", menu=menu)
+        self.icon.run()
 
     # Open credit window
     def creditsWin(self):
@@ -23,38 +32,24 @@ class Setup:
 
     # Log out user
     def logOut(self):
-        self.result[0] = 1
+        self.restart = True
         self.setupWin.destroy()
 
     # End program
     def exitApp(self):
-        self.result[0] = 2
+        self.restart = False
+        if self.icon is not None:
+            self.icon.stop()
         self.setupWin.destroy()
 
     # Del user account
     def delUserAccount(self):
         # Hide window
         self.setupWin.withdraw()
-        DelAccount(self.localUserData, self.setupWin, self.result)
+        self.restart = True
+        DelAccount(self.localUserData, self.setupWin)
 
-    def __init__(self, localUserData, result):
-        self.chgPassWin = None
-        self.credWin = None
-        self.result = result
-        self.localUserData = localUserData
-        self.setupWin = Tk()
-        self.setupWin.title("Setup")
-
-        self.setupWin.geometry("750x600")
-        self.setupWin.configure(bg="#21a6ff")
-        self.setupWin.resizable(False, False)
-
-        self.setupWin.protocol("WM_DELETE_WINDOW", self.onClosing)
-
-        self.startUpLaunch = False
-
-        Label(self.setupWin, text="Setup", font=("Arial", 40), bg="#21a6ff", pady=20).pack()
-
+    def addButton(self):
         # Add log out button
         Button(self.setupWin, text="Log Out", font=("Arial", 20), relief="solid", borderwidth=3, height=1, width=30,
                command=self.logOut).pack(pady=20)
@@ -87,5 +82,39 @@ class Setup:
         # Add launch on pc starting check button
         Checkbutton(self.setupWin, text="Start-up launch", font=("Arial", 20), var=self.startUpLaunch, bg="#21a6ff",
                     activebackground='#21a6ff').pack(side=RIGHT, pady=10, padx=40)
+
+    def showWin(self):
+        self.icon.stop()
+        self.setupWin.deiconify()
+
+    def getEndResult(self):
+        return self.restart
+
+    def __init__(self, localUserData):
+        self.icon = None
+        self.exitBtn = None
+        self.creditBtn = None
+        self.delAccountBtn = None
+        self.changePasswordBtn = None
+        self.chgPassWin = None
+        self.credWin = None
+
+        self.restart = False
+        self.localUserData = localUserData
+        self.setupWin = Tk()
+        self.setupWin.title("Setup")
+
+        self.setupWin.geometry("750x600")
+        self.setupWin.configure(bg="#21a6ff")
+        self.setupWin.resizable(False, False)
+
+        self.setupWin.protocol("WM_DELETE_WINDOW", self.onClosing)
+
+        self.startUpLaunch = False
+
+        Label(self.setupWin, text="Setup", font=("Arial", 40), bg="#21a6ff", pady=20).pack()
+
+        # Add all buttons
+        self.addButton()
 
         self.setupWin.mainloop()

@@ -1,23 +1,20 @@
-import asyncio
+import os
+import platform
+import signal
 import sys
 import threading
 from multiprocessing import shared_memory as sm
 
 from pc.src.communication.SocketCommunicationClient import SocketCommunication
 from pc.src.communication.HttpsRequest import HttpsRequest
-from pc.src.login.LoginWindow import Login
-from pc.src.setupTools.SetupWindow import Setup
-from pc.src.userDataManager.LocalUserData import LocalUserData
+from pc.src.loginRegister.LoginWindow import Login
+from pc.src.setupOption.SetupWindow import Setup
+from pc.src.dataUserManager.LocalUserData import LocalUserData
 
 
 class Launcher:
     def __init__(self):
         self.userData = LocalUserData()
-
-        # Shared memory to communicate with setup window
-        shmWin = sm.SharedMemory(create=True, size=128)
-        self.shmSetupWin = shmWin.buf
-        self.shmSetupWin[0] = 0  # 0 = do nothing
 
         # Shared memory to communicate with the socket program
         shmSocket = sm.SharedMemory(create=True, size=128)
@@ -36,16 +33,10 @@ class Launcher:
         self.threadSocket.start()
 
         # Creat and open setup window
-        self.threadSetupWindow = threading.Thread(target=self.setupWindow)
-        self.threadSetupWindow.start()
-
-        # Wait end of setup window
-        self.threadSetupWindow.join()
+        win = Setup(self.userData)
 
         # Del user data and restart app
-        if self.shmSetupWin[0] == 1:
-            shmWin.close()
-            shmWin.unlink()
+        if win.getEndResult():
             self.shmSock[0] = 1
             self.threadSocket.join()
             shmSocket.close()
@@ -55,16 +46,12 @@ class Launcher:
             return
 
         # End app
-        if self.shmSetupWin[0] == 2:
-            shmWin.close()
-            shmWin.unlink()
+        else:
             self.shmSock[0] = 1
             self.threadSocket.join()
+            shmSocket.close()
+            shmSocket.unlink()
             sys.exit(0)
-
-        self.threadSocket.join()
-        shmSocket.close()
-        shmSocket.unlink()
 
     # Authentication with server
     def httpConnect(self):
@@ -78,10 +65,6 @@ class Launcher:
     # Launch socket connection
     def socketConnect(self):
         self.comSock.launchCom()
-
-    # Launch setup window
-    def setupWindow(self):
-        Setup(self.userData, self.shmSetupWin)
 
     # Get restart value
     def getRestartValue(self):

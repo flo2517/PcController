@@ -1,11 +1,7 @@
-import asyncio
-import sys
-
 import socketio
 import json
-
-from src.communication.HttpsRequest import HttpsRequest
-from src.osExecutors.Executor import Executor
+from pc.src.communication.HttpsRequest import HttpsRequest
+from pc.src.executors.Executor import Executor
 
 sio = socketio.Client()
 
@@ -16,19 +12,25 @@ class SocketCommunication:
         self.localUserData = localUserData
         self.executor = Executor()
         self.shmSock = shmSock
+        self.serverAddress = "http://pandapp.thrallweb.fr/"
 
-    async def task(self):
-        await asyncio.gather(self.launchCom())
 
     def launchCom(self):
-
         self.callBack()
-
-        sio.connect("http://thrallweb.fr:8080/")
-
-
+        sio.connect(self.serverAddress)
+        # Launch background task
+        sio.start_background_task(self.backgroundTask())
         sio.wait()
 
+    # In background of socket communication check
+    # on shared memory if connection need to be ended
+    def backgroundTask(self):
+        while True:
+            if self.shmSock[0] == 1:
+                print("Disconnected")
+                sio.disconnect()
+                return
+            sio.sleep(1)
 
     def callBack(self):
         @sio.event
@@ -58,10 +60,11 @@ class SocketCommunication:
             rqt = HttpsRequest()
             print(msg)
             print("Error : " + msg['message'])
-            if msg['message'] == 'Unauthorized! Access Token was expired!':
+            if msg['message'] == 'Unauthorized! Access Token was expired!' or msg['message'] == 'Failed to authenticate token.':
                 res = rqt.refreshToken(self.localUserData.getServerToken())
                 if res[0]:
-                    self.localUserData.setServerToken(res[1])
+                    self.localUserData.setJwtToken(res[1])
+                    connect()
                 else:
                     res = rqt.login(self.localUserData.getUserID(), self.localUserData.getUserPassword())
                     if res[0]:
@@ -71,7 +74,7 @@ class SocketCommunication:
                     else:
                         sio.disconnect()
                         print('Error : ' + res[1])
-            if msg['message'] == "User has no devices" or "Device not found":
+            if msg['message'] == "User has no devices" or msg['message'] == "Device not found":
                 print("Adding device...")
                 res = rqt.addDevice(self.localUserData)
                 if res:
@@ -81,16 +84,3 @@ class SocketCommunication:
                     print('Error : Can\'t add device')
                     sio.disconnect()
                     return
-
-        # In background of socket communication check
-        # on shared memory if connection need to be ended
-        def backgroundTask():
-            while True:
-                if self.shmSock[0] == 1:
-                    print("Disconnected")
-                    sio.disconnect()
-                    return
-                sio.sleep(1)
-
-        # Launch background task
-        sio.start_background_task(backgroundTask)
