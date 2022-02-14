@@ -36,7 +36,7 @@ const port = process.env.PORT || API_PORT ;
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "x-access-token, Origin, Content-Type, Accept");
-    res.set("Content-Security-Policy", "default-src *; style-src 'self' http://* 'unsafe-inline'; script-src 'self' http://* 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' ws://* https://*");
+    res.set("Content-Security-Policy", "default-src *; style-src 'self' https://* 'unsafe-inline'; script-src 'self' https://* 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' ws://* https://*");
     next();
 });
 
