@@ -2,9 +2,9 @@ from tkinter import *
 import pystray
 from pystray import MenuItem as item
 from PIL import Image
-from pc.src.setupOption.ChangePasswordWindow import ChangePassword
-from pc.src.setupOption.CreditsWindow import Credits
-from pc.src.setupOption.DelAcountWindow import DelAccount
+from src.setupOption.ChangePasswordWindow import ChangePassword
+from src.setupOption.CreditsWindow import Credits
+from src.setupOption.DelAcountWindow import DelAccount
 
 
 class Setup:

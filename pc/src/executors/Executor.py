@@ -1,8 +1,8 @@
 import platform
 from datetime import datetime as date
-from pc.src.executors.LinuxExecutor import LinuxExe
-from pc.src.executors.MacExecutor import MacExe
-from pc.src.executors.WindowsExecutor import WinExe
+from src.executors.LinuxExecutor import LinuxExe
+from src.executors.MacExecutor import MacExe
+from src.executors.WindowsExecutor import WinExe
 
 
 class Executor:

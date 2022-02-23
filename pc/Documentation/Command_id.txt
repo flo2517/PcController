@@ -7,3 +7,5 @@ Command id -> Corresponding command
 5 -> pause/play the music
 6 -> pause the music
 7 -> lock the pc
+8 -> play next music
+9 -> play previous music

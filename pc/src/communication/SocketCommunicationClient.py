@@ -1,7 +1,7 @@
 import socketio
 import json
-from pc.src.communication.HttpsRequest import HttpsRequest
-from pc.src.executors.Executor import Executor
+from src.communication.HttpsRequest import HttpsRequest
+from src.executors.Executor import Executor
 
 sio = socketio.Client()
 
@@ -54,6 +54,18 @@ class SocketCommunication:
         @sio.on('volumeDown')
         def vDown():
             self.executor.execute(3)
+
+        @sio.on('lock')
+        def lock():
+            self.executor.execute(7)
+
+        @sio.on('next')
+        def next():
+            self.executor.execute(8)
+
+        @sio.on('previous')
+        def previous():
+            self.executor.execute(9)
 
         @sio.on('error')
         def error(msg):

@@ -1,6 +1,7 @@
 from uuid import uuid4
 import os.path
 import json
+import hashlib
 
 
 class LocalUserData:
@@ -17,9 +18,8 @@ class LocalUserData:
         if not os.path.exists(self.dataFile):
             # Create file
             print("Create and format user data file")
-            file = open(self.dataFile, "w")
-            file.write('{"username":"", "password":"", "token":"", "jwt_token" : "", "server_token":""}')
-            file.close()
+            userData = '{"username":"", "password":"", "token":"", "jwt_token" : "", "server_token":""}'
+            self.encode(userData)
         else:
             print("User data file exist")
             # Check if file exist but is empty
@@ -48,18 +48,29 @@ class LocalUserData:
         self.serverToken = data["server_token"]
 
         if self.token == "":
-            file = open(self.dataFile, "w")
             # Create and save the token
             print("Creating token")
             # Generate the token
             self.token = uuid4().hex
-            userData = '{"username":"' + str(self.username) + '","password":"' + str(self.password) + '","token":"' + str(
-                self.token) + '","jwt_token":"' + str(self.jwtToken) + '","server_token":"' + str(self.serverToken) + '"}'
-            file.write(userData)
-            file.close()
+            userData = '{"username":"' + str(self.username) + '","password":"' + str(
+                self.password) + '","token":"' + str(
+                self.token) + '","jwt_token":"' + str(self.jwtToken) + '","server_token":"' + str(
+                self.serverToken) + '"}'
+            self.encode(userData)
 
         print("User data:")
         print(data)
+
+    def encode(self, userData):
+        file = open(self.dataFile, "w")
+        file.write(hashlib.sha256(userData).hexdigest())
+        file.close()
+
+    def decode(self, userData):
+        file = open(self.dataFile, "r")
+        data = file.read()
+        file.close()
+        return hashlib.sha256(data).hexdigest().decode('ascii')
 
     def getUserID(self):
         return self.username
@@ -141,4 +152,3 @@ class LocalUserData:
 
     def getJwtToken(self):
         return self.jwtToken
-

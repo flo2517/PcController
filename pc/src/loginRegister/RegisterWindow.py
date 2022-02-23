@@ -1,6 +1,6 @@
 import sys
 from tkinter import *
-from pc.src.communication.SocketCommunicationClient import HttpsRequest
+from src.communication.SocketCommunicationClient import HttpsRequest
 import re
 
 

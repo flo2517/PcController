@@ -1,15 +1,12 @@
-import os
-import platform
-import signal
 import sys
 import threading
 from multiprocessing import shared_memory as sm
 
-from pc.src.communication.SocketCommunicationClient import SocketCommunication
-from pc.src.communication.HttpsRequest import HttpsRequest
-from pc.src.loginRegister.LoginWindow import Login
-from pc.src.setupOption.SetupWindow import Setup
-from pc.src.dataUserManager.LocalUserData import LocalUserData
+from src.communication.SocketCommunicationClient import SocketCommunication
+from src.communication.HttpsRequest import HttpsRequest
+from src.loginRegister.LoginWindow import Login
+from src.setupOption.SetupWindow import Setup
+from src.dataUserManager.LocalUserData import LocalUserData
 
 
 class Launcher:
