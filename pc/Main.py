@@ -1,4 +1,4 @@
-from pc.src.Launcher import Launcher
+from src.Launcher import Launcher
 
 restart = True
 

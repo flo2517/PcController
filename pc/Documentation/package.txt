@@ -1,0 +1,39 @@
+Windows :
+install python3
+pip
+
+python os
+python request
+python tkinter
+python pillow
+python Crypto
+python json
+python uuid
+python-socketio
+python pystray
+python PyAutoGui
+python sys
+python re
+python threading
+python multiprocessing
+
+
+Linux :
+install python3
+sudo apt-get install python3-pip
+sudo apt-get install playerctl
+
+python os
+python request
+python tkinter
+python pillow
+python Crypto
+python json
+python uuid
+python-socketio
+python pystray
+python sys
+python re
+python threading
+python multiprocessing
+python pycryptodome

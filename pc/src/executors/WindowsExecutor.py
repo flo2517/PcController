@@ -1,6 +1,4 @@
 import os
-import pyautogui
-
 
 class WinExe:
     def __init__(self):
@@ -9,6 +7,7 @@ class WinExe:
 
     @staticmethod
     def exe(commandID):
+        import pyautogui
         # Execute command corresponding to id
         print("CommadID = ", commandID)
         if commandID == 0:
@@ -32,7 +31,13 @@ class WinExe:
             pyautogui.press("pause")
             return 0
         elif commandID == 7:
-            print("Command to lock PC is coming soon")
+            os.system('rundll32.exe user32.dll,LockWorkStation')
+            return 0
+        elif commandID == 8:
+            pyautogui.press("nexttrack")
+            return 0
+        elif commandID == 9:
+            pyautogui.press("prevtrack")
             return 0
         else:
             print("Command not found")
