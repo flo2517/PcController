@@ -1,9 +1,7 @@
-import asyncio
 import socketio
 import json
-
 from src.communication.HttpsRequest import HttpsRequest
-from src.osExecutors.Executor import Executor
+from src.executors.Executor import Executor
 
 sio = socketio.Client()
 
@@ -16,8 +14,6 @@ class SocketCommunication:
         self.shmSock = shmSock
         self.serverAddress = "http://pandapp.thrallweb.fr/"
 
-    async def task(self):
-        await asyncio.gather(self.launchCom())
 
     def launchCom(self):
         self.callBack()
@@ -58,6 +54,18 @@ class SocketCommunication:
         @sio.on('volumeDown')
         def vDown():
             self.executor.execute(3)
+
+        @sio.on('lock')
+        def lock():
+            self.executor.execute(7)
+
+        @sio.on('next')
+        def next():
+            self.executor.execute(8)
+
+        @sio.on('previous')
+        def previous():
+            self.executor.execute(9)
 
         @sio.on('error')
         def error(msg):

@@ -1,5 +1,5 @@
 import re
-from pc.src.communication.SocketCommunicationClient import HttpsRequest
+from src.communication.SocketCommunicationClient import HttpsRequest
 from tkinter import *
 
 
