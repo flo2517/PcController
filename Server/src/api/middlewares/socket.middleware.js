@@ -9,8 +9,8 @@ const validId = (req, res, next) => {
         });
     }
 
-    let id = req.params.id;
-    let userId = req.decoded.id || req.body.uuid;
+    let id = req.params.id || req.body.uuid;
+    let userId = req.decoded.id ;
 
     uuidValidation(id, userId).catch(err => {
         console.log(err);
