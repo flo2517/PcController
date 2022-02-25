@@ -46,7 +46,7 @@ class Remote extends StatefulWidget {
 }
 
 class _RemoteState extends State<Remote> {
-  String label = "Réponse du serveur ici";
+  String label = "Server answer here";
   // final id = 1234;
   //
   // final url = "http://192.168.1.33:8080";

@@ -109,12 +109,15 @@ class _computer_choseState extends State<computer_chose> {
       // log(response.body);
       //
       // log(jsonData["message"]);
+      log(response.statusCode.toString());
       if(response.statusCode == 200) {
         log("yesyesyes");
         setState(() {
           devices = jsonData["devices"];
           fetched = true;
         });
+      }else {
+        snackBarMessage(jsonData["message"]);
       }
     } catch (err) {
       log(err.toString());
@@ -130,7 +133,7 @@ class _computer_choseState extends State<computer_chose> {
     var list = <Widget>[];
     list.add(SizedBox(height: 10));
     list.add(Text(
-      "Nombre d'appareils : " + devices.length.toString(),
+      "Number of devices : " + devices.length.toString(),
       style: TextStyle(color: Colors.white, fontSize: 18),
     ));
     for (var device in devices) {
@@ -145,6 +148,12 @@ class _computer_choseState extends State<computer_chose> {
   }
 
   Widget computer(computer_info) {
+    String online;
+    online = (computer_info["isOnline"]) ? "Connected" : "Disconnected";
+
+
+
+    //log("online : "+computer_info["isOnline"]);
     return Container(
       padding: EdgeInsets.symmetric(vertical: 10),
       width: double.infinity,
@@ -167,7 +176,7 @@ class _computer_choseState extends State<computer_chose> {
         child: Column(
           children: [
             Text(
-              'Nom : ' + computer_info["name"],
+              'Name : ' + computer_info["name"],
               style: TextStyle(
                   color: Colors.blue,
                   fontSize: 18,
@@ -175,9 +184,9 @@ class _computer_choseState extends State<computer_chose> {
             ),
             SizedBox(height: 10),
             Text(
-              'ID : ' + computer_info["id"].toString(),
+              online,
               style: TextStyle(
-                  color: Colors.blue,
+                  color: (computer_info["isOnline"]) ? Colors.green : Colors.red,
                   fontSize: 18,
                   fontWeight: FontWeight.bold),
             ),
@@ -191,7 +200,7 @@ class _computer_choseState extends State<computer_chose> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('Choisir pc'),
+          title: Text('Chose device'),
         ),
         floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
