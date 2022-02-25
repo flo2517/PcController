@@ -4,4 +4,5 @@ desktop.ini
 /node_modules/
 /pc/userData.json
 /pc/commandHistory.log
+/pc/test.py
 Server/package-lock.json
