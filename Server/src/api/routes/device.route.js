@@ -4,6 +4,7 @@ const controller = require('../controllers/device.controller');
 const router = require("express").Router();
 
 const auth = require('../middlewares/auth.middleware');
+const socket = require('../middlewares/socket.middleware');
 const oapi = require("../../config/openapi.config");
 const {error400, error401, error403, error500} = require('../helpers/errorsList.helper');
 
@@ -162,7 +163,7 @@ router.post("/update", oapi.path({
         403: error403,
         500: error500
     }
-}), auth, (req, res) => {
+}), auth, socket, (req, res) => {
     controller.update(req, res);
 });
 
@@ -224,7 +225,7 @@ router.post("/delete", oapi.path({
         403: error403,
         500: error500
     }
-}), auth, (req, res) => {
+}), auth, socket, (req, res) => {
     controller.del(req, res);
 });
 
