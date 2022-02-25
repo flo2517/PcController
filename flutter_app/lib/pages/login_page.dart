@@ -96,7 +96,9 @@ class _loginState extends State<login> {
 
   void loginRequest() async{
     try {
-      var response = await post(Uri.parse(widget.url+"/login"),body: {
+      var response = await
+      post(Uri.parse(widget.url+"/login"),
+      body: {
         "email" : _emailCo.text,
         "password" : _pswdCo.text
       });
@@ -344,7 +346,7 @@ class _loginState extends State<login> {
           text : TextSpan (
               children: [
                 TextSpan(
-                    text: "Pas de compte ? ",
+                    text: "Does not have an account ? ",
                     style : TextStyle(
                         color : Colors.white,
                         fontSize: 18,
@@ -353,7 +355,7 @@ class _loginState extends State<login> {
                     )
                 ),
                 TextSpan(
-                    text: 'S\'inscrire',
+                    text: 'Sign up',
                     style: TextStyle(
                         color: Colors.white,
                         fontSize: 18,
