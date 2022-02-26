@@ -1,5 +1,4 @@
 from tkinter import Tk, Button, Label, DISABLED
-
 import pystray
 from pystray import MenuItem as item
 from PIL import Image
