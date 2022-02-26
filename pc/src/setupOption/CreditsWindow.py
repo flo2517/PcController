@@ -12,7 +12,7 @@ class Credits:
 
     # Display the beautiful and too cute little panda at the bottom of the credit window
     def displayCutePanda(self):
-        path = 'pictures/premote.png'
+        path = 'pictures/premote_white.png'
         # Check file existence
         if os.path.exists(path):
             panda = Canvas(self.credWin, bg="#aaaaaa", bd=0, highlightthickness=0, relief="ridge")
