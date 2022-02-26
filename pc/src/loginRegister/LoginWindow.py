@@ -1,5 +1,5 @@
 import sys
-from tkinter import *
+from tkinter import Tk, Label, Button, Entry, END, StringVar, LEFT, RIGHT
 from src.loginRegister.RegisterWindow import Register
 from src.communication.SocketCommunicationClient import HttpsRequest
 import re
@@ -90,6 +90,9 @@ class Login:
         self.loginWin.geometry("500x480")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
+        self.loginWin.iconbitmap('pictures/premote.ico')
+
+
         # Add action on window close event
         self.loginWin.protocol("WM_DELETE_WINDOW", self.onClosing)
 
