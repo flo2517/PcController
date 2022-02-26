@@ -31,10 +31,6 @@ class forgotPass extends StatefulWidget {
 }
 
 class _forgotPassState extends State<forgotPass> {
-  bool hidePassword = true;
-  bool rememberMe = false;
-  TextEditingController _emailCo = TextEditingController();
-  TextEditingController _pswdCo = TextEditingController();
 
 
 
@@ -43,26 +39,18 @@ class _forgotPassState extends State<forgotPass> {
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
       content:  Text(msg),
       duration: const Duration(seconds: 5),
-      // action: SnackBarAction(
-      //   label: 'ACTION',
-      //   onPressed: () { },
-      // ),
+
     ));
   }
 
-  void loginRequest() async{
+  void resetPassRequest() async{
     try {
-      var response = await post(Uri.parse(widget.url+"/login"),body: {
-        "email" : _emailCo.text,
-        "password" : _pswdCo.text
+      var response = await post(Uri.parse(widget.url+"/resetPasswordMail"),body: {
+        "email" : widget.infos.email,
+
       });
       log(response.body);
-
-      print(response.body);
-
-
-        Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
-
+      snackBarMessage(jsonDecode(response.body)["message"]);
 
         return;
       }
@@ -80,7 +68,7 @@ class _forgotPassState extends State<forgotPass> {
       child: RaisedButton(
         elevation: 5,
         onPressed: ()=> {
-
+          resetPassRequest()
 
         } ,
         padding: EdgeInsets.all(15),
