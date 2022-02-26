@@ -2,7 +2,6 @@ Windows :
 install python3
 pip
 
-python3 -m pip install os
 python3 -m pip install requests
 python3 -m pip install tk
 python3 -m pip install pillow
@@ -11,8 +10,6 @@ python3 -m pip install uuid
 python3 -m pip install python-socketio
 python3 -m pip install pystray
 python3 -m pip install PyAutoGui
-python3 -m pip install sys
-python3 -m pip install re
 python3 -m pip install threading
 python3 -m pip install multiprocessing
 python3 -m pip install pycryptodome
@@ -23,16 +20,13 @@ install python3
 sudo apt-get install python3-pip
 sudo apt-get install playerctl
 
-python3 -m pip install os
 python3 -m pip install requests
 python3 -m pip install tk
-python3 -m pip install pillow
+python3 -m pip install PIL
 python3 -m pip install json
 python3 -m pip install uuid
 python3 -m pip install python-socketio
 python3 -m pip install pystray
-python3 -m pip install sys
-python3 -m pip install re
 python3 -m pip install threading
 python3 -m pip install multiprocessing
 python3 -m pip install pycryptodome
