@@ -115,7 +115,10 @@ class _RemoteState extends State<Remote> {
         request = "/next-music/" +  widget.infos.computerId.toString();
         message = "next-music - ";
         break;
-
+      case 10:
+        request = "/lock/" +  widget.infos.computerId.toString();
+        message = "lock - ";
+        break;
       default:
         break;
     }
@@ -284,7 +287,9 @@ class _RemoteState extends State<Remote> {
                           child: IconButton(
                             icon: const Icon(Icons.lock_outline_rounded),
                             color: Colors.white,
-                            onPressed: () {},
+                            onPressed: () {
+                              requete(10);
+                            },
                           ),
                         ),
                         Transform.scale(
