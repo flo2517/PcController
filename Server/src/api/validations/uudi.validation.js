@@ -14,7 +14,7 @@ const uuidValidation = (uuid, userId) => {
 
     const deviceService = new DeviceService();
 
-    return deviceService.getAll(userId)
+    return deviceService.getAllByUser(userId)
         .then(devices => {
             if (!devices || !devices.length) {
                 throw {message: 'User has no devices'};

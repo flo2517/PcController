@@ -11,7 +11,23 @@
 <header>
     <%- include('./templates/nav', {page}) %>
 </header>
-<main>
+<main class="container">
+    <div class="row justify-content-center">
+        <h1 class="text-center">Pc application</h1>
+        <div class="form-floating">
+            <select id="os" class="form-select">
+                <option value="win">Windows</option>
+                <option value="linux">Linux</option>
+                <!--        <option value="mac">Mac</option>-->
+            </select>
+            <label for="os">OS: </label>
+        </div>
+        <a href="#" class="btn btn-primary stretched-link">Download</a>
+
+
+    </div>
+
+    
     
 
 </main>

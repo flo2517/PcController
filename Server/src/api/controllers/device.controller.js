@@ -113,7 +113,7 @@ const getAll = (req, res) => {
 
     const deviceService = new DeviceService();
 
-    deviceService.getAll(req.decoded.id).then(devices => {
+    deviceService.getAllByUser(req.decoded.id).then(devices => {
         let connected = req.app.get('client');
         let uuids = Object.keys(connected);
         devices.forEach((device, index) => {
