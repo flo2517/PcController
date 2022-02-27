@@ -1,5 +1,5 @@
-import socketio
 import json
+import socketio
 from src.communication.HttpsRequest import HttpsRequest
 from src.executors.Executor import Executor
 

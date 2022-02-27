@@ -6,3 +6,5 @@ desktop.ini
 /pc/commandHistory.log
 /pc/test.py
 Server/package-lock.json
+/pc/.idea
+*.pyc
