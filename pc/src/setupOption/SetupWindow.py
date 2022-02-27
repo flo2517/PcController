@@ -1,4 +1,4 @@
-from tkinter import *
+from tkinter import Tk, Button, Label, DISABLED
 import pystray
 from pystray import MenuItem as item
 from PIL import Image
@@ -12,11 +12,9 @@ class Setup:
     # Hide window
     def onClosing(self):
         self.setupWin.withdraw()
-        path = 'pictures/panda.png'
-        img = Image.open(path)
 
         menu = (item('Show Window', self.showWin), item('Exit', self.exitApp))
-        self.icon = pystray.Icon("PcController", img, "PcController", menu=menu)
+        self.icon = pystray.Icon("PcController", Image.open('pictures/premote_white.ico'), "PcController", menu=menu)
         self.icon.run()
 
     # Open credit window
@@ -79,10 +77,6 @@ class Setup:
                               command=self.exitApp)
         self.exitBtn.pack(pady=10)
 
-        # Add launch on pc starting check button
-        Checkbutton(self.setupWin, text="Start-up launch", font=("Arial", 20), var=self.startUpLaunch, bg="#21a6ff",
-                    activebackground='#21a6ff').pack(side=RIGHT, pady=10, padx=40)
-
     def showWin(self):
         self.icon.stop()
         self.setupWin.deiconify()
@@ -103,6 +97,7 @@ class Setup:
         self.localUserData = localUserData
         self.setupWin = Tk()
         self.setupWin.title("Setup")
+        self.setupWin.iconbitmap('pictures/premote.ico')
 
         self.setupWin.geometry("750x600")
         self.setupWin.configure(bg="#21a6ff")
