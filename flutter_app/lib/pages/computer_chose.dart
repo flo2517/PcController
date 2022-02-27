@@ -67,8 +67,11 @@ class _computer_choseState extends State<computer_chose> {
     try {
       log(widget.url);
       log("token actuel : \n"+widget.infos.token);
-      final response = await get(Uri.parse(widget.url + "/device/getAll"),
+
+      final response = await
+      get(Uri.parse(widget.url + "/device/getAll"),
           headers: {"x-access-token": widget.infos.token});
+
       final jsonData = jsonDecode(response.body);
 
 
@@ -117,6 +120,7 @@ class _computer_choseState extends State<computer_chose> {
           fetched = true;
         });
       }else {
+        log(response.body);
         snackBarMessage(jsonData["message"]);
       }
     } catch (err) {
