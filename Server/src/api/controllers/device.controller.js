@@ -119,7 +119,7 @@ const getAll = (req, res) => {
         devices.forEach((device, index) => {
 
             console.log(devices[index].dataValues);
-            devices[index].dataValues.connected = uuids.indexOf(device.uuid) > -1;
+            devices[index].dataValues.isOnline = uuids.indexOf(device.uuid) > -1;
 
         });
         return res.status(200).json({
