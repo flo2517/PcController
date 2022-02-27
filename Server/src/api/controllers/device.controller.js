@@ -122,7 +122,7 @@ const getAll = (req, res) => {
             if(uuids.length === 0) {
                 devices[index].dataValues.isOnline = false;
             } else if (uuids.find(client => {
-                return client === device.dataValues.uuid
+                return client === devices[index].dataValues.uuid
             })) {
                 devices[index].dataValues.isOnline = true;
             } else {
