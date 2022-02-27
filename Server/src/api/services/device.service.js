@@ -7,7 +7,7 @@ class DeviceService {
     }
 
     async getAllByUser(userId) {
-        return Device.findAll(
+        return await Device.findAll(
             {
                 where: {
                     userId: userId
@@ -17,7 +17,7 @@ class DeviceService {
     }
 
     async getByUuid(uuid) {
-        return Device.findAll(
+        return await Device.findAll(
             {
                 where: {
                     uuid: uuid
