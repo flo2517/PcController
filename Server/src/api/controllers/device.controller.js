@@ -120,13 +120,13 @@ const getAll = (req, res) => {
 
             console.log(devices[index]);
             if(uuids.length === 0) {
-                devices[index].dataValues.isOnline = false;
+                devices[index].device.dataValues.isOnline = false;
             } else if (uuids.find(client => {
                 return client === device.dataValues.uuid
             })) {
-                devices[index].dataValues.isOnline = true;
+                devices[index].device.dataValues.isOnline = true;
             } else {
-                device[index].dataValues.isOnline = false;
+                device[index].device.dataValues.isOnline = false;
             }
         });
         return res.status(200).json({
