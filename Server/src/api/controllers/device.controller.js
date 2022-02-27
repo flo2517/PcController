@@ -112,6 +112,7 @@ const del = (req, res) => {
 const getAll = (req, res) => {
 
     const deviceService = new DeviceService();
+    console.log(req.decoded.id);
 
     deviceService.getAllByUser(req.decoded.id).then(devices => {
         let connected = req.app.get('client');
@@ -133,6 +134,7 @@ const getAll = (req, res) => {
             devices: devices
         });
     }).catch(err => {
+        console.log("error bdd", err);
         return res.status(500).json({
             success: false,
             message: 'Error retrieving devices',
