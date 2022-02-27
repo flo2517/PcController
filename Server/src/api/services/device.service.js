@@ -3,11 +3,11 @@ const {Device} = require("../models/index");
 
 class DeviceService {
     constructor() {
-        this.device = Device;
+
     }
 
-    async getAll(userId) {
-        return this.device.findAll(
+    async getAllByUser(userId) {
+        return Device.findAll(
             {
                 where: {
                     userId: userId
@@ -17,7 +17,7 @@ class DeviceService {
     }
 
     async getByUuid(uuid) {
-        return this.device.findAll(
+        return Device.findAll(
             {
                 where: {
                     uuid: uuid
@@ -27,7 +27,7 @@ class DeviceService {
     }
 
     async getById(id, userId) {
-        return this.device.findOne({
+        return Device.findOne({
             where: {
                 id: id,
                 userId: userId
@@ -36,11 +36,11 @@ class DeviceService {
     }
 
     async create(device) {
-        return this.device.create(device);
+        return Device.create(device);
     }
 
     async update(device) {
-        return await this.device.update(device, {
+        return await Device.update(device, {
             where: {
                 uuid: device.uuid
             }
@@ -48,7 +48,7 @@ class DeviceService {
     }
 
     async delete(uuid) {
-        return await this.device.destroy({
+        return await Device.destroy({
             where: {
                 uuid: uuid
             }
