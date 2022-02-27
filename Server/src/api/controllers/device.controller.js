@@ -118,15 +118,15 @@ const getAll = (req, res) => {
         let uuids = Object.keys(connected);
         devices.forEach((device, index) => {
 
-            console.log(devices[index]);
+            console.log(devices[index].dataValues);
             if(uuids.length === 0) {
-                devices[index].device.dataValues.isOnline = false;
+                devices[index].dataValues.isOnline = false;
             } else if (uuids.find(client => {
                 return client === device.dataValues.uuid
             })) {
-                devices[index].device.dataValues.isOnline = true;
+                devices[index].dataValues.isOnline = true;
             } else {
-                device[index].device.dataValues.isOnline = false;
+                device[index].dataValues.isOnline = false;
             }
         });
         return res.status(200).json({
