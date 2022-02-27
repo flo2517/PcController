@@ -116,9 +116,9 @@ const getAll = (req, res) => {
     deviceService.getAllByUser(req.decoded.id).then(devices => {
         let connected = req.app.get('client');
         let uuids = Object.keys(connected);
-        console.log(devices);
         devices.forEach((device, index) => {
 
+            console.log(device);
             if(uuids.length === 0) {
                 devices[index].dataValues.isOnline = false;
             } else if (uuids.find(client => {
