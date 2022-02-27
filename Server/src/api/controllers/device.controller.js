@@ -116,19 +116,19 @@ const getAll = (req, res) => {
     deviceService.getAllByUser(req.decoded.id).then(devices => {
         let connected = req.app.get('client');
         let uuids = Object.keys(connected);
-        devices.forEach((device, index) => {
-
-            console.log(devices[index].dataValues);
-            if(uuids.length === 0) {
-                devices[index].dataValues.isOnline = false;
-            } else if (uuids.find(client => {
-                return client === devices[index].dataValues.uuid
-            })) {
-                devices[index].dataValues.isOnline = true;
-            } else {
-                device[index].dataValues.isOnline = false;
-            }
-        });
+        // devices.forEach((device, index) => {
+        //
+        //     console.log(devices[index].dataValues);
+        //     if(uuids.length === 0) {
+        //         devices[index].dataValues.isOnline = false;
+        //     } else if (uuids.find(client => {
+        //         return client === devices[index].dataValues.uuid
+        //     })) {
+        //         devices[index].dataValues.isOnline = true;
+        //     } else {
+        //         device[index].dataValues.isOnline = false;
+        //     }
+        // });
         return res.status(200).json({
             success: true,
             message: 'Devices retrieved successfully',
