@@ -6,6 +6,8 @@ router.get("/", controller.home);
 
 router.get('/download', controller.download);
 
+router.get('/download/:file', controller.downloadFile);
+
 router.get("/about", controller.about);
 
 module.exports = router;
