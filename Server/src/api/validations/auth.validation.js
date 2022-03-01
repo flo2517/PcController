@@ -1,5 +1,6 @@
 const validateEmail = (email) => {
-    return String(email).match(/^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i);
+    //return String(email).match(/^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i);
+    return true;
 };
 
 const validatePassword = (password) => {
