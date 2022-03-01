@@ -70,8 +70,8 @@ class HttpsRequest:
             return False
 
     # Send reset password mail
-    def passwordForget(self, mail):
-        pload = {"email": mail}
+    def passwordForget(self, email):
+        pload = {"email": email}
         r = requests.post(self.address + "resetPasswordMail", data=pload)
         requestResult = r.json()
         if requestResult['success']:
