@@ -28,9 +28,9 @@ const downloadFile = (req, res) => {
   } else if(file === 'mac') {
     res.download('./public/downloads/mac.exe');
   } else if(file === 'linux') {
-    res.download(path.join(__dirname, '../../public/downloads/linux.deb'));
+    res.download(path.join(__dirname, '../../../public/downloads/linux.deb'));
   } else if(file === 'android') {
-    res.download(path.join(__dirname, '../../public/downloads/android.apk'));
+    res.download(path.join(__dirname, '../../../public/downloads/android.apk'));
   } else {
     res.status(404).render('pages/404', {
       title: '404',
