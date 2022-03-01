@@ -206,9 +206,9 @@ const verify = (req, res) =>  {
     const {verifyString} = req.params;
 
     if(!verifyString){
-        return res.status(400).json({
+        return res.status(400).render('pages/verifyEmail', {
             success: false,
-            message: 'verify string is required'
+            message: 'verification string is required'
         });
     }
 
@@ -217,28 +217,28 @@ const verify = (req, res) =>  {
         let user = users[0];
         console.log(user)
         if(!user){
-            return res.status(400).json({
+            return res.status(400).render('pages/verifyEmail', {
                 success: false,
                 message: 'verify string is invalid'
             });
         }
         if(user.verified){
-            return res.status(400).json({
+            return res.status(400).render('pages/verifyEmail', {
                 success: false,
-                message: 'user is already verified'
+                message: 'user has already been verified'
             });
         }
         user.verified = true;
         user.verifyString = null;
         user.save().then(() => {
-            return res.status(200).json({
+            return res.status(200).render('pages/verifyEmail', {
                 success: true,
-                message: 'user is verified'
+                message: 'user has been verified'
             });
         });
     }).catch(err => {
         console.log(err);
-        return res.status(500).json({
+        return res.status(500).render('pages/verifyEmail', {
             success: false,
             message: err.message
         });
