@@ -11,9 +11,9 @@
 <header>
     <%- include('./templates/nav', {page}) %>
 </header>
-<main class="container">
-    <div class="row justify-content-center">
-        <h1 class="text-center">Pc application</h1>
+<main class="container mt-3 text-center">
+    <div class="row justify-content-center ">
+        <h1>Pc application</h1>
         <form class="form-floating">
             <select id="os_pc" class="form-select">
                 <option value="windows">Windows</option>
@@ -21,7 +21,7 @@
                 <!--        <option value="mac">Mac</option>-->
             </select>
             <label for="os_pc">OS: </label>
-            <a class="btn btn-primary" href="/download/win" id="download_button_pc" >Download windows executable</a>
+            <a class="btn btn-primary mt-3" href="/download/win" id="download_button_pc" >Download windows executable</a>
         </form>
     </div>
     <div class="row justify-content-center">
@@ -33,13 +33,9 @@
                 <!--        <option value="mac">Mac</option>-->
             </select>
             <label for="os_tel">OS: </label>
-            <a class="btn btn-primary" href="/download/android" id="download_button_tel" >Download android application</a>
+            <a class="btn btn-primary mt-3" href="/download/android" id="download_button_tel" >Download android application</a>
         </form>
     </div>
-
-    
-    
-
 </main>
 <footer>
     <%- include('./templates/footer', {page}) %>
