@@ -10,7 +10,7 @@ EmailService.sendVerifyMail = (email, verifyString) => {
     let sender = process.env.MAIL_USER;
     ejs.renderFile(__dirname + '/../../views/emails/welcomeEmail.ejs', {
         user_firstname: 'You',
-        confirm_link: `http://${process.env.API_HOST}:${process.env.API_PORT}/verify/${verifyString}`
+        confirm_link: `https://${process.env.API_HOST}/verify/${verifyString}`
     }).then(function(data) {
         let mailOptions = {
             from: sender,
@@ -32,7 +32,7 @@ EmailService.sendResetPasswordMail = (email, passwordToken) => {
     let sender = process.env.MAIL_USER;
     ejs.renderFile(__dirname + '/../../views/emails/forgetPassword.ejs', {
         user_firstname: 'You',
-        confirm_link: `http://${process.env.API_HOST}:${process.env.API_PORT}/resetPassword?token=${passwordToken}`
+        confirm_link: `https://${process.env.API_HOST}/resetPassword?token=${passwordToken}`
     }).then(function(data) {
         let mailOptions = {
             from: sender,
