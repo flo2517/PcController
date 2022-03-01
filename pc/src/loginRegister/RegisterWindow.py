@@ -61,7 +61,6 @@ class Register:
             self.registerWin.destroy()
             return False
 
-
     def login(self):
         # Close window
         self.registerWin.destroy()

@@ -96,16 +96,14 @@ class Setup:
         self.restart = False
         self.localUserData = localUserData
         self.setupWin = Tk()
+
         self.setupWin.title("Setup")
         self.setupWin.iconbitmap('pictures/premote.ico')
-
         self.setupWin.geometry("750x600")
         self.setupWin.configure(bg="#21a6ff")
         self.setupWin.resizable(False, False)
 
         self.setupWin.protocol("WM_DELETE_WINDOW", self.onClosing)
-
-        self.startUpLaunch = False
 
         Label(self.setupWin, text="Setup", font=("Arial", 40), bg="#21a6ff", pady=20).pack()
 
