@@ -12,5 +12,5 @@ setup(
     version="1.0",
     description="Pc remote controller software",
     options={'build_exe': include_files},
-    executables=[Executable("Main.py", base=base)],
+    executables=[Executable("Premote.py", base=base, icon="pictures/premote.ico")],
 )
