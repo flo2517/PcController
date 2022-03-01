@@ -103,7 +103,14 @@ class Login:
         # Add mail input
         Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 330))
         self.username = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid")
-        self.username.insert(END, self.localUserData.getUserID())
+        if type(self.localUserData.getUserID()) == str:
+            print(type(self.localUserData.getUserID()))
+            print('Is string')
+            self.username.insert(END, self.localUserData.getUserID())
+        else:
+            print("Is bytecode")
+            self.username.insert(END, self.localUserData.getUserID().decode('utf-8'))
+
         self.username.pack(pady=(0, 15))
 
         # Add password input
