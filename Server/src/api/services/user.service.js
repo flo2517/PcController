@@ -1,13 +1,9 @@
 const Sequelize = require('sequelize');
 const {User} = require("../models/index");
 
-
-
 class UserService {
 
-  constructor() {
-
-  }
+  constructor() {}
 
   async getUser(id) {
     return User.findAll({

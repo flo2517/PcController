@@ -14,17 +14,27 @@
 <main class="container">
     <div class="row justify-content-center">
         <h1 class="text-center">Pc application</h1>
-        <div class="form-floating">
-            <select id="os" class="form-select">
-                <option value="win">Windows</option>
+        <form class="form-floating">
+            <select id="os_pc" class="form-select">
+                <option value="windows">Windows</option>
                 <option value="linux">Linux</option>
                 <!--        <option value="mac">Mac</option>-->
             </select>
-            <label for="os">OS: </label>
-        </div>
-        <a href="#" class="btn btn-primary stretched-link">Download</a>
-
-
+            <label for="os_pc">OS: </label>
+            <a class="btn btn-primary" href="/download/win" id="download_button_pc" >Download windows executable</a>
+        </form>
+    </div>
+    <div class="row justify-content-center">
+        <h1 class="text-center">Mobile application</h1>
+        <form class="form-floating">
+            <select id="os_tel" class="form-select">
+                <option value="android">Android</option>
+                <option value="ios">iOS</option>
+                <!--        <option value="mac">Mac</option>-->
+            </select>
+            <label for="os_tel">OS: </label>
+            <a class="btn btn-primary" href="/download/android" id="download_button_tel" >Download android application</a>
+        </form>
     </div>
 
     
@@ -35,4 +45,18 @@
     <%- include('./templates/footer', {page}) %>
 </footer>
 </body>
+<script>
+    document.querySelector('#os_pc').addEventListener('change', e => {
+        let os = e.target.value;
+        document.querySelector('#download_button_pc').href = `/download/${os}`;
+        document.querySelector('#download_button_pc').innerText = `Download ${os} executable`;
+    });
+
+    document.querySelector('#os_tel').addEventListener('change', e => {
+        let os = e.target.value;
+        document.querySelector('#download_button_tel').href = `/download/${os}`;
+        document.querySelector('#download_button_tel').innerText = `Download ${os} application`;
+    });
+    
+</script>
 </html>

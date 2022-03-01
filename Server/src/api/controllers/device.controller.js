@@ -1,9 +1,7 @@
 const DeviceService = require("../services/device.service");
 
 const add = (req, res) => {
-
     const {uuid, name} = req.body;
-
 
     if (!uuid || !name) {
         return res.status(400).json({
