@@ -26,23 +26,19 @@ app.set('client', CLIENT);
 
 require('dotenv').config({path : path.join(__dirname, '/.env')});
 
-const oapi = require('./src/config/openapi.config');
-const uuidValidation = require("./src/api/validations/uudi.validation");
-
-app.use(oapi)
-
-app.use('/public', express.static(path.join(__dirname, '/public')));
-app.use('/favicon.ico', express.static(path.join(__dirname, '/public/favicon.ico')));
-
 const {API_PORT} = process.env;
 const port = process.env.PORT || API_PORT ;
+
+const oapi = require('./src/config/openapi.config');
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "x-access-token, Origin, Content-Type, Accept");
     res.set("Content-Security-Policy", "default-src *; style-src 'self' https://* 'unsafe-inline'; script-src 'self' https://* 'unsafe-inline' 'unsafe-eval'; img-src 'self' data:; font-src 'self' data:; connect-src 'self' ws://* https://*");
     next();
 });
-
+app.use(oapi);
+app.use('/public', express.static(path.join(__dirname, '/public')));
+app.use('/favicon.ico', express.static(path.join(__dirname, '/public/favicon.ico')));
 app.use('/', require("./src/api/routes/socket.route"));
 app.use('/', require("./src/api/routes/auth.route"));
 app.use('/', require("./src/api/routes/pages.route"));
@@ -56,6 +52,7 @@ server.listen(port, function() {
 });
 
 
+const uuidValidation = require("./src/api/validations/uudi.validation");
 const jwt = require("jsonwebtoken");
 const {TokenExpiredError} = require("jsonwebtoken");
 io.on('connection', (socket) => {
