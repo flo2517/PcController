@@ -40,6 +40,18 @@ class WinExe:
         elif commandID == 9:
             pyautogui.press("prevtrack")
             return 0
+        elif commandID == 10:
+            pyautogui.press("left")
+            return 0
+        elif commandID == 11:
+            pyautogui.press("right")
+            return 0
+        elif commandID == 12:
+            pyautogui.press("up")
+            return 0
+        elif commandID == 13:
+            pyautogui.press("down")
+            return 0
         else:
             print("Command not found")
-        return 1
+            return 1
