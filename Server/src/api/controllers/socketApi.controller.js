@@ -105,10 +105,60 @@ const previous = (req, res) => {
     }
 }
 
+const arrow = (req, res) => {
+    let socket = req.app.get('client');
+    let id = req.params.id;
+    let arrow = req.params.action;
+    if(socket[id]) {
+        switch (arrow) {
+            case 'up':
+                socket[id].emit('up');
+                res.status(200).json({
+                    success: true,
+                    message: 'Arrow up request sent'
+                });
+                break;
+            case 'down':
+                socket[id].emit('down');
+                res.status(200).json({
+                    success: true,
+                    message: 'Arrow down request sent'
+                });
+                break;
+            case 'left':
+                socket[id].emit('left');
+                res.status(200).json({
+                    success: true,
+                    message: 'Arrow left request sent'
+                });
+                break;
+            case 'right':
+                socket[id].emit('right');
+                res.status(200).json({
+                    success: true,
+                    message: 'Arrow right request sent'
+                });
+                break;
+            default:
+                res.status(400).send({
+                    success: false,
+                    message: 'Invalid action'
+                });
+                break;
+        }
+    } else {
+        res.status(404).send({
+            success: false,
+            message: 'Socket not found'
+        });
+    }
+}
+
 module.exports = {
     shutdown,
     volume,
     lock,
     next,
-    previous
+    previous,
+    arrow
 }
