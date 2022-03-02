@@ -344,4 +344,75 @@ router.get("/previous-music/:id", auth, socket, oapi.path({
     }
 }), controller.previous);
 
+router.get("/arrow/:action/:id", auth, socket, oapi.path({
+    tags: ["socket"],
+    summary: "Arrow",
+    description: "Arrow",
+    parameters: [
+        {
+            name: "x-access-token",
+            in: "header",
+            description: "header",
+            required: true,
+            schema: {
+                type: "string"
+
+            }
+        },
+        {
+            name: "id",
+            in: "path",
+            description: "Device ID",
+            required: true,
+            type: "string"
+        },
+        {
+            name: "dir",
+            in: "path",
+            description: "Arrow direction",
+            required: true,
+            type: "string"
+        }
+    ],
+    responses: {
+        200: {
+            description: "Success",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Success message",
+                                example: "Arrow"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        400: error400,
+        401: error401,
+        403: error403,
+        404: {
+            description: "Device not found",
+            content: {
+                'application/json': {
+                    schema: {
+                        type: "object",
+                        properties: {
+                            message: {
+                                type: "string",
+                                description: "Error message",
+                                example: "Device not found"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}), controller.arrow);
+
 module.exports = router;
