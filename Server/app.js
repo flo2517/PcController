@@ -103,6 +103,4 @@ io.on('connection', (socket) => {
 
 });
 
-// const {sendVerifyMail} = require("./src/api/services/email.service");
-//
-// sendVerifyMail('jeandenans.florian@gmail.com', 'yolo');
+
