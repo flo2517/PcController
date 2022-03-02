@@ -39,13 +39,9 @@ class SocketCommunication:
             sio.emit('source', pload)
             print('Connection established')
 
-        @sio.on('volumeMute')
-        def mute():
-            self.executor.execute(4)
-
-        @sio.on('volumePlay')
-        def play():
-            self.executor.execute(5)
+        @sio.on('shutdown')
+        def previous():
+            self.executor.execute(1)
 
         @sio.on('volumeUp')
         def vUp():
@@ -54,6 +50,14 @@ class SocketCommunication:
         @sio.on('volumeDown')
         def vDown():
             self.executor.execute(3)
+
+        @sio.on('volumeMute')
+        def mute():
+            self.executor.execute(4)
+
+        @sio.on('volumePlay')
+        def play():
+            self.executor.execute(5)
 
         @sio.on('lock')
         def lock():
@@ -66,6 +70,22 @@ class SocketCommunication:
         @sio.on('previous')
         def previous():
             self.executor.execute(9)
+
+        @sio.on('left')
+        def previous():
+            self.executor.execute(10)
+
+        @sio.on('right')
+        def previous():
+            self.executor.execute(11)
+
+        @sio.on('up')
+        def previous():
+            self.executor.execute(12)
+
+        @sio.on('down')
+        def previous():
+            self.executor.execute(13)
 
         @sio.on('error')
         def error(msg):

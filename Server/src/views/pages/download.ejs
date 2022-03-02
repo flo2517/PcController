@@ -11,30 +11,33 @@
 <header>
     <%- include('./templates/nav', {page}) %>
 </header>
-<main class="container mt-3 text-center">
-    <div class="row justify-content-center ">
-        <h1>Pc application</h1>
-        <form class="form-floating">
-            <select id="os_pc" class="form-select">
-                <option value="windows">Windows</option>
-                <option value="linux">Linux</option>
-                <!--        <option value="mac">Mac</option>-->
-            </select>
-            <label for="os_pc">OS: </label>
-            <a class="btn btn-primary mt-3" href="/download/win" id="download_button_pc" >Download windows executable</a>
-        </form>
-    </div>
-    <div class="row justify-content-center">
-        <h1 class="text-center">Mobile application</h1>
-        <form class="form-floating">
-            <select id="os_tel" class="form-select">
-                <option value="android">Android</option>
-                <option value="ios">iOS</option>
-                <!--        <option value="mac">Mac</option>-->
-            </select>
-            <label for="os_tel">OS: </label>
-            <a class="btn btn-primary mt-3" href="/download/android" id="download_button_tel" >Download android application</a>
-        </form>
+<main style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0.7) 100%), url('/public/images/bg.png')">
+    <div class="container mt-3 text-center">
+
+        <div class="row justify-content-center ">
+            <h1>Pc application</h1>
+            <form class="form-floating">
+                <select id="os_pc" class="form-select">
+                    <option value="windows">Windows</option>
+                    <option value="linux">Linux</option>
+                    <!--        <option value="mac">Mac</option>-->
+                </select>
+                <label for="os_pc">OS: </label>
+                <a class="btn btn-primary mt-3" href="/download/win" id="download_button_pc" >Download windows executable</a>
+            </form>
+        </div>
+        <div class="row justify-content-center">
+            <h1 class="text-center">Mobile application</h1>
+            <form class="form-floating">
+                <select id="os_tel" class="form-select">
+                    <option value="android">Android</option>
+                    <option value="ios">iOS</option>
+                    <!--        <option value="mac">Mac</option>-->
+                </select>
+                <label for="os_tel">OS: </label>
+                <a class="btn btn-primary mt-3" href="/download/android" id="download_button_tel" >Download android application</a>
+            </form>
+        </div>
     </div>
 </main>
 <footer>
