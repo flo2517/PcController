@@ -27,7 +27,6 @@ class DelAccount:
         self.delUserWin.geometry("500x250")
         self.delUserWin.configure(bg="#21a6ff")
         self.delUserWin.resizable(False, False)
-        self.delUserWin.iconbitmap('pictures/premote.ico')
 
         # Add action on window close event
         self.delUserWin.protocol("WM_DELETE_WINDOW", self.onClosing)

@@ -90,7 +90,6 @@ class Login:
         self.loginWin.geometry("500x480")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
-        self.loginWin.iconbitmap('pictures/premote.ico')
 
 
         # Add action on window close event

@@ -16,13 +16,14 @@ class LinuxExe:
             os.system("shutdown -s -t 1")
             return 0
         elif commandID == 2:
-            os.system("playerctl volume 10%+")
+            test = os.system("amixer -D pulse sset Master 10%+")
+            print(test)
             return 0
         elif commandID == 3:
-            os.system("playerctl volume 10%+")
+            os.system("amixer -D pulse sset Master 10%-")
             return 0
         elif commandID == 4:
-            os.system("playerctl volume 0%")
+            os.system("amixer -D pulse sset Master 0%")
             return 0
         elif commandID == 5:
             os.system("playerctl play-pause")

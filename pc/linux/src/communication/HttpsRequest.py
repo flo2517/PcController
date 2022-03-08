@@ -84,7 +84,7 @@ class HttpsRequest:
     # Send request to add new device to server
     def addDevice(self, userData):
         header = {'x-access-token': userData.getJwtToken()}
-        pload = {"uuid": userData.getToken(), "name": os.environ['COMPUTERNAME']}
+        pload = {"uuid": userData.getToken(), "name": os.environ['USERNAME']+"_pc"}
         r = requests.post(self.address + "device/add", data=pload, headers=header)
         requestResult = r.json()
         if requestResult["success"]:
