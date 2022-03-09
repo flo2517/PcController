@@ -69,7 +69,7 @@ class _RemoteState extends State<Remote> {
     }
   }
 
-  /// state : 1- up , 2-down, 3-mute, 4-unmute, 5-play, 6-pause , 7-shutdown, 8 skip previous, 9 skip next
+  /// state : 1- up , 2-down, 3-mute, 4-unmute, 5-play, 6-pause , 7-shutdown, 8 skip previous, 9 skip next 10 lock, 11 arrow up, 12 Adown , 13 Aleft 14 A right
   void requete(int state) async {
     String message = "";
     String request = "";
@@ -118,6 +118,22 @@ class _RemoteState extends State<Remote> {
       case 10:
         request = "/lock/" +  widget.infos.computerId.toString();
         message = "lock - ";
+        break;
+      case 11:
+        request = "/arrow/up/" +  widget.infos.computerId.toString();
+        message = "arrow up - ";
+        break;
+      case 12:
+        request = "/arrow/down/" +  widget.infos.computerId.toString();
+        message = "arrow down - ";
+        break;
+      case 13:
+        request = "/arrow/left/" +  widget.infos.computerId.toString();
+        message = "arrow left - ";
+        break;
+      case 14:
+        request = "/arrow/right/" +  widget.infos.computerId.toString();
+        message = "arrow right - ";
         break;
       default:
         break;
@@ -210,33 +226,7 @@ class _RemoteState extends State<Remote> {
                       ],
                     ),
                   ),
-                  ///play pause
-                  // SizedBox(
-                  //   height: 100,
-                  //   child: Row(
-                  //     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //     children: [
-                  //       Transform.scale(
-                  //         scale: 3,
-                  //         child: IconButton(
-                  //           icon: const Icon(Icons.play_circle_outline_rounded),
-                  //           onPressed: () {
-                  //             requete(5);
-                  //           },
-                  //         ),
-                  //       ),
-                  //       Transform.scale(
-                  //         scale: 3,
-                  //         child: IconButton(
-                  //           icon: const Icon(Icons.pause_circle_outline_rounded),
-                  //           onPressed: () {
-                  //             requete(6);
-                  //           },
-                  //         ),
-                  //       ),
-                  //     ],
-                  //   ),
-                  // ),
+
                   ///previous, play/pause next
                   SizedBox(
                     height: 100,
@@ -300,34 +290,85 @@ class _RemoteState extends State<Remote> {
                             onPressed: () {
                               requete(7);
 
-                              // showDialog(
-                              //     context: context,
-                              //     barrierDismissible: false,
-                              //
-                              //     builder: (_) =>
-                              //         CupertinoAlertDialog(
-                              //           title: Text("clique"),
-                              //           //content: Text("fezgzge"),
-                              //           actions:
-                              //             <Widget>[
-                              //               CupertinoDialogAction(
-                              //                 child: Text('ok'),
-                              //                 onPressed: () {
-                              //                   Navigator.of(context).pop();
-                              //                 },
-                              //               ),
-                              //
-                              //             ],
-                              //
-                              //         )
-                              // );
                             },
                           ),
                         ),
                       ],
                     ),
                   ), //
-                  SizedBox(height: 10.0),
+                  SizedBox(
+                    height: 80,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Transform.scale(
+                          scale: 3,
+                          child: RotatedBox(
+                            quarterTurns: 1,
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              color: Colors.white,
+                              onPressed: () {
+                                requete(11);
+
+                              },
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ), //
+                  SizedBox(
+                    height: 70,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Transform.scale(
+                          scale: 3,
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back_ios_sharp),
+                            color: Colors.white,
+                            onPressed: () {
+                              requete(13);
+
+                            },
+                          ),
+                        ),
+                        Transform.scale(
+                          scale: 3,
+                          child: RotatedBox(
+                            quarterTurns: 3,
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              color: Colors.white,
+                              onPressed: () {
+                                requete(12);
+
+                              },
+                            ),
+                          ),
+                          ),
+
+                        Transform.scale(
+                          scale: 3,
+                          child: RotatedBox(
+                            quarterTurns: 2,
+                            child: IconButton(
+                              icon: const Icon(Icons.arrow_back_ios_sharp),
+                              color: Colors.white,
+                              onPressed: () {
+                                requete(14);
+
+                              },
+                            ),
+                          ),
+                        ),
+
+                      ],
+                    ),
+                  ), //
+                  SizedBox(height: 30.0),
                   Text('$label', style: TextStyle(fontSize: 20,
                   color: Colors.white)),
 
