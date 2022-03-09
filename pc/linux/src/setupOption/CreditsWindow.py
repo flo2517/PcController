@@ -1,4 +1,4 @@
-from tkinter import Tk, Canvas, ACTIVE, SE, Text, PhotoImage
+from tkinter import Tk, Canvas, ACTIVE, SE, Text, PhotoImage, Image
 import os.path
 
 
@@ -11,15 +11,15 @@ class Credits:
 
     # Display the beautiful and too cute little panda at the bottom of the credit window
     def displayCutePanda(self):
-        path = 'pictures/premote_white.png'
+        path = '/home/pandapp/Documents/DEV/Pandapp/pc/pictures/premote_white.png'
+
         # Check file existence
         if os.path.exists(path):
             panda = Canvas(self.credWin, bg="#aaaaaa", bd=0, highlightthickness=0, relief="ridge")
 
             # Load and resize picture
             img = PhotoImage(path)
-            #img = img.resize((70, 70))
-            #img = ImageTk.PhotoImage(master=self.credWin, image=img)
+            img = PhotoImage(master=self.credWin, image=img)
 
             # Place picture
             panda.create_image(380, 70, anchor=SE, image=img)

@@ -117,26 +117,26 @@ class Register:
         Label(self.registerWin, textvariable=self.errorMessage, font=("Arial", 15, "bold"), bg="#21a6ff", pady=5).pack()
 
         # Add mail input
-        Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 330))
+        Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff", highlightbackground="#21a6ff").pack(padx=(35, 330))
         self.username = Entry(self.registerWin, font=("Arial", 25), borderwidth=3, relief="solid")
         self.username.insert(END, self.localUserData.getUserID())
         self.username.pack(pady=(0, 15))
 
         # Add password inputs
-        Label(self.registerWin, text="Password:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(45, 305))
+        Label(self.registerWin, text="Password:", font=("Arial", 15, "bold"), bg="#21a6ff", highlightbackground="#21a6ff").pack(padx=(45, 305))
         self.password = Entry(self.registerWin, font=("Arial", 25), borderwidth=3, relief="solid")
         self.password.config(show="●")
         self.password.pack(pady=(0, 15))
 
         # Password confirmation
         Label(self.registerWin, text="Confirm password:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(45, 227))
-        self.passwordConf = Entry(self.registerWin, font=("Arial", 25), borderwidth=3, relief="solid")
+        self.passwordConf = Entry(self.registerWin, font=("Arial", 25), borderwidth=3, relief="solid", highlightbackground="#21a6ff")
         self.passwordConf.config(show="●")
         self.passwordConf.pack(pady=(0, 15))
 
         # Add login button
-        Button(self.registerWin, text="login", font=("Arial", 25), bg="#21a6ff", relief="flat",
-               command=self.login).pack(side=LEFT, pady=20, padx=(140, 20))
+        Button(self.registerWin, text="login", font=("Arial", 25), activebackground="#21a6ff", bg="#21a6ff", relief="flat",
+               command=self.login, highlightbackground="#21a6ff").pack(side=LEFT, pady=20, padx=(140, 20))
         # Add register button
         Button(self.registerWin, text="register", font=("Arial", 20), borderwidth=1, relief="solid",
                command=self.getUserData).pack(side=RIGHT, pady=20, padx=(15, 130))

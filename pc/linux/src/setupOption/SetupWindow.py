@@ -10,11 +10,7 @@ class Setup:
 
     # Hide window
     def onClosing(self):
-        self.setupWin.withdraw()
-
-        menu = (item('Show Window', self.showWin), item('Exit', self.exitApp))
-        self.icon = pystray.Icon("PcController", PhotoImage('pictures/premote_white.ico'), "PcController", menu=menu)
-        self.icon.run()
+        pass
 
     # Open credit window
     def creditsWin(self):

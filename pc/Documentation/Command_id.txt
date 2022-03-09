@@ -9,3 +9,7 @@ Command id -> Corresponding command
 7 -> lock the pc
 8 -> play next music
 9 -> play previous music
+10 -> left arrow
+11 -> right arrow
+12 -> up arrow
+13 -> down arrow
