@@ -5,7 +5,7 @@ import requests
 class HttpsRequest:
 
     def __init__(self):
-        self.address = "http://pandapp.thrallweb.fr/"
+        self.address = "https://pandapp.thrallweb.fr/"
 
     # Send register request to server
     def register(self, email, password):

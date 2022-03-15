@@ -10,3 +10,4 @@ desktop.ini
 Server/package-lock.json
 /pc/.idea
 *.pyc
+/venv/

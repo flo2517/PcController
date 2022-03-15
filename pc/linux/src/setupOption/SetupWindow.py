@@ -1,6 +1,4 @@
 from tkinter import Tk, Button, Label, DISABLED, PhotoImage
-import pystray
-from pystray import MenuItem as item
 from src.setupOption.ChangePasswordWindow import ChangePassword
 from src.setupOption.CreditsWindow import Credits
 from src.setupOption.DelAcountWindow import DelAccount
@@ -31,8 +29,6 @@ class Setup:
     # End program
     def exitApp(self):
         self.restart = False
-        if self.icon is not None:
-            self.icon.stop()
         self.setupWin.destroy()
 
     # Del user account
