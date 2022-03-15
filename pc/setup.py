@@ -8,9 +8,9 @@ if sys.platform == "win32":
 
 include_files = {'include_files': 'pictures'}
 setup(
-    name="Premote",
+    name="Pandapp",
     version="1.0",
     description="Pc remote controller software",
     options={'build_exe': include_files},
-    executables=[Executable("Premote.py", base=base, icon="pictures/premote.ico")],
+    executables=[Executable("linux/Pandapp.py", base=base, icon="/home/pandapp/Documents/DEV/Pandapp/pc/pictures/pandapp.ico")],
 )

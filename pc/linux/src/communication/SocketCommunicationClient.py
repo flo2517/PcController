@@ -12,7 +12,7 @@ class SocketCommunication:
         self.localUserData = localUserData
         self.executor = Executor()
         self.shmSock = shmSock
-        self.serverAddress = "http://pandapp.thrallweb.fr/"
+        self.serverAddress = "https://pandapp.thrallweb.fr/"
 
 
     def launchCom(self):
