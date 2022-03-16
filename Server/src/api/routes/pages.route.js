@@ -10,4 +10,8 @@ router.get('/download/:file', controller.downloadFile);
 
 router.get("/about", controller.about);
 
+router.get("/comments", controller.comments);
+
+router.post("/comments", controller.addComment);
+
 module.exports = router;
