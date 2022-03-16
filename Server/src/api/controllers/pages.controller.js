@@ -61,7 +61,7 @@ const comments = (req, res) => {
           page: 'comments',
           pagePos,
           pageNb: Math.ceil(comments.count / limit),
-          size: size ? size : 3,
+          size: size ? size : 8,
           comments: comments.rows,
           averageMark: parseFloat(averageMark[0].dataValues.averageRating).toFixed(2)
         });
