@@ -50,7 +50,7 @@ const comments = (req, res) => {
   let service = new commentService();
   const { page, size } = req.query;
   const { limit, offset } = getPagination(page, size);
-  const pagePos = page ? page : 1;
+  const pagePos = page ? page : 0;
   service.getComments(limit, offset)
     .then(comments => {
       // let averageMark = (comments.rows.reduce((sum, comment) => sum + comment.dataValues.note, 0) / comments.rows.length).toFixed(2);
