@@ -71,7 +71,7 @@ class ChangePassword:
         self.chgPassWin.geometry("500x500")
         self.chgPassWin.configure(bg="#21a6ff")
         self.chgPassWin.resizable(False, False)
-        self.chgPassWin.iconbitmap('pictures/pandapp.ico')
+        self.chgPassWin.iconbitmap('../pictures/pandapp.ico')
 
         # Add action on window close event
         self.chgPassWin.protocol("WM_DELETE_WINDOW", self.onClosing)

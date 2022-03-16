@@ -73,7 +73,7 @@ class Login:
         self.loginWin.withdraw()
 
         # Launch register window
-        self.registerWin = Register(self.loginWin, self.localUserData)
+        self.registerWin = Register(self.loginWin, self.localUserData, self.errorMessage)
 
     def __init__(self, localUserData, errorMessage):
         self.registerWin = None
@@ -90,7 +90,7 @@ class Login:
         self.loginWin.geometry("500x480")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
-        self.loginWin.iconbitmap('pictures/pandapp.ico')
+        self.loginWin.iconbitmap('../pictures/pandapp.ico')
 
 
         # Add action on window close event

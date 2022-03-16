@@ -12,7 +12,7 @@ class Credits:
 
     # Display the beautiful and too cute little panda at the bottom of the credit window
     def displayCutePanda(self):
-        path = 'pictures/pandapp_white.png'
+        path = '../pictures/pandapp_white.png'
         # Check file existence
         if os.path.exists(path):
             panda = Canvas(self.credWin, bg="#aaaaaa", bd=0, highlightthickness=0, relief="ridge")
@@ -42,7 +42,7 @@ class Credits:
         self.credWin.geometry("550x550")
         self.credWin.configure(bg="#aaaaaa")
         self.credWin.resizable(False, False)
-        self.credWin.iconbitmap('pictures/pandapp.ico')
+        self.credWin.iconbitmap('../pictures/pandapp.ico')
 
         self.credWin.protocol("WM_DELETE_WINDOW", self.onClosing)
 

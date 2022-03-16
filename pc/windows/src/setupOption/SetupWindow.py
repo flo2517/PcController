@@ -14,7 +14,7 @@ class Setup:
         self.setupWin.withdraw()
 
         menu = (item('Show Window', self.showWin), item('Exit', self.exitApp))
-        self.icon = pystray.Icon("PcController", Image.open('pictures/pandapp_white.ico'), "PcController", menu=menu)
+        self.icon = pystray.Icon("PcController", Image.open('../pictures/pandapp_white.ico'), "PcController", menu=menu)
         self.icon.run()
 
     # Open credit window
@@ -98,7 +98,7 @@ class Setup:
         self.setupWin = Tk()
 
         self.setupWin.title("Setup")
-        self.setupWin.iconbitmap('pictures/pandapp.ico')
+        self.setupWin.iconbitmap('../pictures/pandapp.ico')
         self.setupWin.geometry("750x600")
         self.setupWin.configure(bg="#21a6ff")
         self.setupWin.resizable(False, False)
