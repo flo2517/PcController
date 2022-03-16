@@ -90,7 +90,6 @@ class Login:
         self.loginWin.geometry("500x480")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
-        self.loginWin.iconbitmap('pictures/premote.ico')
 
 
         # Add action on window close event
@@ -114,19 +113,19 @@ class Login:
         self.username.pack(pady=(0, 15))
 
         # Add password input
-        Label(self.registerWin, text="Password:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(45, 305))
-        self.password = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid")
+        Label(self.registerWin, text="Password:", font=("Arial", 15, "bold"), bg="#21a6ff", highlightbackground="#21a6ff").pack(padx=(45, 305))
+        self.password = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid", highlightbackground="#21a6ff")
         self.password.config(show="●")
         self.password.pack(pady=(0, 15))
 
         # Add forget password button
-        Button(self.loginWin, text="Password forget", font=("Arial", 15), bg="#21a6ff", relief="flat", command=self.forgetPassword).pack(padx=(230, 15))
+        Button(self.loginWin, text="Password forget", font=("Arial", 15), activebackground="#21a6ff", bg="#21a6ff", relief="flat", command=self.forgetPassword, highlightbackground="#21a6ff").pack(padx=(230, 15))
 
         # Add login button
         Button(self.loginWin, text="login", font=("Arial", 25), borderwidth=1, relief="solid",
-               command=self.getUserData).pack(side=LEFT, pady=(5, 20), padx=(140, 20))
+               command=self.getUserData, highlightbackground="#21a6ff").pack(side=LEFT, pady=(5, 20), padx=(140, 20))
         # Add register button
-        Button(self.loginWin, text="register", font=("Arial", 20), bg="#21a6ff", relief="flat",
-               command=self.register).pack(side=RIGHT, pady=(5, 20), padx=(15, 130))
+        Button(self.loginWin, text="register", font=("Arial", 20), activebackground="#21a6ff", bg="#21a6ff", relief="flat",
+               command=self.register, highlightbackground="#21a6ff").pack(side=RIGHT, pady=(5, 20), padx=(15, 130))
 
         self.loginWin.mainloop()
