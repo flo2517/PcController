@@ -31,6 +31,17 @@ dependencies:
     sdk: flutter
   http: ^0.13.4
   shared_preferences: ^2.0.12
+  flutter_launcher_icons: ^0.8.1
+
+
+flutter_icons:
+#  image_path: "assets/pandapp.png"
+  image_path: "assets/pandapp_white.png"
+
+  #image_path_android: "assets/images/android/icon.png"
+  #image_path_ios: "assets/images/ios/icon.png"
+  android: true
+  ios: true
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -40,6 +51,10 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  flutter_launcher_name: "^0.0.1"
+
+flutter_launcher_name:
+  name: "Pandapp"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
