@@ -105,7 +105,7 @@ class Register:
         self.registerWin.geometry("500x450")
         self.registerWin.configure(bg="#21a6ff")
         self.registerWin.resizable(False, False)
-        self.registerWin.iconbitmap('../pictures/pandapp.ico')
+        self.registerWin.iconbitmap('D:\S5\PROJET\Code\pc\pictures\pandapp.ico')
 
         # Add action on window close event
         self.registerWin.protocol("WM_DELETE_WINDOW", self.onClosing)
