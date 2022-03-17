@@ -50,9 +50,7 @@ class Register:
         rqt = HttpsRequest()
         res = rqt.register(self.localUserData.getUserID(), self.localUserData.getUserPassword())
         if res[0]:
-            # Save tokens
-            self.localUserData.setJwtToken(res[1])
-            self.localUserData.setServerToken(None)
+            print(res)
             return True
         else:
             # Print error message
@@ -88,10 +86,10 @@ class Register:
 
         if self.register():
             print("User well registered")
+            self.message.set("Check your mail to valid subscription")
             print("Close register window")
             # Close register window
-            self.registerWin.destroy()
-            self.loginWin.destroy()
+            self.login()
         else:
             self.login()
             return False
