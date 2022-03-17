@@ -62,7 +62,7 @@ class EmailValidator {
 class PasswordValidator {
   static bool Validate (String value, BuildContext context){
     if(value.isEmpty){
-      showAlertDialog(context , "The password must not me empty","Password input");
+      showAlertDialog(context , "The password must not be empty","Password input");
       return false;
 
     }
@@ -70,17 +70,17 @@ class PasswordValidator {
       showAlertDialog(context , "The password must have at least 8 character","Password input");
       return false;
     }
-    // RegExp regExp = RegExp(
-    //   r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$',
-    //   caseSensitive: false,
-    //   //multiLine: false,
-    // );
-    // log(value);
-    // if(!regExp.hasMatch(value)){
-    //   showAlertDialog(context , "The format of the email address isn't correct");
-    //
-    //   return false;
-    // }
+    RegExp regExp = RegExp(
+      r'^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$',
+      caseSensitive: false,
+      //multiLine: false,
+    );
+    log(value);
+    if(!regExp.hasMatch(value)){
+      showAlertDialog(context , "The format of the password isn't correct\n8 character,1 maj, 1min,1 special minimum ","Password input");
+
+      return false;
+    }
 
     return true;
   }
