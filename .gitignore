@@ -10,3 +10,7 @@ desktop.ini
 Server/package-lock.json
 /pc/.idea
 *.pyc
+pc/commandHistory.log
+pc/userData.json
+pc/windows/userData.json
+pc/windows/userData.json

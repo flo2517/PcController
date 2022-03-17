@@ -32,7 +32,7 @@ class forgotPass extends StatefulWidget {
 
 class _forgotPassState extends State<forgotPass> {
 
-
+  TextEditingController _emailCo = TextEditingController();
 
 
   void snackBarMessage(String msg){
@@ -46,7 +46,7 @@ class _forgotPassState extends State<forgotPass> {
   void resetPassRequest() async{
     try {
       var response = await post(Uri.parse(widget.url+"/resetPasswordMail"),body: {
-        "email" : widget.infos.email,
+        "email" : _emailCo.text
 
       });
       log(response.body);
@@ -87,7 +87,59 @@ class _forgotPassState extends State<forgotPass> {
       ),
     );
   }
+  Widget buildEmail (){
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: <Widget>[
+        Text(
+          'Email',
+          style:TextStyle(
+              color: Colors.white,
+              fontSize: 16,
+              fontWeight: FontWeight.bold
+          ),
+        ),
+        SizedBox(height: 10),
+        Container(
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(10),
+              boxShadow: [
+                BoxShadow(
+                    color: Colors.black26,
+                    blurRadius: 6,
+                    offset: Offset(0,2)
+                )
+              ]
 
+          ),
+          height: 60,
+          child: TextField(
+
+            controller: _emailCo,
+            keyboardType: TextInputType.emailAddress,
+            style: TextStyle(
+                color: Colors.black87
+            ),
+            decoration: InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.only(top: 14),
+                prefixIcon: Icon(
+                    Icons.email,
+                    color: Colors.blue
+                ),
+                hintText: 'Email',
+                hintStyle: TextStyle(
+                    color: Colors.black26
+
+                )
+            ),
+          ),
+        )
+      ],
+    );
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -129,7 +181,7 @@ class _forgotPassState extends State<forgotPass> {
                         ),
                       ),
                       SizedBox(height: 50),
-
+                      buildEmail(),
                       buildResetBtn(),
 
                     ],
