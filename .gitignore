@@ -2,8 +2,6 @@ desktop.ini
 /Server/node_modules/
 /.idea/
 /node_modules/
-/pc/windows/userData.json
-/pc/windows/commandHistory.log
 /pc/linux/userData.json
 /pc/linux/commandHistory.log
 /pc/test.py
@@ -11,3 +9,5 @@ Server/package-lock.json
 /pc/.idea
 *.pyc
 /venv/
+/pc/windows/commandHistory.log
+/pc/windows/userData.json
