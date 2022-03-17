@@ -12,7 +12,7 @@ class SocketCommunication:
         self.localUserData = localUserData
         self.executor = Executor()
         self.shmSock = shmSock
-        self.serverAddress = "http://pandapp.thrallweb.fr/"
+        self.serverAddress = "https://pandapp.thrallweb.fr/"
 
 
     def launchCom(self):
@@ -105,6 +105,7 @@ class SocketCommunication:
                         self.localUserData.setServerToken(res[2]['token'])
                     else:
                         sio.disconnect()
+                        self.shmSock[0] = 1
                         print('Error : ' + res[1])
             if msg['message'] == "User has no devices" or msg['message'] == "Device not found":
                 print("Adding device...")
@@ -115,4 +116,5 @@ class SocketCommunication:
                 else:
                     print('Error : Can\'t add device')
                     sio.disconnect()
+                    self.shmSock[0] = 1
                     return

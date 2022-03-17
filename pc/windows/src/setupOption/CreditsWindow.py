@@ -12,7 +12,7 @@ class Credits:
 
     # Display the beautiful and too cute little panda at the bottom of the credit window
     def displayCutePanda(self):
-        path = 'pictures/premote_white.png'
+        path = '../pictures/pandapp_white.png'
         # Check file existence
         if os.path.exists(path):
             panda = Canvas(self.credWin, bg="#aaaaaa", bd=0, highlightthickness=0, relief="ridge")
@@ -42,11 +42,11 @@ class Credits:
         self.credWin.geometry("550x550")
         self.credWin.configure(bg="#aaaaaa")
         self.credWin.resizable(False, False)
-        self.credWin.iconbitmap('pictures/premote.ico')
+        self.credWin.iconbitmap('../pictures/pandapp.ico')
 
         self.credWin.protocol("WM_DELETE_WINDOW", self.onClosing)
 
-        creditText = "Welcome to PC Remote Controller,\n\nThis is our end-of-licence project at the \ncomputer science university of Besançon.\n\nUnder the supervision of our teachers Mrs. \nFelea and Mr. Merlet, this project was \ncarried out by Laura Bobillier, Florian \nJeandenans and Maxime Caron.\n\nThank you for using our app !\n\n\nWe especially thank the Stackoverflow \ncommunity as well as the Indian youtube \nchannels for their precious help."
+        creditText = "Welcome to Pandapp,\n\nThis is our end-of-licence project at the \ncomputer science university of Besançon.\n\nUnder the supervision of our teachers Mrs. \nFelea and Mr. Merlet, this project was \ncarried out by Laura Bobillier, Florian \nJeandenans and Maxime Caron.\n\nThank you for using our app !\n\n\nWe especially thank the Stackoverflow \ncommunity as well as the Indian youtube \nchannels for their precious help."
 
         textArea = Text(self.credWin, state='normal', padx=50, pady=10, bd=0, highlightthickness=0, relief="ridge")
         textArea.insert('end', creditText)

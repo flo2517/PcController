@@ -14,7 +14,7 @@ class Setup:
         self.setupWin.withdraw()
 
         menu = (item('Show Window', self.showWin), item('Exit', self.exitApp))
-        self.icon = pystray.Icon("PcController", Image.open('pictures/premote_white.ico'), "PcController", menu=menu)
+        self.icon = pystray.Icon("PcController", Image.open('../pictures/pandapp_white.ico'), "PcController", menu=menu)
         self.icon.run()
 
     # Open credit window
@@ -84,7 +84,14 @@ class Setup:
     def getEndResult(self):
         return self.restart
 
-    def __init__(self, localUserData):
+    def checkError(self):
+        if self.shmSock[0] == 1:
+            self.restart = True
+            self.setupWin.destroy()
+            return
+        self.setupWin.after(2000, self.checkError)
+
+    def __init__(self, localUserData, shmSocket):
         self.icon = None
         self.exitBtn = None
         self.creditBtn = None
@@ -92,13 +99,14 @@ class Setup:
         self.changePasswordBtn = None
         self.chgPassWin = None
         self.credWin = None
+        self.shmSock = shmSocket
 
         self.restart = False
         self.localUserData = localUserData
         self.setupWin = Tk()
 
         self.setupWin.title("Setup")
-        self.setupWin.iconbitmap('pictures/premote.ico')
+        self.setupWin.iconbitmap('../pictures/pandapp.ico')
         self.setupWin.geometry("750x600")
         self.setupWin.configure(bg="#21a6ff")
         self.setupWin.resizable(False, False)
@@ -110,4 +118,5 @@ class Setup:
         # Add all buttons
         self.addButton()
 
+        self.setupWin.after(2000, self.checkError)
         self.setupWin.mainloop()
