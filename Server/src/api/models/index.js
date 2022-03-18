@@ -2,6 +2,7 @@ const User = require('./user.model');
 const RefreshToken = require('./refreshToken.model');
 const {sequelize} = require("../../config/db.config");
 const Device = require("./device.model");
+const Comment = require("./comment.model");
 
 User.hasOne(sequelize.models.refreshToken, {
     foreignKey: "userId",
@@ -28,5 +29,6 @@ Device.belongsTo(sequelize.models.user, {
 // RefreshToken.sync({force: true});
 // Device.sync({force: true});
 // User.sync({force: true});
+//Comment.sync({force: true});
 
-module.exports =  {User, RefreshToken, Device};
+module.exports =  {User, RefreshToken, Device, Comment};

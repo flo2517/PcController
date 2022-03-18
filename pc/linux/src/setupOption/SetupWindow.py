@@ -1,4 +1,4 @@
-from tkinter import Tk, Button, Label, DISABLED, PhotoImage
+from tkinter import Tk, Button, Label, DISABLED
 from src.setupOption.ChangePasswordWindow import ChangePassword
 from src.setupOption.CreditsWindow import Credits
 from src.setupOption.DelAcountWindow import DelAccount
@@ -75,7 +75,14 @@ class Setup:
     def getEndResult(self):
         return self.restart
 
-    def __init__(self, localUserData):
+    def checkError(self):
+        if self.shmSock[0] == 1:
+            self.restart = True
+            self.setupWin.destroy()
+            return
+        self.setupWin.after(2000, self.checkError)
+
+    def __init__(self, localUserData, shmSocket):
         self.icon = None
         self.exitBtn = None
         self.creditBtn = None
@@ -83,6 +90,7 @@ class Setup:
         self.changePasswordBtn = None
         self.chgPassWin = None
         self.credWin = None
+        self.shmSock = shmSocket
 
         self.restart = False
         self.localUserData = localUserData
@@ -100,4 +108,5 @@ class Setup:
         # Add all buttons
         self.addButton()
 
+        self.setupWin.after(2000, self.checkError)
         self.setupWin.mainloop()

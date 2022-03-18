@@ -1,0 +1,18 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+requests = "*"
+tk = "*"
+pillow = "*"
+python-socketio = "*"
+pystray = "*"
+pycryptodome = "*"
+uuid = "*"
+
+[dev-packages]
+
+[requires]
+python_version = "3.9"

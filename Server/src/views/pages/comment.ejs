@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><%= title %></title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/2d50ee85cc.js" crossorigin="anonymous"></script>
+</head>
+<body>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
+<header>
+    <%- include('./templates/nav', {page}) %>
+</header>
+<main style="background-image: linear-gradient(to bottom, rgba(255,255,255,0.7) 0%,rgba(255,255,255,0.7) 100%), url('/public/images/bg.png')">
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title"> Average feedback</h5>
+                        <p class="card-text"><%= averageMark %>/10</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-12">
+                <a class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" href="#addComment">Ajouter un commentaire</a>
+            </div>
+        </div>
+        <div class="row mt-3" >
+            <div class="col-md-12">
+                <% comments.forEach( comment => {
+                    %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title"><%= comment.dataValues.username %></h5>
+                            <h6 class="card-subtitle mb-2 text-muted"><%= comment.dataValues.note %>/10</h6>
+                            <p class="card-text"><%= comment.dataValues.comment %></p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <%= new Intl.DateTimeFormat('fr', { year: 'numeric', month: 'long', day: '2-digit'}).format(comment.dataValues.createdAt) %>
+                        </div>
+                    </div>
+                    <%
+                }) %>
+            </div>
+        </div>
+
+        <div>
+
+            <a class="btn btn-primary <% if (pagePos <= 0) { %><%= "disabled" %><% }%>" href="/comments?page=<%= parseInt(pagePos) - 1 %>&size=<%= size %>" >Previous Page</a>
+            <a class="btn btn-primary <% if (pagePos >= parseInt(pageNb)-1) { %><%= "disabled" %><% }%>" href="/comments?page=<%= parseInt(pagePos) + 1 %>&size=<%= size %>" >Next Page</a>
+            
+        </div>
+
+        <div class="row" id="addComment">
+            <div class="col-md-12">
+                <form action="/comments" id="formAdd" method="post" class="needs-validation" >
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" placeholder="Nom" required>
+                        <div class="invalid-feedback">
+                            Please enter a username.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="note">Mark</label>
+                        <input type="number" class="form-control" id="note" name="note" min="0" max="10" required>
+                        <div class="invalid-feedback">
+                            Please enter a mark between 0 and 10.
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="comment">Comment</label>
+                        <textarea class="form-control" id="comment" name="comment" rows="3" required></textarea>
+                        <div class="invalid-feedback">
+                            Please enter a comment.
+                        </div>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</main>
+<footer>
+    <%- include('./templates/footer', {page}) %>
+</footer>
+</body>
+<script>
+
+</script>
+</html>

@@ -73,7 +73,7 @@ class Login:
         self.loginWin.withdraw()
 
         # Launch register window
-        self.registerWin = Register(self.loginWin, self.localUserData)
+        self.registerWin = Register(self.loginWin, self.localUserData, self.errorMessage)
 
     def __init__(self, localUserData, errorMessage):
         self.registerWin = None
@@ -87,7 +87,7 @@ class Login:
         else:
             self.errorMessage.set(errorMessage)
 
-        self.loginWin.geometry("500x480")
+        self.loginWin.geometry("450x450")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
 
@@ -97,10 +97,10 @@ class Login:
 
         # Add text to window
         Label(self.loginWin, text="Login", font=("Arial", 40), bg="#21a6ff", pady=20).pack()
-        Label(self.loginWin, textvariable=self.errorMessage, font=("Arial", 15, "bold"), bg="#21a6ff", pady=5).pack()
+        Label(self.loginWin, textvariable=self.errorMessage, font=("Arial", 10, "bold"), bg="#21a6ff", pady=10).pack()
 
         # Add mail input
-        Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 330))
+        Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 270))
         self.username = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid")
         if type(self.localUserData.getUserID()) == str:
             print(type(self.localUserData.getUserID()))
@@ -113,7 +113,7 @@ class Login:
         self.username.pack(pady=(0, 15))
 
         # Add password input
-        Label(self.registerWin, text="Password:", font=("Arial", 15, "bold"), bg="#21a6ff", highlightbackground="#21a6ff").pack(padx=(45, 305))
+        Label(self.registerWin, text="Password:", font=("Arial", 15, "bold"), bg="#21a6ff", highlightbackground="#21a6ff").pack(padx=(45, 255))
         self.password = Entry(self.loginWin, font=("Arial", 25), borderwidth=3, relief="solid", highlightbackground="#21a6ff")
         self.password.config(show="●")
         self.password.pack(pady=(0, 15))
@@ -123,9 +123,9 @@ class Login:
 
         # Add login button
         Button(self.loginWin, text="login", font=("Arial", 25), borderwidth=1, relief="solid",
-               command=self.getUserData, highlightbackground="#21a6ff").pack(side=LEFT, pady=(5, 20), padx=(140, 20))
+               command=self.getUserData, highlightbackground="#21a6ff").pack(side=LEFT, pady=(5, 20), padx=(100, 20))
         # Add register button
-        Button(self.loginWin, text="register", font=("Arial", 20), activebackground="#21a6ff", bg="#21a6ff", relief="flat",
-               command=self.register, highlightbackground="#21a6ff").pack(side=RIGHT, pady=(5, 20), padx=(15, 130))
+        Button(self.loginWin, text="register", font=("Arial", 23), activebackground="#21a6ff", bg="#21a6ff", relief="flat",
+               command=self.register, highlightbackground="#21a6ff").pack(side=RIGHT, pady=(5, 20), padx=(0, 105))
 
         self.loginWin.mainloop()

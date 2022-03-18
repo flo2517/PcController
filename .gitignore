@@ -11,3 +11,6 @@ Server/package-lock.json
 /pc/.idea
 *.pyc
 /venv/
+pc/commandHistory.log
+pc/userData.json
+/pc/build/exe_windows/

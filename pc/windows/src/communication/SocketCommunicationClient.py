@@ -14,6 +14,18 @@ class SocketCommunication:
         self.shmSock = shmSock
         self.serverAddress = "https://pandapp.thrallweb.fr/"
 
+    def popupError(self, msg):
+        from tkinter import Tk, Label, Button
+        popupWin = Tk()
+        popupWin.title("Error")
+        popupWin.resizable(False, False)
+        Label(popupWin, text=msg, font=("Arial", 15), pady=5,
+              padx=5).pack()
+        Button(popupWin, text="OK", font=("Arial", 15), borderwidth=1, relief="raised", command=popupWin.destroy,
+               pady=2).pack()
+        popupWin.mainloop()
+        sio.disconnect()
+        self.shmSock[0] = 1
 
     def launchCom(self):
         self.callBack()
@@ -104,8 +116,8 @@ class SocketCommunication:
                         self.localUserData.setJwtToken(res[1])
                         self.localUserData.setServerToken(res[2]['token'])
                     else:
-                        sio.disconnect()
                         print('Error : ' + res[1])
+                        self.popupError('Error : ' + res[1])
             if msg['message'] == "User has no devices" or msg['message'] == "Device not found":
                 print("Adding device...")
                 res = rqt.addDevice(self.localUserData)
@@ -114,5 +126,5 @@ class SocketCommunication:
                     sio.emit('source', pload)
                 else:
                     print('Error : Can\'t add device')
-                    sio.disconnect()
+                    self.popupError("Error : This device is already used by another user")
                     return
