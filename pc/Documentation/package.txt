@@ -15,7 +15,7 @@ Linux :
 install python3
 sudo apt-get install python3-pip
 
-
+python3 websocket-client
 python3 -m pip install requests
 python3 -m pip install tk
 python3 -m pip install PIL

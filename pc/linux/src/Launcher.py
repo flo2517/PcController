@@ -30,24 +30,20 @@ class Launcher:
         self.threadSocket.start()
 
         # Creat and open setup window
-        win = Setup(self.userData)
+        win = Setup(self.userData, self.shmSock)
+
+        self.shmSock[0] = 1
+        self.threadSocket.join()
+        shmSocket.close()
+        shmSocket.unlink()
 
         # Del user data and restart app
         if win.getEndResult():
-            self.shmSock[0] = 1
-            self.threadSocket.join()
-            shmSocket.close()
-            shmSocket.unlink()
             self.userData.delUser()
             self.restart = True
             return
-
         # End app
         else:
-            self.shmSock[0] = 1
-            self.threadSocket.join()
-            shmSocket.close()
-            shmSocket.unlink()
             sys.exit(0)
 
     # Authentication with server

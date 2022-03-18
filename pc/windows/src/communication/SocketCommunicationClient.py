@@ -18,6 +18,7 @@ class SocketCommunication:
         from tkinter import Tk, Label, Button
         popupWin = Tk()
         popupWin.title("Error")
+        popupWin.iconbitmap("pictures/pandapp.ico")
         popupWin.resizable(False, False)
         Label(popupWin, text=msg, font=("Arial", 15), pady=5,
               padx=5).pack()

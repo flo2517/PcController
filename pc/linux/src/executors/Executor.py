@@ -2,7 +2,6 @@ import platform
 from datetime import datetime as date
 from src.executors.LinuxExecutor import LinuxExe
 from src.executors.MacExecutor import MacExe
-from src.executors.WindowsExecutor import WinExe
 
 
 class Executor:
@@ -10,9 +9,7 @@ class Executor:
         self.osName = platform.system
         self.commandID = 0
 
-        if "Windows" == platform.system():
-            self.osExecutor = WinExe()
-        elif "Linux" == platform.system():
+        if "Linux" == platform.system():
             self.osExecutor = LinuxExe()
         else:
             self.osExecutor = MacExe()

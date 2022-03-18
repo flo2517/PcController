@@ -90,7 +90,7 @@ class Login:
         self.loginWin.geometry("500x480")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
-        self.loginWin.iconbitmap('D:\S5\PROJET\Code\pc\pictures\pandapp.ico')
+        self.loginWin.iconbitmap('pictures/pandapp.ico')
 
 
         # Add action on window close event
