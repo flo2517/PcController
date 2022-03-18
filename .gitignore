@@ -14,3 +14,5 @@ Server/package-lock.json
 pc/commandHistory.log
 pc/userData.json
 /pc/build/exe_windows/
+/Pipfile
+/Pipfile.lock
