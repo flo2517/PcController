@@ -18,3 +18,4 @@ pc/userData.json
 /Pipfile.lock
 /pc/build/win_exe/
 /pc/build/exe.win-amd64-3.9/
+/pc/build/exe_win/
