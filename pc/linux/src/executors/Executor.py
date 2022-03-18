@@ -1,19 +1,10 @@
-import platform
 from datetime import datetime as date
 from src.executors.LinuxExecutor import LinuxExe
-from src.executors.MacExecutor import MacExe
-
 
 class Executor:
     def __init__(self):
-        self.osName = platform.system
         self.commandID = 0
-
-        if "Linux" == platform.system():
-            self.osExecutor = LinuxExe()
-        else:
-            self.osExecutor = MacExe()
-        return
+        self.osExecutor = LinuxExe()
 
     def execute(self, commandID):
         res = self.osExecutor.exe(commandID)

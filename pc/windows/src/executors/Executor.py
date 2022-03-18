@@ -1,15 +1,10 @@
-import platform
 from datetime import datetime as date
 from src.executors.WindowsExecutor import WinExe
 
 class Executor:
     def __init__(self):
-        self.osName = platform.system
         self.commandID = 0
-
-        if "Windows" == platform.system():
-            self.osExecutor = WinExe()
-        return
+        self.osExecutor = WinExe()
 
     def execute(self, commandID):
         res = self.osExecutor.exe(commandID)

@@ -41,16 +41,16 @@ class LinuxExe:
             os.system("playerctl previous")
             return 0
         elif commandID == 10:
-            os.system("playerctl previous")
+            os.system("xdotool key Left")
             return 0
         elif commandID == 11:
-            os.system("playerctl previous")
+            os.system("xdotool key Right")
             return 0
         elif commandID == 12:
-            os.system("playerctl previous")
+            os.system("xdotool key Up")
             return 0
         elif commandID == 13:
-            os.system("playerctl previous")
+            os.system("xdotool key Down")
             return 0
         else:
             print("Command not found")
