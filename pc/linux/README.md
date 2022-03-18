@@ -2,15 +2,17 @@
 
 *Step 1 :*
 
-Install package :
-'Anaconda3' for create virtual environment (https://docs.anaconda.com/anaconda/install/linux/)
-'xdotool' for lock screen and use move row
-'playerctl' for control music
+>Install packages :
+>>'Anaconda3' for create virtual environment (https://docs.anaconda.com/anaconda/install/linux/) <br />
+ 'xdotool' for lock screen and use move row <br />
+ 'playerctl' for control music
 
 *Step 2 :*
-
-Execute Pandapp executable
+> execute 'make setup'
 
 *Step 3 :*
+> execute 'make run'
 
-Enjoy !! **; D**
+*Step 4 :*
+> Enjoy !! **; D**
+
