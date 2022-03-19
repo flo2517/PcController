@@ -25,11 +25,11 @@ const download = (req, res) => {
 const downloadFile = (req, res) => {
   let file = req.params.file;
   if(file === 'win') {
-    res.download(path.join(__dirname, '../../../public/downloads/Premote_win.rar'));
+    res.download(path.join(__dirname, '../../../public/downloads/Pandapp_win.zip'));
   } else if(file === 'mac') {
     res.download('./public/downloads/mac.exe');
   } else if(file === 'linux') {
-    res.download(path.join(__dirname, '../../../public/downloads/Premote_linux.rar'));
+    res.download(path.join(__dirname, '../../../public/downloads/Pandapp_linux.tar.gz'));
   } else if(file === 'android') {
     res.download(path.join(__dirname, '../../../public/downloads/android.apk'));
   } else {
