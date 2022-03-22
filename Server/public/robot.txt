@@ -1,0 +1,3 @@
+User-Agent: *
+Sitemap: https://pandapp.thrallweb.fr/sitemap.xml
+Allow: /*
