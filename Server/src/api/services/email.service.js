@@ -13,7 +13,7 @@ EmailService.sendVerifyMail = (email, verifyString) => {
         confirm_link: `https://${process.env.API_HOST}/verify/${verifyString}`
     }).then(function(data) {
         let mailOptions = {
-            from: sender,
+            from: 'noreply@thrallweb.fr',
             to: email,
             subject: 'Welcome to the app',
             html: data
@@ -35,7 +35,7 @@ EmailService.sendResetPasswordMail = (email, passwordToken) => {
         confirm_link: `https://${process.env.API_HOST}/resetPassword?token=${passwordToken}`
     }).then(function(data) {
         let mailOptions = {
-            from: sender,
+            from: 'noreply@thrallweb.fr',
             to: email,
             subject: 'Reset your password',
             text: 'Reset your password',
