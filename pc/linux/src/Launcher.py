@@ -26,6 +26,10 @@ class Launcher:
         self.shmSock = shmSocket.buf
         self.shmSock[0] = 0  # 0 = do nothing
 
+        # Shared memory to communicate with the socket program
+        shmSocket = sm.SharedMemory(create=True, size=128)
+        self.shmSock = shmSocket.buf
+        self.shmSock[0] = 0  # 0 = do nothing
         # Creat and open socket connection in other thread
         self.comSock = SocketCommunication(self.userData, self.shmSock)
         self.threadSocket = threading.Thread(target=self.socketConnect)
