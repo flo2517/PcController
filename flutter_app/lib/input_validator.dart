@@ -77,7 +77,7 @@ class PasswordValidator {
     );
     log(value);
     if(!regExp.hasMatch(value)){
-      showAlertDialog(context , "The format of the password isn't correct\n8 character,1 maj, 1min, 1 number minimum ","Password input");
+      showAlertDialog(context , "The format of the password isn't correct\n8 characters, letters, numbers, special character ","Password input");
 
       return false;
     }
