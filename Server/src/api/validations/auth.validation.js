@@ -3,7 +3,7 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
-    return;
+    return true;
 };
 
 module.exports = {
