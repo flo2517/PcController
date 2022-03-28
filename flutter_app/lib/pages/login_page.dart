@@ -53,18 +53,7 @@ class _loginState extends State<login> {
 
 
     setState(() {
-      // var mail = prefs.getString("email");
-      // var pass = prefs.getString("password");
-      // if(mail != null){
-      //   _emailCo.text = mail;
-      // }
-      // if(pass !=null){
-      //   _pswdCo.text = pass;
-      // }
-      // if(mail!= null && pass!=null){
-      //
-      //   loginRequest();
-      // }
+
       var jsonInfo = prefs.getString("infos");
       if(jsonInfo !=null){
         widget.infos.fromJson(json.decode(jsonInfo));
@@ -72,7 +61,7 @@ class _loginState extends State<login> {
         log(jsonInfo);
         rememberMe = true;
         _emailCo.text = widget.infos.email!;
-        _pswdCo.text = widget.infos.password!;
+       // _pswdCo.text = widget.infos.password!;
         if(widget.infos.isConnected){
           Navigator.push(context, MaterialPageRoute(builder: (context)=> computer_chose(url : widget.url, infos : widget.infos)));
         }

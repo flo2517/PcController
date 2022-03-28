@@ -6,7 +6,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class information {
 
    String? email;
-   String? password;
+  // String? password;
    bool isConnected = false;
    var token;
 
@@ -23,24 +23,24 @@ class information {
 
    void connexion (json, email, password){
       this.email = email;
-      this.password = password;
+     // this.password = password;
       token = json["token"];
       refreshToken = json["refreshToken"];
       isConnected = true;
    }
    void deconnexion(){
       email=null;
-      password = null;
+     // password = null;
       token = null;
       refreshToken = null;
       isConnected = false;
    }
    void print(){
-      log("email : "+email!+"\nmdp : "+password!+"\nIsConnected : "+isConnected.toString()+"\nToken : "+token+"\nRefreshToken : "+refreshToken.toString());
+      log("email : "+email!+"\nIsConnected : "+isConnected.toString()+"\nToken : "+token+"\nRefreshToken : "+refreshToken.toString());
    }
    Map<String, dynamic> toJson() => {
       'email': email,
-      'password': password,
+     // 'password': password,
       'isConnected': isConnected,
       'token' : token,
       'refreshToken' : refreshToken,
@@ -49,7 +49,7 @@ class information {
 
    void fromJson(Map<String, dynamic> json){
       email = json['email'];
-      password = json['password'];
+     // password = json['password'];
       isConnected = json['isConnected'];
       token = json['token'];
       refreshToken = json['refreshToken'];
