@@ -38,7 +38,7 @@ class Register:
 
         if not re.fullmatch(regex, password1):
             print("Error: Password to weak")
-            self.message.set("Error: Password to weak\nyou must have at least one uppercase letter,\none lowercase letter, one number and\none special character and 8 characters minimum")
+            self.message.set("Error: Password to weak\nyou must have at least one uppercase letter,\none lowercase letter, one number,\none special character and 8 characters minimum")
             return False
 
         if not password1 == password2:

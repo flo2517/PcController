@@ -87,7 +87,7 @@ class Login:
         else:
             self.errorMessage.set(errorMessage)
 
-        self.loginWin.geometry("500x480")
+        self.loginWin.geometry("500x490")
         self.loginWin.configure(bg="#21a6ff")
         self.loginWin.resizable(False, False)
         self.loginWin.iconbitmap('pictures/pandapp.ico')
@@ -98,7 +98,7 @@ class Login:
 
         # Add text to window
         Label(self.loginWin, text="Login", font=("Arial", 40), bg="#21a6ff", pady=20).pack()
-        Label(self.loginWin, textvariable=self.errorMessage, font=("Arial", 15, "bold"), bg="#21a6ff", pady=5).pack()
+        Label(self.loginWin, textvariable=self.errorMessage, font=("Arial", 12, "bold"), bg="#21a6ff", pady=5).pack()
 
         # Add mail input
         Label(self.registerWin, text="E-mail:", font=("Arial", 15, "bold"), bg="#21a6ff").pack(padx=(35, 330))
