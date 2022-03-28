@@ -12,7 +12,7 @@ class LocalUserData:
         self.password = ''
         self.token = ''
         self.serverToken = ''
-        self.e = Encryption(b"key")
+        self.e = Encryption(b"I'm-not-a-key")
 
         # check if file exist
         if not os.path.exists(self.dataFile):
