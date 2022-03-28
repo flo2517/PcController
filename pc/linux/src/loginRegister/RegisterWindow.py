@@ -37,7 +37,7 @@ class Register:
             return False
 
         if not re.fullmatch(regex, password1):
-            print("Error: Password to week")
+            print("Error: Password to weak")
             self.message.set("Error: Password to week")
             return False
 

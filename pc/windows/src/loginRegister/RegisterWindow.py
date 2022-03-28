@@ -27,7 +27,8 @@ class Register:
     # Check if password and confirmation password as same
     def checkPassword(self, password1, password2):
         print("Checking passwords")
-        regex = r"^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$"
+        print(password1)
+        regex = r"^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
 
         if len(password1) > 255 or len(password1) < 6:
             print("Error: Invalid size of password")
@@ -35,7 +36,7 @@ class Register:
             return False
 
         if not re.fullmatch(regex, password1):
-            print("Error: Password to week")
+            print("Error: Password to weak")
             self.message.set("Error: Password to week")
             return False
 

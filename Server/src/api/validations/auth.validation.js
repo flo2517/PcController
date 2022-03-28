@@ -3,7 +3,7 @@ const validateEmail = (email) => {
 };
 
 const validatePassword = (password) => {
-    return String(password).match(/^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/i);
+    return;
 };
 
 module.exports = {
