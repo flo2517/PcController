@@ -27,7 +27,6 @@ class Register:
     # Check if password and confirmation password as same
     def checkPassword(self, password1, password2):
         print("Checking passwords")
-        print(password1)
         regex = r"^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$"
 
         if len(password1) > 255 or len(password1) < 6:

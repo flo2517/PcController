@@ -71,7 +71,7 @@ class PasswordValidator {
       return false;
     }
     RegExp regExp = RegExp(
-      r'^(?=.[a-z])(?=.[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$',
+      r'^(?=.*?[A-Z])(?=(.*[a-z]){1,})(?=(.*[\d]){1,})(?=(.*[\W]){1,})(?!.*\s).{8,}$',
       caseSensitive: false,
       //multiLine: false,
     );
