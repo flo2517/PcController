@@ -37,9 +37,9 @@ jobs:
     - run: |
         cd flutter_app
         flutter build apk
-    - uses: actions/upload-artifact@v2
+    - uses: actions/upload-artifact@v3
       with:
-        name: my-artifact
+        name: android.apk
         path: flutter_app/build/app/outputs/flutter-apk/app-release.apk
     - run: |
         cd flutter_app
