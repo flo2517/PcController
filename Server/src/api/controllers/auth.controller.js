@@ -340,7 +340,7 @@ const resetPassword = (req, res) => {
         });
     }
 
-    if(validatePassword(password)){
+    if(!validatePassword(password)){
         return res.status(400).render('pages/changePassword', {
             success: false,
             title: 'Reset Password Page',
