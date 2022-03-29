@@ -37,10 +37,11 @@ jobs:
     - run: |
         cd flutter_app
         flutter build apk
-    - run: |
-        cd flutter_app
-        flutter build appbundle
     - uses: actions/upload-artifact@v2
       with:
         name: my-artifact
-        path: Server/build/app/outputs/bundle/release/
+        path: flutter_app/build/app/outputs/flutter-apk/app-release.apk
+    - run: |
+        cd flutter_app
+        flutter build appbundle
+   
