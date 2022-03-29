@@ -85,9 +85,11 @@ router.post("/add", oapi.path({
         403: error403,
         500: error500
     }
-}), auth, (req, res) => {
-    controller.add(req, res);
-});
+}), auth, controller.add);
+
+
+
+
 
 router.post("/update", oapi.path({
     tags: ["Device"],

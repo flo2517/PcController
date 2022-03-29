@@ -294,7 +294,7 @@ const resetPassword = (req, res) => {
     console.log(req.body);
     console.log(req.params);
 
-    const {token, password} = req.body;
+    const {token, password, confirmPassword} = req.body;
 
     if (!token) {
         return res.status(400).render('pages/changePassword' ,{
@@ -317,6 +317,41 @@ const resetPassword = (req, res) => {
             }
         });
     }
+
+    if(!confirmPassword){
+        return res.status(400).render('pages/changePassword', {
+            success: false,
+            title: 'Reset Password Page',
+            token: token,
+            messages: {
+                error: 'confirm password is required'
+            }
+        });
+    }
+
+    if(password !== confirmPassword){
+        return res.status(400).render('pages/changePassword', {
+            success: false,
+            title: 'Reset Password Page',
+            token: token,
+            messages: {
+                error: 'Password and confirm password must be same'
+            }
+        });
+    }
+
+    if(validatePassword(password)){
+        return res.status(400).render('pages/changePassword', {
+            success: false,
+            title: 'Reset Password Page',
+            token: token,
+            messages: {
+                error: 'Password must be at least 8 characters long, contain at least one number and one uppercase and lowercase letter, and one special character'
+            }
+        });
+    }
+
+
 
     let userService = new UserService();
     userService.getUserByResetPasswordToken(token).then(async users => {
@@ -354,6 +389,8 @@ const resetPassword = (req, res) => {
                 }
             })
         }
+
+
         user.password = await bcrypt.hash(password, 10);
         user.resetPasswordToken = null;
         user.resetPasswordExpire = null;
