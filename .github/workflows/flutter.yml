@@ -53,7 +53,7 @@ jobs:
         uses: actions/download-artifact@master
         with:
           name: android.apk
-          path: ./Server/publuc/downloads
+          path: ./Server/public/downloads
       - name: Deploy project with SSH
         uses : easingthemes/ssh-deploy@v2.1.4
         env: 
