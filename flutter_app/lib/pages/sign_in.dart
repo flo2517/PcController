@@ -187,6 +187,8 @@ class _signIn extends State<signIn> {
           //     builder: (context)=>Remote()
           // ))
           print(_emailCo.text + " " + _pswdCo.text ),
+          _emailCo.text = _emailCo.text.trim(),
+          _pswdCo.text = _pswdCo.text.trim(),
           if(EmailValidator.Validate(_emailCo.text,context) && PasswordValidator.Validate(_pswdCo.text, context)){
             signInRequest()
           }
@@ -204,27 +206,7 @@ class _signIn extends State<signIn> {
     );
   }
 
-  // Widget buildSignupBtn() {
-  //   return GestureDetector(
-  //     onTap: () => {
-  //       Navigator.push(
-  //           context, MaterialPageRoute(builder: (context) => signIn()))
-  //     },
-  //     child: RichText(
-  //         text: TextSpan(children: [
-  //       TextSpan(
-  //           text: "Pas de compte ? ",
-  //           style: TextStyle(
-  //               color: Colors.white,
-  //               fontSize: 18,
-  //               fontWeight: FontWeight.w500)),
-  //       TextSpan(
-  //           text: 'S\'inscrire',
-  //           style: TextStyle(
-  //               color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold))
-  //     ])),
-  //   );
-  // }
+
 
   @override
   Widget build(BuildContext context) {

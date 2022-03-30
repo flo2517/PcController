@@ -305,10 +305,12 @@ class _loginState extends State<login> {
           //     builder: (context)=>Remote()
           // ))
           print(_emailCo.text+" "+_pswdCo.text),
-          if(EmailValidator.Validate(_emailCo.text,context) && PasswordValidator.Validate(_pswdCo.text, context)){
-            loginRequest()
-          }
-
+          // if(EmailValidator.Validate(_emailCo.text,context) && PasswordValidator.Validate(_pswdCo.text, context)){
+          //
+          // }
+          _emailCo.text = _emailCo.text.trim(),
+          _pswdCo.text = _pswdCo.text.trim(),
+          loginRequest()
         } ,
         padding: EdgeInsets.all(15),
         shape: RoundedRectangleBorder(

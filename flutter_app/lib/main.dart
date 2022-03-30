@@ -8,10 +8,9 @@ import 'package:flutter_app/information.dart';
 import 'package:flutter_app/pages/login_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+//lancement de
 void main(){
   runApp(MyApp());
-
-
 
 }
 

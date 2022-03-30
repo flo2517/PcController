@@ -11,28 +11,6 @@ import 'package:http/http.dart';
 import '../information.dart';
 import 'login_page.dart';
 
-// void main() => runApp(MyApp());
-//
-// class MyApp extends StatefulWidget {
-//   @override
-//   State<MyApp> createState() => _MyAppState();
-// }
-//
-// class _MyAppState extends State<MyApp> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const MaterialApp(title: 'Controleur de pc', home: Remote());
-//   }
-// }
-
-//void main() => runApp(const MaterialApp(title: 'Controleur de pc', home: Remote()));
-
-// class MyApp extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return const
-//   }
-// }
 
 class Remote extends StatefulWidget {
   final String url;
@@ -48,9 +26,32 @@ class Remote extends StatefulWidget {
 class _RemoteState extends State<Remote> {
   String label = "Server answer here";
 
-  // final id = 1234;
-  //
-  // final url = "http://192.168.1.33:8080";
+  showShutDownDialog() {
+
+    // set up the button
+
+
+    // set up the AlertDialog
+    AlertDialog alert = AlertDialog(
+      title: Text("Shutdown"),
+      content: Text("Are you sure you want to shutdown your device ?"),
+      actions: [
+        TextButton( onPressed: () {  requete(7); Navigator.of(context).pop();}, child: Text("yes")),
+        TextButton( onPressed: () {  Navigator.of(context).pop(); }, child: Text("no")),
+
+
+
+      ],
+    );
+
+    // show the dialog
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
 
   Future<String> fetchPosts(String request) async {
     try {
@@ -291,7 +292,7 @@ class _RemoteState extends State<Remote> {
                             icon: const Icon(Icons.power_settings_new_rounded),
                             color: Colors.white,
                             onPressed: () {
-                              requete(7);
+                              showShutDownDialog();
                             },
                           ),
                         ),
